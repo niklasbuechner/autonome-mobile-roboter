@@ -1,52 +1,88 @@
 int yPins =32;
-int channel = 0;
+int y_channel = 0;
+int y_in1Pin = 12;      // Define L293D channel 1 pin
+int y_in2Pin = 14;      // Define L293D channel 2 pin
+int y_enable1Pin = 13;  // Define L293D enable 1 pin
 
-int in1Pin = 12;      // Define L293D channel 1 pin
-int in2Pin = 14;      // Define L293D channel 2 pin
-int enable1Pin = 13;  // Define L293D enable 1 pin
+int xPins =33;
+int x_channel = 1;
+int x_in1Pin = 0;      // Define L293D channel 1 pin
+int x_in2Pin = 2;      // Define L293D channel 2 pin
+int x_enable1Pin = 15;  // Define L293D enable 1 pin
+
 
 void setup() {
     Serial.begin(115200);
 
     // Initialize the pin into an output mode:
-    pinMode(in1Pin, OUTPUT);
-    pinMode(in2Pin, OUTPUT);
-    pinMode(enable1Pin, OUTPUT);
+    pinMode(y_in1Pin, OUTPUT);
+    pinMode(y_in2Pin, OUTPUT);
+    pinMode(y_enable1Pin, OUTPUT);
 
-    ledcSetup(channel,1000,11);         //Set PWM to 11 bits, range is 0-2047
-    ledcAttachPin(enable1Pin,channel);
+    pinMode(x_in1Pin, OUTPUT);
+    pinMode(x_in2Pin, OUTPUT);
+    pinMode(x_enable1Pin, OUTPUT);
+
+    ledcSetup(y_channel,1000,11);         //Set PWM to 11 bits, range is 0-2047
+    ledcSetup(x_channel,1000,11);         //Set PWM to 11 bits, range is 0-2047
+    ledcAttachPin(y_enable1Pin,y_channel);
+    ledcAttachPin(x_enable1Pin,x_channel);
 }
 
 void loop() {
     int yVal = analogRead(yPins);
+    int xVal = analogRead(xPins);
 
     if(yVal<1000){
-        driveMotorUp(yVal);
-    }
-
+        driveMotorUp(1);
+    }     
     if(yVal>3000){
-        driveMotorDown(yVal);
+        driveMotorDown(1);
+    }
+     if(xVal<1000){
+        driveMotorUp(0);
+    }
+    if(xVal>3000){
+        driveMotorDown(0);
     } 
 }
 
-void driveMotorDown(int val){
-    digitalWrite(in1Pin, HIGH);
-    digitalWrite(in2Pin, LOW);
+void driveMotorDown(int axis){
+  if(axis==0){
+      digitalWrite(x_in1Pin, HIGH);
+      digitalWrite(x_in2Pin, LOW);
 
-    ledcWrite(channel, 1000);
-
-    Serial.printf("Down:%d",val);
-    delay(500);
-    ledcWrite(channel, 0);
+      ledcWrite(x_channel, 1000);
+      delay(500);
+      ledcWrite(x_channel, 0);
+  }else if(axis==1){
+      digitalWrite(y_in1Pin, HIGH);
+      digitalWrite(y_in2Pin, LOW);
+        
+      ledcWrite(y_channel, 1000);
+      delay(500);
+      ledcWrite(y_channel, 0);
+  }  
 }
 
-void driveMotorUp(int val){
-    digitalWrite(in1Pin, LOW);
-    digitalWrite(in2Pin, HIGH);
+void driveMotorUp(int axis){
+  if(axis==0){
+      Serial.printf("x Up");
+    
+      digitalWrite(x_in1Pin, LOW);
+      digitalWrite(x_in2Pin, HIGH);
 
-    ledcWrite(channel, 1000);
+      ledcWrite(x_channel, 1000);
+      delay(500);
+      ledcWrite(x_channel, 0);
+  }else if(axis==1){
+      Serial.printf("y Up");
+    
+      digitalWrite(y_in1Pin, LOW);
+      digitalWrite(y_in2Pin, HIGH);
 
-    Serial.printf("Up:%d",val);
-    delay(500);
-    ledcWrite(channel, 0);
+      ledcWrite(y_channel, 1000);
+      delay(500);
+      ledcWrite(y_channel, 0);
+  }
 }
