@@ -2,19 +2,19 @@
 #include "./tic-tac-toe-test.h"
 
 int main() {
-    assertInt("Field 1, 2, 3 win", 1, isWinningPosition(0b000000111));
-    assertInt("Field 4, 5, 6 win", 1, isWinningPosition(0b000111000));
-    assertInt("Field 7, 8, 9 win", 1, isWinningPosition(0b111000000));
-    assertInt("Field 1, 5, 9 win", 1, isWinningPosition(0b100010001));
-    assertInt("Field 3, 5, 7 win", 1, isWinningPosition(0b001010100));
+    assertInt("Field 1, 2, 3 win", 0b000000111, getWinningPosition(0b000000111));
+    assertInt("Field 4, 5, 6 win", 0b000111000, getWinningPosition(0b000111000));
+    assertInt("Field 7, 8, 9 win", 0b111000000, getWinningPosition(0b111000000));
+    assertInt("Field 1, 5, 9 win", 0b100010001, getWinningPosition(0b100010001));
+    assertInt("Field 3, 5, 7 win", 0b001010100, getWinningPosition(0b001010100));
 
     printf("\n");
 
-    assertInt("Field 1, 2, 3 win ignores noise", 1, isWinningPosition(0b010100111));
-    assertInt("Field 4, 5, 6 win ignores noise", 1, isWinningPosition(0b010111001));
-    assertInt("Field 7, 8, 9 win ignores noise", 1, isWinningPosition(0b111010001));
-    assertInt("Field 1, 5, 9 win ignores noise", 1, isWinningPosition(0b100110101));
-    assertInt("Field 3, 5, 7 win ignores noise", 1, isWinningPosition(0b001110101));
+    assertInt("Field 1, 2, 3 win ignores noise", 0b000000111, getWinningPosition(0b010100111));
+    assertInt("Field 4, 5, 6 win ignores noise", 0b000111000, getWinningPosition(0b010111001));
+    assertInt("Field 7, 8, 9 win ignores noise", 0b111000000, getWinningPosition(0b111010001));
+    assertInt("Field 1, 5, 9 win ignores noise", 0b100010001, getWinningPosition(0b100110101));
+    assertInt("Field 3, 5, 7 win ignores noise", 0b001010100, getWinningPosition(0b001110101));
 
     printf("\n");
 
@@ -39,12 +39,6 @@ int main() {
     assertInt("Activates player position 7", 0b001100000, activateField(0b000100000, 7));
     assertInt("Activates player position 8", 0b010100000, activateField(0b000100000, 8));
     assertInt("Activates player position 9", 0b100100000, activateField(0b000100000, 9));
-
-    printf("\n");
-
-    assertInt("Detect winner is player one", 1, getWinner(0b111000000, 0b000110100));
-    assertInt("Detect winner is player two", 2, getWinner(0b000110100, 0b111000000));
-    assertInt("Detect no winner", 0, getWinner(0b000110100, 0b101000000));
 
     printf("\n");
 

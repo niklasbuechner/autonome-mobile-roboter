@@ -12,6 +12,7 @@ struct TicTacToe startTicTacToe() {
     struct TicTacToe game;
     game.firstPlayerField = 0;
     game.secondPlayerField = 0;
+    game.winningPosition = 0;
     game.isDone = 0;
     game.winner = 0;
 
@@ -25,10 +26,18 @@ void playTicTacToe(struct TicTacToe *game, int player, int16_t move) {
         game->secondPlayerField = activateField(game->secondPlayerField, move);
     }
 
-    int winner = getWinner(game->firstPlayerField, game->secondPlayerField);
-    if (winner != 0) {
-        game->winner = winner;
+    int16_t winningPosition = getWinningPosition(game->firstPlayerField);
+    if (winningPosition != 0) {
+        game->winner = 1;
         game->isDone = 1;
+        game->winningPosition = winningPosition;
+    }
+
+    winningPosition = getWinningPosition(game->secondPlayerField);
+    if (winningPosition != 0) {
+        game->winner = 2;
+        game->isDone = 1;
+        game->winningPosition = winningPosition;
     }
 }
 
@@ -46,20 +55,10 @@ int canPlayMove(struct TicTacToe *game, int16_t move) {
     return 1;
 }
 
-int getWinner(int16_t firstPlayer, int16_t secondPlayer) {
-    if (isWinningPosition(firstPlayer)) {
-        return 1;
-    } else if (isWinningPosition(secondPlayer)) {
-        return 2;
-    } else {
-        return 0;
-    }
-}
-
-int isWinningPosition(int16_t field) {
+int16_t getWinningPosition(int16_t field) {
     for (int counter = 0; counter < 5; counter += 1) {
         if ((field & winningPosition[counter]) == winningPosition[counter]) {
-            return 1;
+            return winningPosition[counter];
         }
     }
 
