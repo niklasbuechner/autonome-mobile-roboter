@@ -60,6 +60,19 @@ int main() {
     assertGame("Round 4:", 0, 0, 0b000000011, 0b000011000, game);
     playTicTacToe(&game, 1, 3);
     assertGame("Round 5:", 1, 1, 0b000000111, 0b000011000, game);
+
+    game.firstPlayerField = 0b001001001;
+    game.secondPlayerField = 0b010010010;
+    
+    assertInt("Cannot select field 1", 0, canPlayMove(&game, 1));
+    assertInt("Cannot select field 2", 0, canPlayMove(&game, 2));
+    assertInt("Can select field 3", 1, canPlayMove(&game, 3));
+    assertInt("Cannot select field 4", 0, canPlayMove(&game, 4));
+    assertInt("Cannot select field 5", 0, canPlayMove(&game, 5));
+    assertInt("Can select field 6", 1, canPlayMove(&game, 6));
+    assertInt("Cannot select field 7", 0, canPlayMove(&game, 7));
+    assertInt("Cannot select field 8", 0, canPlayMove(&game, 8));
+    assertInt("Can select field 9", 1, canPlayMove(&game, 9));
 }
 
 void assertInt(char* name, int expected, int actual) {

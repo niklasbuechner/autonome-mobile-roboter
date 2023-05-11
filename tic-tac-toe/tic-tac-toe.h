@@ -9,6 +9,7 @@ struct TicTacToe {
 };
 
 struct TicTacToe startTicTacToe();
+int canPlayMove(struct TicTacToe *game, int16_t move);
 void playTicTacToe(struct TicTacToe *game, int player, int16_t move);
 
 int isWinningPosition(int16_t field);
