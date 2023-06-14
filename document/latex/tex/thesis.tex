@@ -5,7 +5,7 @@
 \newcommand{\autorA}[0]{Büchner, Jannis}
 \newcommand{\autorB}[0]{Büchner, Niklas}
 \newcommand{\autorC}[0]{Vierling, Jörg}
-\newcommand{\dokumententitel}[0]{Tic Tac Toe Robotter}
+\newcommand{\dokumententitel}[0]{Tik-Tak-Toe Roboter}
 
 \input{preambel} % Weitere Einstellungen aus einer anderen Datei lesen
 
@@ -52,15 +52,33 @@ Den Abstract schreibt man als letztes.
 \section{Projektziel}
 
 \begin{itemize}
-  \item Tic Tac Toe Robotter
-  \item Warum Tic Tac Toe
-  \item Robotter, der sich auf 3 Achsen bewegen kann (a.k.a. Plotter)
+  \item Tik-Tak-Toe Roboter
+  \item Warum Tik-Tak-Toe
+  \item Roboter, der sich auf 3 Achsen bewegen kann (a.k.a. Plotter)
 \end{itemize}
 
-\section{Mechanik & Elektric}
+Ziel dieses Projektes war es einen kleinen Roboter zu entwickeln, der Tik-Tak-Toe
+auf einem Blatt Papier gegen den Nutzer spielen kann. Hierbei wurde Tik-Tak-Toe
+gewählt, da es ein simples aber sehr bekanntes Spiel ist.
+
+Das Team hat sich gegen die Nutzung eines schon existierenden Roboters oder Roboter-Kit
+entschieden, um mit allen Bereichen der Robotik in Kontakt zu kommen. Ziel war es hier
+eine Fachschafts übergreifende Kooperation zu nutzen, um einen optimalen Wissenstransfer
+zu erreichen.
+
+Um das Spiel Tik-Tak-Toe spielen zu können soll der Roboter in der Lage sein das Spielfeld
+sowie die Züge aller Spieler zu zeichen. Daraus ergab sich die grundsätzlichen Anforderung
+an die Hardware, dass sie eine Bewegung in alle drei Raumrichtungen unabhängig voneinander
+ermöglichen muss. Zudem sollte diese robust gestaltet und einfach zu realisieren sein.
+Deswegen wurde entschieden einen Plotter zu bauen anstelle eines komplizierteren
+Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu realisieren
+sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
+
+
+\section{Mechanik}
 
 \begin{itemize}
-  \item Robotter, der sich auf 3 Achsen bewegen kann
+  \item Roboter, der sich auf 3 Achsen bewegen kann
   \item ESP32 vs andere Chips
   \item Warum Fischertechnik
   \item Schaltplan
@@ -70,6 +88,36 @@ Den Abstract schreibt man als letztes.
       \item Drehmoment, Geschwindigkeit
     \end{itemize}
 \end{itemize}
+
+Um den Plotter zu bauen wurde Fischertechnik eingesetzt, da diese Materialien die Anforderungen
+an Robustheit ausreichend erfüllen und mit hiervon schon einige Bauteile vorhanden waren. Was
+noch gefehlt hat, wurde im Laufe des Semesters nachbestellt. Des Weiteren ermöglichen die
+Schneckenteile von Fischertechnik das Bauen eines Spindelgetriebes, was für die Bewegung in x-
+und y-Richtung genutzt wurde.
+
+Für die Bewegung vor und zurück wurden zwei solcher Spindelgetriebe verwendet und an beide Enden
+des Plotters angebracht. So kann der Plotter eine gleichmäßige Bewegung ausführen ohne zu verziehen,
+vorausgesetzt beide Schnecken drehen sich gleich schnell. Dies wird gewährleistet, indem beide 
+Achsen mithilfe von Rastkettengliedern, einer Art Kette, und Zahnrädern verbunden wurden.
+Angetrieben wird die x-Achse durch einen kleinen 9 V Motor von Fischertechnik. Des Weiteren
+wurden neben jede der beide Spindelgetriebe jeweils eine weitere Achse verbaut, die die Last
+aufnimmt. Dadurch werden beide Getriebe nicht groß belastet, was zu einer gleichmäßigen Bewegung
+beiträgt.
+
+Auf den Spindeln und den Achsen befinden sich zwei Schlitten, die miteinander verbunden sind.
+Je nachdem in welche Richtung sich die Spindeln drehen, bewegen sich die Schlitten vor und zurück.
+
+Auf den Schlitten befindet sich das nächste Spindelgetriebe für die Bewegung in y-Richtung.
+Auch hier mussten weitere Achsen eingebaut werden um die Last des weiteren Aufbaus aufzunehmen
+und für Stabilität zu sorgen. Da die übereinander angebracht sind und dicht beieinander liegen
+ist hier eine zweite Antriebsspindel nicht notwendig. Auch diese Achse wird mithilfe eines 9 V
+Motors von Fischertechnik angetrieben.
+
+Letztlich muss der Stift noch angehoben und abgesetzt werden. Da hier keine großen Anforderungen
+an die Leistung des Motors gestellt werden reicht ein kleiner Servomotor. Dieser wurde auf dem auf
+der y-Achse befindlichen Schlitten angebracht.
+
+\section{Elektrik}
 
 \section{Softwaresteuerung}
 
