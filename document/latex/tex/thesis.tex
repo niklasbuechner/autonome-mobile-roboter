@@ -128,6 +128,45 @@ der y-Achse befindlichen Schlitten angebracht.
   \item Wo hört Hardware Abstraktion auf und wo fängt Software an?
 \end{itemize}
 
+\subsection{Steuerung}
+
+Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
+war es dass die Steuerung in der Lage ist die einzelnen Motoren und weitere Hardware Komponenten
+zu kontrollieren. Hierzu haben wir uns folgende Möglichkeiten überlegt:
+
+\begin{itemize}
+  \item Steuerung über einen externen Computer
+  \item Steuerung über eine mobile App
+  \item Steuerung über einen Prozessor mit eingebautem Code
+\end{itemize}
+
+Die Steuerung über einen externen Computer erschien uns als erstes logisches Vorgehen. Der Vorteil
+ist hier, dass man auch eine vollfunktionsfähigens Betriebssystem mitsamt allen dafür existierenden
+Paketen und Programmiersprachen zurückgreifen kann. Da aber das vollständige Betriebssystem auch
+dazuführt, dass Services gestartet werden, die mit der eigentlichen Aufgabe des Roboters nichts zu
+tun haben, haben wir uns gegen diesen Ansatz entschieden.
+
+Als zweite Wahl kann die Steuerung über eine mobile App ins Spiel. Dies ermöglicht es, dass die
+eigentlichen Bewegungen auf einem Gerät mit viel Prozessorstärke ausgeführt werden kann und dann nur
+noch an den Roboter übermittelt werden muss. Dies ermöglicht auch, dass der Zweck des Roboters
+durch die Veränderung des Programmcodes auf dem Smartphone anpassbar ist. Die Schwachstelle hier ist,
+dass weiterhin ein eingebetteter Prozess in Roboter vorhanden sein muss, der eine stabile
+Kommunikation mit dem Mobilegerät besitzen muss. Während des Bau unseres Prototypen ist aufgefallen,
+dass die Kommunikation per Bluetooth besonders mit iOS Geräten sehr schwer ist. Zwar würde die
+Kommunikation per Wifi funktionieren, müssen sich sowohl das Mobiltelefon als auch der Roboter im 
+selben Netzwerk befinden. Dafür müsste entweder eine weitere Eingabemöglichkeit auf dem Roboter 
+geschaffen werden oder die Zugangsdaten vordefiniert sein. Ersteres geht nicht, da schon alle Pins
+genutzt sind und letzteres schränkt den Einsatz des Roboters stark ein. Daher wurde auch diese
+Lösung wieder verworfen.
+
+Letzlich fiel die Entscheidung darauf allen Code auf dem eingebetteten Chip zu spielen und dort
+das gesamte Spiel zu implementieren. Dies bringt auch den Vorteil, dass der Roboter mit der Verbindung
+zum Strom sofort spielbar ist. Außerdem werden so alle Fehlerfälle ausgeschlossen, die durch die
+drahtlose Kommunikation zustande kommen könnten. Nachteilig ist hier, dass der Programmcode nur
+vergleichsweise umständlich verändert werden kann. Da der Roboter nur für den aktuell singulären
+Zweck des Tik-Tak-Toe spielen geschaffen wurde, wiegt dieser Nachteil allerdings nicht schwer.
+
+
 \section{Fazit und Ausblick}
 \begin{itemize}
   \item Offene Probleme
