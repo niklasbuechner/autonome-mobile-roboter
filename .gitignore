@@ -2,3 +2,6 @@
 tic-tac-toe/a.out
 tic-tac-toe/tic-tac-toe
 tic-tac-toe/robot
+
+document/latex/result/*
+document/latex/temp/*
