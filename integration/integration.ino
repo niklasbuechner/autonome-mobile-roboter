@@ -253,22 +253,83 @@ void waitUntilGameStarts() {
   char keyPressed = myKeypad.getKey();  //Frag Input ab
   KeyState state = myKeypad.getState();
 
-  while(!keyPressed) {
+  while(!keyPressed || keyPressed == '#') {
     delay(100);
 
     keyPressed = myKeypad.getKey();
   }
 
+  digitalWrite(iny1Pin, LOW);
+  digitalWrite(iny2Pin, HIGH);
+  ledcWrite(channely, speed);
+  delay(2000);
+  ledcWrite(channely, speed);
+
+  digitalWrite(inx1Pin, LOW);
+  digitalWrite(inx2Pin, HIGH);
+  ledcWrite(channely, speed);
+  delay(8000);
+  ledcWrite(channely, speed);
+
+  digitalWrite(iny1Pin, LOW);
+  digitalWrite(iny2Pin, HIGH);
+  ledcWrite(channely, speed);
+  delay(2000);
+  ledcWrite(channely, speed);
+
+  digitalWrite(iny2Pin, LOW);
+  digitalWrite(iny1Pin, HIGH);
+  ledcWrite(channely, speed);
+  delay(8000);
+  ledcWrite(channely, speed);
+
+  digitalWrite(iny1Pin, LOW);
+  digitalWrite(iny2Pin, HIGH);
+  ledcWrite(channely, speed);
+  delay(2000);
+  ledcWrite(channely, speed);
+
   Serial.println("Game started!");
 }
 int getFieldSelectedByPlayer() {
   Serial.println("Waiting for field selection");
-  char keyPressed = myKeypad.getKey();
+  char keyPressed = 0;
 
   while(!keyPressed) {
-    delay(100);
-
     keyPressed = myKeypad.getKey();
+
+    if (keyPressed == 'A') {
+      digitalWrite(iny2Pin, LOW);
+      digitalWrite(iny1Pin, HIGH);
+      ledcWrite(channely, speed);
+
+      keyPressed = 0;
+    } else if (keyPressed == 'B') {
+      digitalWrite(iny1Pin, LOW);
+      digitalWrite(iny2Pin, HIGH);
+      ledcWrite(channely, speed);
+
+      keyPressed = 0;
+    } else if (keyPressed == 'C') {
+      digitalWrite(inx1Pin, LOW);
+      digitalWrite(inx2Pin, HIGH);
+      ledcWrite(channelx, speed);
+
+      keyPressed = 0;
+    } else if (keyPressed == 'D') {
+      digitalWrite(inx2Pin, LOW);
+      digitalWrite(inx1Pin, HIGH);
+      ledcWrite(channelx, speed);
+
+      keyPressed = 0;
+    } else {
+      if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
+        ledcWrite(channely, 0);
+        ledcWrite(channelx, 0);
+      }
+    }
+
+    delay(100);
   }
 
   Serial.println("Key choosen!");
@@ -289,7 +350,7 @@ void moveRobotArmToOrigin() {
   digitalWrite(iny2Pin, HIGH);
   ledcWrite(channely, speed);
 
-  delay(yMove);
+  delay(yMove * 1.05);
 
   ledcWrite(channely, 0);
 
@@ -297,7 +358,7 @@ void moveRobotArmToOrigin() {
   digitalWrite(inx1Pin, HIGH);
   ledcWrite(channelx, speed);
 
-  delay(xMove);
+  delay(xMove * 1.05);
 
   ledcWrite(channelx, 0);
 }
