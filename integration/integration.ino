@@ -9,9 +9,10 @@
 #define iny2Pin 5       //Motor Input Pin in y-Richtung rechts/links (?!)
 #define enableyPin 19   ////Motor enable Pin in y-Richtung
 
-#define inz1Pin 26      //Motor Input Pin in z-Richtung rechts/links (?!)
-#define inz2Pin 27       //Motor Input Pin in z-Richtung rechts/links (?!)
-#define enablezPin 15   ////Motor enable Pin in z-Richtung
+//vorläufig
+//#define inz1Pin 26      //Motor Input Pin in z-Richtung rechts/links (?!)
+//#define inz2Pin 27       //Motor Input Pin in z-Richtung rechts/links (?!)
+//#define enablezPin 15   ////Motor enable Pin in z-Richtung
 
 //Keypad
 char keys [4][4] = {
