@@ -16,7 +16,8 @@ char keys [4][4] = {
   {'7', '8', '9', 'C'},
   {'*', '0', '#', 'D'},
 };  //Keypad Belegung definieren
-byte rowPins[4] = {13, 14, 25, 12}; //Pins für die Reihen
+
+byte rowPins[4] = {13, 12, 14, 25}; //Pins für die Reihen
 byte colPins[4] = {33, 32, 2, 0}; //Pins für Zeilen
 Keypad myKeypad = Keypad(makeKeymap(keys), rowPins, colPins, 4, 4); //Objekt von Keypad deklarieren
 
