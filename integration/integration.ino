@@ -5,8 +5,8 @@
 #define inx2Pin 21      //Motor Input Pin in x-Richtung vorwärts/rückwärts (?!)
 #define enablexPin 23   //Motor enable Pin in x-Richtung
 
-#define iny1Pin 18      //Motor Input Pin in y-Richtung rechts/links (?!)
-#define iny2Pin 5       //Motor Input Pin in y-Richtung rechts/links (?!)
+#define iny1Pin 5      //Motor Input Pin in y-Richtung rechts/links (?!)
+#define iny2Pin 18       //Motor Input Pin in y-Richtung rechts/links (?!)
 #define enableyPin 19   ////Motor enable Pin in y-Richtung
 
 //vorläufig
@@ -50,6 +50,7 @@ int frequency = 1000;
 int precision = 11;
 int max_duty = 2047;
 int speed = 2037;
+
 
 void motorSetup(){
   //Driver SetUP
@@ -356,7 +357,7 @@ void moveRobotArmToOrigin() {
   digitalWrite(iny2Pin, HIGH);
   ledcWrite(channely, speed);
 
-  delay(yMove * 1.05);
+  delay(yMove * 1.1);
 
   ledcWrite(channely, 0);
 
@@ -398,42 +399,42 @@ void moveRobotArmToFieldOne() {
 }
 void moveRobotArmToFieldTwo() {
   Serial.println("Move to field 2");
-  moveRobotOnY(1000);
-  moveRobotOnX(3000);
+  moveRobotOnY(3250);
+  moveRobotOnX(1000);
 }
 void moveRobotArmToFieldThree() {
   Serial.println("Move to field 3");
-  moveRobotOnY(1000);
-  moveRobotOnX(5000);
+  moveRobotOnY(5500);
+  moveRobotOnX(1000);
 }
 void moveRobotArmToFieldFour() {
   Serial.println("Move to field 4");
-  moveRobotOnY(3000);
-  moveRobotOnX(1000);
+  moveRobotOnY(1000);
+  moveRobotOnX(3000);
 }
 void moveRobotArmToFieldFive() {
   Serial.println("Move to field 5");
-  moveRobotOnY(3000);
+  moveRobotOnY(3250);
   moveRobotOnX(3000);
 }
 void moveRobotArmToFieldSix() {
   Serial.println("Move to field 6");
-  moveRobotOnY(3000);
-  moveRobotOnX(5000);
+  moveRobotOnY(5500);
+  moveRobotOnX(3000);
 }
 void moveRobotArmToFieldSeven() {
   Serial.println("Move to field 7");
-  moveRobotOnY(5000);
-  moveRobotOnX(1000);
+  moveRobotOnY(1000);
+  moveRobotOnX(5000);
 }
 void moveRobotArmToFieldEight() {
   Serial.println("Move to field 8");
-  moveRobotOnY(5000);
-  moveRobotOnX(3000);
+  moveRobotOnY(3250);
+  moveRobotOnX(5000);
 }
 void moveRobotArmToFieldNine() {
   Serial.println("Move to field 9");
-  moveRobotOnY(5000);
+  moveRobotOnY(5500);
   moveRobotOnX(5000);
 }
 
