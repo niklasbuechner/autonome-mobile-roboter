@@ -83,6 +83,9 @@ int16_t winningPositions[] = {
     0b111000000,
     0b100010001,
     0b001010100,
+    0b100100100,
+    0b010010010,
+    0b001001001,
 };
 
 struct TicTacToe startTicTacToe() {
@@ -103,6 +106,7 @@ void playTicTacToe(struct TicTacToe *game, int player, int16_t move) {
         game->secondPlayerField = activateField(game->secondPlayerField, move);
     }
 
+    printField(game->firstPlayerField, 'X');
     int16_t winningPosition = getWinningPosition(game->firstPlayerField);
     if (winningPosition != 0) {
         game->winner = 1;
@@ -110,12 +114,36 @@ void playTicTacToe(struct TicTacToe *game, int player, int16_t move) {
         game->winningPosition = winningPosition;
     }
 
+    printField(game->secondPlayerField, 'O');
     winningPosition = getWinningPosition(game->secondPlayerField);
     if (winningPosition != 0) {
         game->winner = 2;
         game->isDone = 1;
         game->winningPosition = winningPosition;
     }
+}
+
+void printField(int16_t player, char symbol) {
+  drawActivated(player, 1, symbol);
+  drawActivated(player, 2, symbol);
+  drawActivated(player, 3, symbol);
+  Serial.print('\n');
+  drawActivated(player, 4, symbol);
+  drawActivated(player, 5, symbol);
+  drawActivated(player, 6, symbol);
+  Serial.print('\n');
+  drawActivated(player, 7, symbol);
+  drawActivated(player, 8, symbol);
+  drawActivated(player, 9, symbol);
+  Serial.print('\n');
+}
+
+void drawActivated(int16_t player, int16_t field, char symbol) {
+  if ((player & getField(field)) == getField(field)) {
+    Serial.print(symbol);
+  } else {
+    Serial.print('-');
+  }
 }
 
 int canPlayMove(struct TicTacToe *game, int16_t move) {
@@ -133,11 +161,13 @@ int canPlayMove(struct TicTacToe *game, int16_t move) {
 }
 
 int16_t getWinningPosition(int16_t field) {
-    for (int counter = 0; counter < 5; counter += 1) {
+    for (int counter = 0; counter < 8; counter += 1) {
         if ((field & winningPositions[counter]) == winningPositions[counter]) {
             return winningPositions[counter];
         }
     }
+
+    Serial.println("No winning position");
 
     return 0;
 }
@@ -175,6 +205,7 @@ void runTicTacToeEngine() {
 
             if (canPlayMove(&game, move) == 0) {
                 showCannotPlayMove();
+                move = 0;
             }
         }
         playTicTacToe(&game, player, move);
@@ -229,21 +260,30 @@ void runTicTacToeEngine() {
     if (containsField(winningPosition, 1) == 1) {
         moveRobotArmToFieldOne();
 
-        if (containsField(winningPosition, 4) == 1) {
-            drawTopToBottomWinningLine();
+        if (containsField(winningPosition, 5) == 1) {
+          drawTopToBottomWinningLine();
+        } else if (containsField(winningPosition, 2) == 1) {
+          drawHorizontalWinningLine();
         } else {
-            drawStraightWinningLine();
+          drawVerticalWinningLine();
         }
     } else if (containsField(winningPosition, 4) == 1) {
         moveRobotArmToFieldFour();
+        drawHorizontalWinningLine();
     } else if (containsField(winningPosition, 7) == 1) {
         moveRobotArmToFieldSeven();
 
         if (containsField(winningPosition, 4) == 1) {
             drawBottomToTopWinningLine();
         } else {
-            drawStraightWinningLine();
+            drawHorizontalWinningLine();
         }
+    } else if (containsField(winningPosition, 2) == 1) {
+      moveRobotArmToFieldTwo();
+      drawVerticalWinningLine();
+    } else if (containsField(winningPosition, 3) == 1) {
+      moveRobotArmToFieldThree();
+      drawVerticalWinningLine();
     }
 
     moveRobotArmToOrigin();
@@ -255,46 +295,101 @@ int containsField(int16_t winningPosition, int16_t fieldNumber) {
     return (winningPosition & field) == field;
 }
 
-void waitUntilGameStarts() {
-  Serial.println("Waiting to start...");
-  char keyPressed = myKeypad.getKey();  //Frag Input ab
-  KeyState state = myKeypad.getState();
-
-  while(!keyPressed || keyPressed == '#') {
-    delay(100);
-
-    keyPressed = myKeypad.getKey();
-  }
-
+void moveLeft() {
   digitalWrite(iny1Pin, LOW);
   digitalWrite(iny2Pin, HIGH);
   ledcWrite(channely, speed);
-  delay(2000);
-  ledcWrite(channely, speed);
-
-  digitalWrite(inx1Pin, LOW);
-  digitalWrite(inx2Pin, HIGH);
-  ledcWrite(channely, speed);
-  delay(8000);
-  ledcWrite(channely, speed);
-
-  digitalWrite(iny1Pin, LOW);
-  digitalWrite(iny2Pin, HIGH);
-  ledcWrite(channely, speed);
-  delay(2000);
-  ledcWrite(channely, speed);
-
+}
+void moveRight() {
   digitalWrite(iny2Pin, LOW);
   digitalWrite(iny1Pin, HIGH);
   ledcWrite(channely, speed);
-  delay(8000);
-  ledcWrite(channely, speed);
+}
+void moveUp() {
+  digitalWrite(inx2Pin, LOW);
+  digitalWrite(inx1Pin, HIGH);
+  ledcWrite(channelx, speed);
+}
+void moveDown() {
+  digitalWrite(inx1Pin, LOW);
+  digitalWrite(inx2Pin, HIGH);
+  ledcWrite(channelx, speed);
+}
+void stop() {
+  ledcWrite(channely, 0);
+  ledcWrite(channelx, 0);
+}
 
-  digitalWrite(iny1Pin, LOW);
-  digitalWrite(iny2Pin, HIGH);
-  ledcWrite(channely, speed);
+void waitUntilGameStarts() {
+  Serial.println("Waiting to start...");
+  char keyPressed = 0;  //Frag Input ab
+  KeyState state = myKeypad.getState();
+
+  while(!keyPressed || keyPressed == '#') {
+    keyPressed = myKeypad.getKey();
+
+    if (keyPressed == 'A') {
+      moveRight();
+      keyPressed = 0;
+    } else if (keyPressed == 'B') {
+      moveLeft();
+      keyPressed = 0;
+    } else if (keyPressed == 'C') {
+      moveUp();
+      keyPressed = 0;
+    } else if (keyPressed == 'D') {
+      moveDown();
+      keyPressed = 0;
+    } else {
+      if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
+        stop();
+      }
+    }
+
+    delay(100);
+  }
+
+  Serial.println("Draw field");
+  moveRight();
   delay(2000);
-  ledcWrite(channely, speed);
+  stop();
+
+  moveDown();
+  delay(6000);
+  stop();
+
+  moveRight();
+  delay(2000);
+  stop();
+
+  moveUp();
+  delay(6000);
+  stop();
+
+  moveRight();
+  moveDown();
+  delay(2000);
+  stop();
+
+  moveLeft();
+  delay(6000);
+  stop();
+
+  moveDown();
+  delay(2000);
+  stop();
+
+  moveRight();
+  delay(6000);
+  stop();
+
+  moveUp();
+  delay(4000);
+  stop();
+
+  moveLeft();
+  delay(6000);
+  stop();
 
   Serial.println("Game started!");
 }
@@ -306,33 +401,20 @@ int getFieldSelectedByPlayer() {
     keyPressed = myKeypad.getKey();
 
     if (keyPressed == 'A') {
-      digitalWrite(iny2Pin, LOW);
-      digitalWrite(iny1Pin, HIGH);
-      ledcWrite(channely, speed);
-
+      moveRight();
       keyPressed = 0;
     } else if (keyPressed == 'B') {
-      digitalWrite(iny1Pin, LOW);
-      digitalWrite(iny2Pin, HIGH);
-      ledcWrite(channely, speed);
-
+      moveLeft();
       keyPressed = 0;
     } else if (keyPressed == 'C') {
-      digitalWrite(inx1Pin, LOW);
-      digitalWrite(inx2Pin, HIGH);
-      ledcWrite(channelx, speed);
-
+      moveUp();
       keyPressed = 0;
     } else if (keyPressed == 'D') {
-      digitalWrite(inx2Pin, LOW);
-      digitalWrite(inx1Pin, HIGH);
-      ledcWrite(channelx, speed);
-
+      moveDown();
       keyPressed = 0;
     } else {
       if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
-        ledcWrite(channely, 0);
-        ledcWrite(channelx, 0);
+        stop();
       }
     }
 
@@ -346,6 +428,13 @@ int getFieldSelectedByPlayer() {
 }
 void showCannotPlayMove() {
   Serial.println("Cant play move");
+
+  moveLeft();
+  moveDown();
+  delay(200);
+  moveRight();
+  moveUp();
+  delay(200);
 }
 
 int xMove = 0;
@@ -353,100 +442,161 @@ int yMove = 0;
 
 void moveRobotArmToOrigin() {
   Serial.println("Move to origin");
-  digitalWrite(iny1Pin, LOW);
-  digitalWrite(iny2Pin, HIGH);
-  ledcWrite(channely, speed);
-
-  delay(yMove * 1.1);
-
-  ledcWrite(channely, 0);
-
-  digitalWrite(inx2Pin, LOW);
-  digitalWrite(inx1Pin, HIGH);
-  ledcWrite(channelx, speed);
-
+  
+  moveUp();
   delay(xMove * 1.05);
+  stop();
 
-  ledcWrite(channelx, 0);
+  moveLeft();
+  delay(yMove * 1.1);
+  stop();
 }
 
-void moveRobotOnY(int time) {
-  digitalWrite(iny2Pin, LOW);
-  digitalWrite(iny1Pin, HIGH);
-  ledcWrite(channely, speed);
-
+void moveRightFor(int time) {
+  moveRight();
   yMove = time;
   delay(yMove);
-
-  ledcWrite(channely, 0);
+  stop();
 }
 
-void moveRobotOnX(int time) {
-  digitalWrite(inx1Pin, LOW);
-  digitalWrite(inx2Pin, HIGH);
-  ledcWrite(channelx, speed);
-
+void moveDownFor(int time) {
+  moveDown();
   xMove = time;
   delay(time);
-
-  ledcWrite(channelx, 0);
+  stop();
 }
 
 void moveRobotArmToFieldOne() {
   Serial.println("Move to field 1");
-  moveRobotOnY(1000);
-  moveRobotOnX(1000);
+  moveRightFor(1000);
+  moveDownFor(1000);
 }
 void moveRobotArmToFieldTwo() {
   Serial.println("Move to field 2");
-  moveRobotOnY(3250);
-  moveRobotOnX(1000);
+  moveRightFor(3250);
+  moveDownFor(1000);
 }
 void moveRobotArmToFieldThree() {
   Serial.println("Move to field 3");
-  moveRobotOnY(5500);
-  moveRobotOnX(1000);
+  moveRightFor(5500);
+  moveDownFor(1000);
 }
 void moveRobotArmToFieldFour() {
   Serial.println("Move to field 4");
-  moveRobotOnY(1000);
-  moveRobotOnX(3000);
+  moveRightFor(1000);
+  moveDownFor(3000);
 }
 void moveRobotArmToFieldFive() {
   Serial.println("Move to field 5");
-  moveRobotOnY(3250);
-  moveRobotOnX(3000);
+  moveRightFor(3250);
+  moveDownFor(3000);
 }
 void moveRobotArmToFieldSix() {
   Serial.println("Move to field 6");
-  moveRobotOnY(5500);
-  moveRobotOnX(3000);
+  moveRightFor(5500);
+  moveDownFor(3000);
 }
 void moveRobotArmToFieldSeven() {
   Serial.println("Move to field 7");
-  moveRobotOnY(1000);
-  moveRobotOnX(5000);
+  moveRightFor(1000);
+  moveDownFor(5000);
 }
 void moveRobotArmToFieldEight() {
   Serial.println("Move to field 8");
-  moveRobotOnY(3250);
-  moveRobotOnX(5000);
+  moveRightFor(3250);
+  moveDownFor(5000);
 }
 void moveRobotArmToFieldNine() {
   Serial.println("Move to field 9");
-  moveRobotOnY(5500);
-  moveRobotOnX(5000);
+  moveRightFor(5500);
+  moveDownFor(5000);
 }
 
-void drawCross() {}
-void drawCircle() {}
-void drawStraightWinningLine() {
-  Serial.println("Win straight");
+void drawCross() {
+  Serial.println("Draw cross");
+  moveLeft();
+  moveUp();
+  delay(500);
+  stop();
+
+  moveRight();
+  moveDown();
+  delay(1000);
+  stop();
+
+  moveUp();
+  delay(1000);
+  stop();
+
+  moveLeft();
+  moveDown();
+  delay(1000);
+  stop();
+
+  moveRight();
+  moveUp();
+  delay(500);
+  stop();
+}
+void drawCircle() {
+  Serial.println("Draw circle");
+  moveLeft();
+  moveUp();
+  delay(500);
+  stop();
+
+  moveRight();
+  delay(1000);
+  stop();
+
+  moveDown();
+  delay(1000);
+  stop();
+
+  moveLeft();
+  delay(1000);
+  stop();
+
+  moveUp();
+  delay(1000);
+  stop();
+
+  moveRight();
+  moveDown();
+  delay(500);
+  stop();
+}
+void drawHorizontalWinningLine() {
+  Serial.println("Draw horizontal winning line");
+  moveRightFor(4000);
+  moveRobotArmToOrigin();
+}
+void drawVerticalWinningLine() {
+  Serial.println("Draw vertical winning line");
+  moveDownFor(4000);
+  moveRobotArmToOrigin();
 }
 void drawTopToBottomWinningLine() {
-  Serial.println("Top bottom");
+  Serial.println("Draw top to bottom line");
+  moveRight();
+  moveDown();
+  delay(4000);
+  stop();
+
+  moveUp();
+  moveLeft();
+  delay(5000);
+  stop();
 }
 void drawBottomToTopWinningLine() {
-  Serial.println("Win bottom top");
+  Serial.println("Draw bottom to top line");
+  moveRight();
+  moveUp();
+  delay(4000);
+  stop();
+
+  moveLeft();
+  delay(5000);
+  stop();
 }
 
