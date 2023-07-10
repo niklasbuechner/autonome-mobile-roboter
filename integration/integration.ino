@@ -51,6 +51,8 @@ int precision = 11;
 int max_duty = 2047;
 int speed = 2037;
 
+double moveLeftFactor = 1.07;
+double moveUpFactor = 1.065;
 
 void motorSetup(){
   //Driver SetUP
@@ -295,6 +297,9 @@ int containsField(int16_t winningPosition, int16_t fieldNumber) {
     return (winningPosition & field) == field;
 }
 
+int xMove = 0;
+int yMove = 0;
+
 void moveLeft() {
   digitalWrite(iny1Pin, LOW);
   digitalWrite(iny2Pin, HIGH);
@@ -308,17 +313,83 @@ void moveRight() {
 void moveUp() {
   digitalWrite(inx2Pin, LOW);
   digitalWrite(inx1Pin, HIGH);
-  ledcWrite(channelx, speed);
+  ledcWrite(channelx, speed * 0.8);
 }
 void moveDown() {
   digitalWrite(inx1Pin, LOW);
   digitalWrite(inx2Pin, HIGH);
-  ledcWrite(channelx, speed);
+  ledcWrite(channelx, speed * 0.8);
 }
 void stop() {
   ledcWrite(channely, 0);
   ledcWrite(channelx, 0);
 }
+void moveLeftFor(int time) {
+  moveLeft();
+  delay(time * moveLeftFactor);
+  stop();
+}
+void moveLeftUpFor(int time) {
+  moveLeft();
+  moveUp();
+  delay(time * moveUpFactor);
+  stop();
+
+  moveLeft();
+  delay((time * moveUpFactor) - (time * moveLeftFactor));
+  stop();
+}
+void moveLeftDownFor(int time) {
+  moveLeft();
+  moveDown();
+  delay(time);
+  stop();
+
+  moveLeft();
+  delay(time * moveLeftFactor - time);
+  stop();
+}
+void moveRightFor(int time) {
+  moveRight();
+  delay(time);
+  stop();
+}
+void moveRightUpFor(int time) {
+  moveRight();
+  moveUp();
+  delay(time);
+  stop();
+
+  moveUp();
+  delay(time * moveUpFactor - time);
+  stop();
+}
+void moveRightDownFor(int time) {
+  moveRight();
+  moveDown();
+  delay(time);
+  stop();
+}
+void moveUpFor(int time) {
+  moveUp();
+  delay(time * moveUpFactor);
+  stop();
+}
+void moveDownFor(int time) {
+  moveDown();
+  delay(time);
+  stop();
+}
+
+void moveRightForAndSave(int time) {
+  moveRightFor(time);
+  yMove = time;
+}
+void moveDownForAndSave(int time) {
+  moveDownFor(time);
+  xMove = time;
+}
+
 
 void waitUntilGameStarts() {
   Serial.println("Waiting to start...");
@@ -350,47 +421,17 @@ void waitUntilGameStarts() {
   }
 
   Serial.println("Draw field");
-  moveRight();
-  delay(2000);
-  stop();
-
-  moveDown();
-  delay(6000);
-  stop();
-
-  moveRight();
-  delay(2000);
-  stop();
-
-  moveUp();
-  delay(6000);
-  stop();
-
-  moveRight();
-  moveDown();
-  delay(2000);
-  stop();
-
-  moveLeft();
-  delay(6000);
-  stop();
-
-  moveDown();
-  delay(2000);
-  stop();
-
-  moveRight();
-  delay(6000);
-  stop();
-
-  moveUp();
-  delay(4000);
-  stop();
-
-  moveLeft();
-  delay(6000);
-  stop();
-
+  moveRightFor(2000);
+  moveDownFor(6000);
+  moveRightFor(2000);
+  moveUpFor(6000);
+  moveRightDownFor(2000);
+  moveLeftFor(6000);
+  moveDownFor(2000);
+  moveRightFor(6000);
+  moveUpFor(4000);
+  moveLeftFor(6000);
+  
   Serial.println("Game started!");
 }
 int getFieldSelectedByPlayer() {
@@ -429,174 +470,107 @@ int getFieldSelectedByPlayer() {
 void showCannotPlayMove() {
   Serial.println("Cant play move");
 
-  moveLeft();
+  moveRight();
   moveDown();
   delay(200);
-  moveRight();
+  moveLeft();
   moveUp();
-  delay(200);
+  delay(200 * moveUpFactor);
 }
-
-int xMove = 0;
-int yMove = 0;
 
 void moveRobotArmToOrigin() {
   Serial.println("Move to origin");
   
-  moveUp();
-  delay(xMove * 1.05);
-  stop();
-
-  moveLeft();
-  delay(yMove * 1.1);
-  stop();
-}
-
-void moveRightFor(int time) {
-  moveRight();
-  yMove = time;
-  delay(yMove);
-  stop();
-}
-
-void moveDownFor(int time) {
-  moveDown();
-  xMove = time;
-  delay(time);
-  stop();
+  moveUpFor(xMove);
+  moveLeftFor(yMove);
 }
 
 void moveRobotArmToFieldOne() {
   Serial.println("Move to field 1");
-  moveRightFor(1000);
-  moveDownFor(1000);
+  moveRightForAndSave(1000);
+  moveDownForAndSave(1000);
 }
 void moveRobotArmToFieldTwo() {
   Serial.println("Move to field 2");
-  moveRightFor(3250);
-  moveDownFor(1000);
+  moveRightForAndSave(3250);
+  moveDownForAndSave(1000);
 }
 void moveRobotArmToFieldThree() {
   Serial.println("Move to field 3");
-  moveRightFor(5500);
-  moveDownFor(1000);
+  moveRightForAndSave(5500);
+  moveDownForAndSave(1000);
 }
 void moveRobotArmToFieldFour() {
   Serial.println("Move to field 4");
-  moveRightFor(1000);
-  moveDownFor(3000);
+  moveRightForAndSave(1000);
+  moveDownForAndSave(3000);
 }
 void moveRobotArmToFieldFive() {
   Serial.println("Move to field 5");
-  moveRightFor(3250);
-  moveDownFor(3000);
+  moveRightForAndSave(3250);
+  moveDownForAndSave(3000);
 }
 void moveRobotArmToFieldSix() {
   Serial.println("Move to field 6");
-  moveRightFor(5500);
-  moveDownFor(3000);
+  moveRightForAndSave(5500);
+  moveDownForAndSave(3000);
 }
 void moveRobotArmToFieldSeven() {
   Serial.println("Move to field 7");
-  moveRightFor(1000);
-  moveDownFor(5000);
+  moveRightForAndSave(1000);
+  moveDownForAndSave(5000);
 }
 void moveRobotArmToFieldEight() {
   Serial.println("Move to field 8");
-  moveRightFor(3250);
-  moveDownFor(5000);
+  moveRightForAndSave(3250);
+  moveDownForAndSave(5000);
 }
 void moveRobotArmToFieldNine() {
   Serial.println("Move to field 9");
-  moveRightFor(5500);
-  moveDownFor(5000);
+  moveRightForAndSave(5500);
+  moveDownForAndSave(5000);
 }
 
 void drawCross() {
   Serial.println("Draw cross");
-  moveLeft();
-  moveUp();
-  delay(500);
-  stop();
-
-  moveRight();
-  moveDown();
-  delay(1000);
-  stop();
-
-  moveUp();
-  delay(1000);
-  stop();
-
-  moveLeft();
-  moveDown();
-  delay(1000);
-  stop();
-
-  moveRight();
-  moveUp();
-  delay(500);
-  stop();
+  
+  moveLeftUpFor(500);
+  moveRightDownFor(1000);
+  moveUpFor(1000);
+  moveLeftDownFor(1000);
+  moveRightUpFor(500);
 }
 void drawCircle() {
   Serial.println("Draw circle");
-  moveLeft();
-  moveUp();
-  delay(500);
-  stop();
-
-  moveRight();
-  delay(1000);
-  stop();
-
-  moveDown();
-  delay(1000);
-  stop();
-
-  moveLeft();
-  delay(1000);
-  stop();
-
-  moveUp();
-  delay(1000);
-  stop();
-
-  moveRight();
-  moveDown();
-  delay(500);
-  stop();
+  moveLeftUpFor(500);
+  moveRightFor(1000);
+  moveDownFor(1000);
+  moveLeftFor(1000);
+  moveUpFor(1000);
+  moveRightDownFor(500);
 }
 void drawHorizontalWinningLine() {
   Serial.println("Draw horizontal winning line");
   moveRightFor(4000);
+  moveLeftFor(4000);
   moveRobotArmToOrigin();
 }
 void drawVerticalWinningLine() {
   Serial.println("Draw vertical winning line");
   moveDownFor(4000);
+  moveUpFor(4000);
   moveRobotArmToOrigin();
 }
 void drawTopToBottomWinningLine() {
   Serial.println("Draw top to bottom line");
-  moveRight();
-  moveDown();
-  delay(4000);
-  stop();
-
-  moveUp();
-  moveLeft();
-  delay(5000);
-  stop();
+  moveRightDownFor(4000);
+  moveLeftUpFor(5000);
+  moveRobotArmToOrigin();
 }
 void drawBottomToTopWinningLine() {
   Serial.println("Draw bottom to top line");
-  moveRight();
-  moveUp();
-  delay(4000);
-  stop();
-
-  moveLeft();
-  delay(5000);
-  stop();
+  moveRightUpFor(4000);
+  moveLeftFor(5000);
+  moveRobotArmToOrigin();
 }
 
