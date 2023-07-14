@@ -9,10 +9,9 @@
 #define iny2Pin 18       //Motor Input Pin in y-Richtung rechts/links (?!)
 #define enableyPin 19   ////Motor enable Pin in y-Richtung
 
-//vorläufig
-//#define inz1Pin 26      //Motor Input Pin in z-Richtung rechts/links (?!)
-//#define inz2Pin 27       //Motor Input Pin in z-Richtung rechts/links (?!)
-//#define enablezPin 15   ////Motor enable Pin in z-Richtung
+#define inz1Pin 26      //Motor Input Pin in z-Richtung rechts/links (?!)
+#define inz2Pin 27       //Motor Input Pin in z-Richtung rechts/links (?!)
+#define enablezPin 15   ////Motor enable Pin in z-Richtung
 
 //Keypad
 char keys [4][4] = {
@@ -45,14 +44,15 @@ void keypadSetup(){
 //Variablen für Motor definiert
 int channelx = 1; //Bin mir nicht sicher was das tut
 int channely = 0; //Bin mir nicht sicher was das tut
+int channelz = 6; //Bin mir nicht sicher was das tut
 int posVal = 0;
 int frequency = 1000;
 int precision = 11;
 int max_duty = 2047;
 int speed = 2037;
 
-double moveLeftFactor = 1.07;
-double moveUpFactor = 1.065;
+double moveLeftFactor = 1.00;
+double moveUpFactor = 1.00;
 
 void motorSetup(){
   //Driver SetUP
@@ -67,7 +67,13 @@ void motorSetup(){
   pinMode(iny1Pin, OUTPUT);
   pinMode(iny2Pin, OUTPUT);
   ledcSetup(channely, frequency, precision);
-  ledcAttachPin(enableyPin, channely); 
+  ledcAttachPin(enableyPin, channely);
+
+  pinMode(enablezPin, OUTPUT);
+  pinMode(inz1Pin, OUTPUT);
+  pinMode(inz2Pin, OUTPUT);
+  ledcSetup(channelz, frequency, precision);
+  ledcAttachPin(enablezPin, channelz); 
 }
 
 struct TicTacToe {
@@ -300,6 +306,13 @@ int containsField(int16_t winningPosition, int16_t fieldNumber) {
 int xMove = 0;
 int yMove = 0;
 
+int getSpeedDifferences(int left, int right) {
+  if (left > right) {
+    return left - right;
+  } else {
+    return right - left;
+  }
+}
 void moveLeft() {
   digitalWrite(iny1Pin, LOW);
   digitalWrite(iny2Pin, HIGH);
@@ -320,9 +333,20 @@ void moveDown() {
   digitalWrite(inx2Pin, HIGH);
   ledcWrite(channelx, speed * 0.8);
 }
+void moveZUp() {
+  digitalWrite(inz2Pin, LOW);
+  digitalWrite(inz1Pin, HIGH);
+  ledcWrite(channelz, speed);
+}
+void moveZDown() {
+  digitalWrite(inz1Pin, LOW);
+  digitalWrite(inz2Pin, HIGH);
+  ledcWrite(channelz, speed);
+}
 void stop() {
   ledcWrite(channely, 0);
   ledcWrite(channelx, 0);
+  ledcWrite(channelz, 0);
 }
 void moveLeftFor(int time) {
   moveLeft();
@@ -336,7 +360,7 @@ void moveLeftUpFor(int time) {
   stop();
 
   moveLeft();
-  delay((time * moveUpFactor) - (time * moveLeftFactor));
+  delay(getSpeedDifferences((time * moveUpFactor), (time * moveLeftFactor)));
   stop();
 }
 void moveLeftDownFor(int time) {
@@ -346,7 +370,7 @@ void moveLeftDownFor(int time) {
   stop();
 
   moveLeft();
-  delay(time * moveLeftFactor - time);
+  delay(getSpeedDifferences(time * moveLeftFactor, time));
   stop();
 }
 void moveRightFor(int time) {
@@ -361,7 +385,7 @@ void moveRightUpFor(int time) {
   stop();
 
   moveUp();
-  delay(time * moveUpFactor - time);
+  delay(getSpeedDifferences(time * moveUpFactor, time));
   stop();
 }
 void moveRightDownFor(int time) {
@@ -378,6 +402,18 @@ void moveUpFor(int time) {
 void moveDownFor(int time) {
   moveDown();
   delay(time);
+  stop();
+}
+void movePenUp() {
+  Serial.println("Move pen up");
+  moveZUp();
+  delay(500);
+  stop();
+}
+void movePenDown() {
+  Serial.println("Move pen down");
+  moveZDown();
+  delay(500);
   stop();
 }
 
@@ -411,6 +447,14 @@ void waitUntilGameStarts() {
     } else if (keyPressed == 'D') {
       moveDown();
       keyPressed = 0;
+    } else if (keyPressed == '*') {
+      Serial.println("*");
+      moveZUp();
+      keyPressed = 0;
+    } else if (keyPressed == '#') {
+      Serial.println("#");
+      moveZDown();
+      keyPressed = 0;
     } else {
       if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
         stop();
@@ -421,14 +465,23 @@ void waitUntilGameStarts() {
   }
 
   Serial.println("Draw field");
+  movePenUp();
   moveRightFor(2000);
+  movePenDown();
   moveDownFor(6000);
+  movePenUp();
   moveRightFor(2000);
+  movePenDown();
   moveUpFor(6000);
+  movePenUp();
   moveRightDownFor(2000);
+  movePenDown();
   moveLeftFor(6000);
+  movePenUp();
   moveDownFor(2000);
+  movePenDown();
   moveRightFor(6000);
+  movePenUp();
   moveUpFor(4000);
   moveLeftFor(6000);
   
@@ -452,6 +505,12 @@ int getFieldSelectedByPlayer() {
       keyPressed = 0;
     } else if (keyPressed == 'D') {
       moveDown();
+      keyPressed = 0;
+    } else if (keyPressed == '*') {
+      moveZUp();
+      keyPressed = 0;
+    } else if (keyPressed == '#') {
+      moveZDown();
       keyPressed = 0;
     } else {
       if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
@@ -535,42 +594,52 @@ void drawCross() {
   Serial.println("Draw cross");
   
   moveLeftUpFor(500);
+  movePenDown();
   moveRightDownFor(1000);
+  movePenUp();
   moveUpFor(1000);
+  movePenDown();
   moveLeftDownFor(1000);
+  movePenUp();
   moveRightUpFor(500);
 }
 void drawCircle() {
   Serial.println("Draw circle");
   moveLeftUpFor(500);
+  movePenDown();
   moveRightFor(1000);
   moveDownFor(1000);
   moveLeftFor(1000);
   moveUpFor(1000);
+  movePenUp();
   moveRightDownFor(500);
 }
 void drawHorizontalWinningLine() {
   Serial.println("Draw horizontal winning line");
+  movePenDown();
   moveRightFor(4000);
+  movePenUp();
   moveLeftFor(4000);
-  moveRobotArmToOrigin();
 }
 void drawVerticalWinningLine() {
   Serial.println("Draw vertical winning line");
+  movePenDown();
   moveDownFor(4000);
+  movePenUp();
   moveUpFor(4000);
-  moveRobotArmToOrigin();
 }
 void drawTopToBottomWinningLine() {
   Serial.println("Draw top to bottom line");
+  movePenDown();
   moveRightDownFor(4000);
+  movePenUp();
   moveLeftUpFor(5000);
-  moveRobotArmToOrigin();
 }
 void drawBottomToTopWinningLine() {
   Serial.println("Draw bottom to top line");
+  movePenDown();
   moveRightUpFor(4000);
+  movePenUp();
   moveLeftFor(5000);
-  moveRobotArmToOrigin();
 }
 
