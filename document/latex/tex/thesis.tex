@@ -89,33 +89,24 @@ sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
     \end{itemize}
 \end{itemize}
 
-Um den Plotter zu bauen wurde Fischertechnik eingesetzt, da diese Materialien die Anforderungen
-an Robustheit ausreichend erfüllen und mit hiervon schon einige Bauteile vorhanden waren. Was
-noch gefehlt hat, wurde im Laufe des Semesters nachbestellt. Des Weiteren ermöglichen die
-Schneckenteile von Fischertechnik das Bauen eines Spindelgetriebes, was für die Bewegung in x-
-und y-Richtung genutzt wurde.
+Da zu Beginn des Projekts kein Roboter vorhanden war, musste nicht nur der Code geschrieben, sondern auch die Hardware konstruiert werden. Die grundsätzlichen Anforderungen an die Hardware waren, dass sie eine Bewegung in alle drei Raumrichtungen unabhängig voneinander ermöglichen muss, robust gestaltet und einfach zu realisieren sein sollte. Deswegen wurde entschieden einen Plotter zu bauen anstelle eines komplizierteren Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu realisieren sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
 
-Für die Bewegung vor und zurück wurden zwei solcher Spindelgetriebe verwendet und an beide Enden
-des Plotters angebracht. So kann der Plotter eine gleichmäßige Bewegung ausführen ohne zu verziehen,
-vorausgesetzt beide Schnecken drehen sich gleich schnell. Dies wird gewährleistet, indem beide 
-Achsen mithilfe von Rastkettengliedern, einer Art Kette, und Zahnrädern verbunden wurden.
-Angetrieben wird die x-Achse durch einen kleinen 9 V Motor von Fischertechnik. Des Weiteren
-wurden neben jede der beide Spindelgetriebe jeweils eine weitere Achse verbaut, die die Last
-aufnimmt. Dadurch werden beide Getriebe nicht groß belastet, was zu einer gleichmäßigen Bewegung
-beiträgt.
+Um den Plotter zu bauen wurde Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lass sich lineare Bewegungen mithilfe von Spindelgetrieben oder Kegelzahnräder einfach realisieren lassen. 
+Die Spindelgetriebe haben den Vorteil, dass sie aus einzelnen Schneckenteilen bestehen, die nacheinander auf eine Achse geschoben werden und dadurch in verschiedenen Längen konstruiert werden können. Damit die Schneckenteile nicht verrutschen befinden sich an den Enden klemmbare Schnecken, die mithilfe von Spannzangen fixiert werden. Letztlich befindet sich an jeder Achse noch ein Zahnrad, das zum Antrieb des Spindelgetriebe genutzt wird.
 
-Auf den Spindeln und den Achsen befinden sich zwei Schlitten, die miteinander verbunden sind.
-Je nachdem in welche Richtung sich die Spindeln drehen, bewegen sich die Schlitten vor und zurück.
+Die Bewegungen in x, y und z-Richtung werden separat voneinander gesteuert. Im Prinzip ist der Plotter somit aus drei Schichten aufgebaut. Die unterste Schicht, der Grundrahmen, ist für die Bewegung in x-Richtung, also vor und zurück, zuständig. Darauf sitzen zwei y-Schlitten, die die mittlere Schicht darstellen. Diese sorgt für die Bewegung nach links und rechts, in y-Richtung. Darauf sitzt der Stiftehalter, der in z-Richtung nach oben und unten bewegt werden kann.
 
-Auf den Schlitten befindet sich das nächste Spindelgetriebe für die Bewegung in y-Richtung.
-Auch hier mussten weitere Achsen eingebaut werden um die Last des weiteren Aufbaus aufzunehmen
-und für Stabilität zu sorgen. Da die übereinander angebracht sind und dicht beieinander liegen
-ist hier eine zweite Antriebsspindel nicht notwendig. Auch diese Achse wird mithilfe eines 9 V
-Motors von Fischertechnik angetrieben.
+Der Grundrahmen besteht aus jeweils einer Achse und einem Spindelgetriebe, die sich links und rechts am Plotter befinden und an den Enden auf zwei Basisplatten befestigt sind. Auf jedem Paar aus Achse und Spindelgetriebe befindet sich ein y-Schlitten, welcher durch die Drehbewegung des Spindelgetriebes nach vorne und hinten bewegt wird. Die Aufgabe der Achsen ist die Lasten und Momente aufzunehmen. Ein Aufbau aus nur einem Spindelgetriebe und zwei Achsen hätte zur Folge, dass entweder das zu kompensierende Drehmoment sehr groß gewesen wäre, wenn beide Achsen auf derselben Seite des Plotters angebracht worden wären oder die zwei Schlitten, sich nicht gleichmäßig bewegt hätten, sondern verzogen hätten, wären die Achsen auf unterschiedlichen Seiten des Plotters angebracht worden. Eine zweite Achse musste aber unbedingt eingebaut werden, weil sonst das Getriebe das Drehmoment kompensieren müsste, wofür es aber nicht geeignet ist.
+Damit sich die Spindelgetriebe gleich schnell und gleichzeitig drehen, sind diese mithilfe von einer Kette (bestehend aus einzelnen Rastkettengliedern) verbunden. Dadurch wird eine gleichmäßige Bewegung gewährleistet und die Schlitten, die obendrauf sitzen, verziehen sich nicht. Die Bewegung in x-Richtung wird durch einen XM-Motor von Fischertechnik ausgeführt, welcher auf einer Basisplatte sitzt und eine der Getriebe mithilfe von Zahnrädern antreibt. Das Zahnrad an der Antriebswelle wurde so klein wie möglich gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, um mechanische Ungenauigkeiten, die zu einem größeren Widerstand führen, zu kompensieren. Ein Problem mit der Anordnung des Motors und des kleinen Zahnrades ist, dass die Antriebswelle nicht fixiert werden kann und sich erstmal schräg stellt, bevor das große Zahnrad anfängt sich zu drehen. Jegliche Idee die Welle zu fixieren hätte dazu geführt, dass die Konstruktion an der Kette reibt. Um dieses Problem zu lösen hätte es größere Umbauten am gesamten Plotter benötigt, die aufgrund des späten Zeitpunktes, zu dem der Motor angekommen ist, nicht mehr möglich waren. 
 
-Letztlich muss der Stift noch angehoben und abgesetzt werden. Da hier keine großen Anforderungen
-an die Leistung des Motors gestellt werden reicht ein kleiner Servomotor. Dieser wurde auf dem auf
-der y-Achse befindlichen Schlitten angebracht.
+Die zwei y-Schlitten sind ebenfalls mit zwei Achsen und einem Spindelgetriebe verbunden. Auch hier nehmen die Achsen das Gewicht sowie das resultierende Drehmoment des Stiftehalter auf. Im Gegensatz zum Aufbau in x-Richtung befinden sind diese übereinander angeordnet, damit der Aufbau nicht zu sehr nach vorne ragt, sondern stattdessen in die Höhe. Der Nachteil dabei ist aber, dass sich der Stift nicht zwischen den Achsen befindet, was zu einem exzentrischen Kraftfluss führt und somit ein größeres Drehmoment nach sich zieht. 
+Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas leistungsschwacher als der für die x-Bewegung. Dies hat den Vorteil, dass er sehr viel kleiner und leichter ist. Dadurch kann er direkt auf einem der zwei y-Schlitten angebracht werden, ohne ein Ungleichgewicht zu erzeugen. Auch hier wird die Kraftübertragung zwischen der Antriebswelle des Motors und der Abtriebwelle des Spindelgetriebes mithilfe von Zahnrädern ermöglicht. 
+
+Auf der y-Achse befindet sich ein weiterer Schlitten, der im Großen und Ganzen aus zwei Teilen besteht. 
+Der eine Teil ist für das Anheben und Absetzen des Stiftes zuständig. Dieser besteht aus einer Rastachse mit Schnecke, die über Kegelzahnräder bewegt wird. Auf der Schnecke befindet sich eine Schneckenmutter, deren Drehbewegung verhindert wird, indem sie an einem Klotz festgemacht ist, durch den eine parallele Achse geht. Dadurch werden die Mutter und der Klotz gezwungen sich nach oben und unten zu bewegen. An dem Klotz befindet sich der Stiftehalter. Das Ziel bei der Konstruktion des Stiftehalter war, ein einfacher, effizienter und effektiver Aufbau, mit dem der Stift sowohl angehoben als auch mit Druck abgesetzt werden kann. Des Weiteren sollte es möglich sein, viele verschiedenen Arten von Stifte zum Spielen verwenden zu können. Die beste Lösung für dieses Problem war den Stift mithilfe von Tesa-Film an zwei aneinander befestigte Bausteine zu kleben. 
+Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik bewegt. Dieser befindet sich ebenfalls auf dem Schlitten.
+Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift sich zu sehr verbiegt. Die L-förmige Konstruktion liegt von allen Seiten press am Stift und ist direkt mit dem Schlitten und den Achsen verbunden. Sie bewegt sich nicht mit dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich nicht verhindern aber dadurch stark einschränken.
+
 
 \section{Elektrik}
 
