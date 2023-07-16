@@ -121,10 +121,12 @@ Aufgrund der vorangegangenen Entscheidung, den ESP32-WROVER zu verwenden, basier
 \caption{Schaltung Entwicklungs-Board}
 \label{Elektrik:DevBoardInternal}
 
-Anhand der Darstellungen xx und xx sind die einzelnen Leiterbahnen zu sehen, auf denen die Bauteile platziert werden können (grüne Linien). Dieser Aufbau ermöglicht bis zu 5 direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
+In den Darstellungen xx und xx sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
+Dieser Aufbau ermöglicht bis zu 5 direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 
 Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit 5 V bzw. 3,3 V betrieben.
-Die Verbindungen zwischen dem Micro-Controller und dem Entwicklungsboard werden mithilfe eines Extension Boards hergestellt. Das Extension Board ist so konzipiert, dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem Board verbunden werden.
+Die Verbindungen zwischen dem Micro-Controller und dem Entwicklungsboard wird mithilfe eines Extension Boards hergestellt. Das Extension Board ist so konzipiert, 
+dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem ESP32-WROVER-Boards verbunden werden.
 
 Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 
@@ -134,7 +136,8 @@ Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt w
 
 Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind.
 
-Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss- Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
+Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
+Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
 
 \subsection{Ansteuerung der Motoren}
 
@@ -147,7 +150,8 @@ Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegunge
 
 \subsection{Gleichstrom-Elektromotoren}
 
-Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
+Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. 
+Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
 
 \textit{’DC’ steht für direct current, zu Deutsch Gleichstrom und bedeutet, dass sich der Strom nicht über einen Zeitraum ändert. Bei einem DC-Motor oder im deutschen Gleichstrommotor handelt es sich um Elektromotoren, die im Wesentlichen aus
 einer elektrischen eine mechanische Energie erzeugen." } \autocite{metzgerkonzepte}
@@ -170,11 +174,12 @@ Quelle: https://ftcommunity.de/knowhow/bauteildaten/motoren/ft135485_neu.pdf
 
 Da beide Motoren mit jeweils 9V Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
 da diese maximal 5V liefert. Obwohl ein Betrieb mit 5V möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
-wird eine 9V Stromversorgung angestrebt. 
+wird eine 9V Stromversorgung angestrebt.  Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
 
-Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
-Für die Ansteuerung der Motoren über den Micro-Controller wird ein spezieller Motortreiber verwendet. Als Motrentreiber wird ein L293D Verwendet, 
-dieser ist ein IC Chip (Integrated Circuit Chip). Der Chip ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
+\subsection{Motortreiber}
+
+Für die Ansteuerung der Motoren über den Micro-Controller wird ein seperater Motortreiber, L293D, verwendet.
+Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip). Der Chip ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
 sowie die Geschwindikeit des Motors per PWM zu steuern.
 
 \includegraphics{../images/L293D.png}
@@ -228,7 +233,7 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 
 \subsection{Schaltplan}
 
-Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender elektrischer Aufbau auf Basis des Entwicklungs-Boards.
+Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
 
 \includegraphics{../images/schaltplan.png}
 \caption{Schaltplan}
