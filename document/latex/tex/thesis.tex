@@ -107,21 +107,24 @@ Der eine Teil ist für das Anheben und Absetzen des Stiftes zuständig. Dieser b
 Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik bewegt. Dieser befindet sich ebenfalls auf dem Schlitten.
 Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift sich zu sehr verbiegt. Die L-förmige Konstruktion liegt von allen Seiten press am Stift und ist direkt mit dem Schlitten und den Achsen verbunden. Sie bewegt sich nicht mit dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich nicht verhindern aber dadurch stark einschränken.
 
-
 \section{Elektrik}
 Aufgrund der vorangegangenen Entscheidung, den ESP32-WROVER zu verwenden, basiert der Aufbau der elektrischen Schaltung auf dem Stecksystem des ESP32-WROVER-Boards.
 
-
 \subsection{Aufbau der Versuchsumgebung}
-
-\includegraphics{../images/board.png}
+\begin{figure}[h]
+\centering
+\includegraphics[width=8.5cm]{../images/board.png}
 \caption{Aufbau Entwicklungs-Board}
 \label{Elektrik:DevBoard}
-\includegraphics{../images/board2.png}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=8.5cm]{../images/board2.png}
 \caption{Schaltung Entwicklungs-Board}
 \label{Elektrik:DevBoardInternal}
+\end{figure}
 
-In den Darstellungen xx und xx sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
+In den Abbildung 1 und 2 sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
 Dieser Aufbau ermöglicht bis zu 5 direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 
 Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit 5 V bzw. 3,3 V betrieben.
@@ -129,10 +132,12 @@ Die Verbindungen zwischen dem Micro-Controller und dem Entwicklungsboard wird mi
 dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem ESP32-WROVER-Boards verbunden werden.
 
 Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
-
-\includegraphics{../images/ext_board.png}
+\begin{figure}[h]
+\centering
+\includegraphics[width=8.5cm]{../images/ext_board.png}
 \caption{Schaltung Entwicklungs-Board}
 \label{Elektrik:DevBoardInternal}
+\end{figure}
 
 Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind.
 
@@ -140,7 +145,6 @@ Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem kein
 Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
 
 \subsection{Ansteuerung der Motoren}
-
 Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegungen sind zwei verschiedene Motortypen untersucht worden.
 
 \begin{itemize}
@@ -182,9 +186,12 @@ Für die Ansteuerung der Motoren über den Micro-Controller wird ein seperater M
 Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip). Der Chip ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
 sowie die Geschwindikeit des Motors per PWM zu steuern.
 
-\includegraphics{../images/L293D.png}
+\begin{figure}[h]
+  \centering
+\includegraphics[width=8.5cm]{../images/L293D.png}
 \caption{L293D Schaltplan}
 \label{Elektrik:L293D}
+\end{figure}
 
 \subsection{Pulsweitenmodulation}
 
@@ -202,7 +209,7 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
   \item Pin 1 ist für die generelle Aktivierung des Motors verantwortlich
   \item Pin 2 und Pin 7 steuern die jeweilige Drehrichtung des Motors
   \end{itemize}
-  
+
 Die folgende Tabelle zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
 
 \begin{table}[]
@@ -234,10 +241,12 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 \subsection{Schaltplan}
 
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
-
-\includegraphics{../images/schaltplan.png}
+\begin{center}
+\includegraphics[width=8.5cm]{../images/schaltplan.png}
 \caption{Schaltplan}
 \label{Elektrik:Schaltplan}
+\end{center}
+
 
 
 \section{Softwaresteuerung}
