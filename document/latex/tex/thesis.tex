@@ -208,7 +208,7 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
 \begin{itemize}
   \item Pin 1 ist für die generelle Aktivierung des Motors verantwortlich
   \item Pin 2 und Pin 7 steuern die jeweilige Drehrichtung des Motors
-  \end{itemize}
+\end{itemize}
 
 Die folgende Tabelle zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
 
@@ -220,7 +220,7 @@ Die folgende Tabelle zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und 
   H             & L             & H             & Drehung gegen den Uhrzeigersinn \\
   L             & X             & X             & Keine Drehung                   \\ \hline
   \end{tabular}
-  \end{table}
+\end{table}
 
 Hierbei steht "H" für den High-Zustand (1) und "L" für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
 
@@ -237,7 +237,6 @@ Als Alternative könnte ein Servo-Motor verwendet werden, der die Höhe der Z-Ac
 In diesem Fall könnte auf den Treiber verzichtet werden. Allerdings wäre die Systemkompatibilität mit der Mechanik aufgrund der Nicht-Fischertechnik-Teile nicht gegeben. 
 Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für die Z-Achse verwendet.
 
-
 \subsection{Schaltplan}
 
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
@@ -246,8 +245,6 @@ Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender 
 \caption{Schaltplan}
 \label{Elektrik:Schaltplan}
 \end{center}
-
-
 
 \section{Softwaresteuerung}
 
@@ -270,24 +267,27 @@ zu kontrollieren. Hierzu haben wir uns folgende Möglichkeiten überlegt:
   \item Steuerung über einen Prozessor mit eingebautem Code
 \end{itemize}
 
-Die Steuerung über einen externen Computer erschien uns als erstes logisches Vorgehen. Der Vorteil
+Die Steuerung über einen externen Computer wurde als erste Lösung betrachtet. Der Vorteil
 ist hier, dass man auch eine vollfunktionsfähigens Betriebssystem mitsamt allen dafür existierenden
 Paketen und Programmiersprachen zurückgreifen kann. Da aber das vollständige Betriebssystem auch
 dazuführt, dass Services gestartet werden, die mit der eigentlichen Aufgabe des Roboters nichts zu
-tun haben, haben wir uns gegen diesen Ansatz entschieden.
+tun haben, wurde sich gegen diesen Ansatz entschieden. Zusätzlich erzwingt eine solche Steuerung
+eine dauerhafte Verbindung zu dem Computer. Dies ist nicht erwünschens wert, da der Roboter autonom
+handlungsfähig sein soll.
 
-Als zweite Wahl kann die Steuerung über eine mobile App ins Spiel. Dies ermöglicht es, dass die
+Als zweite Wahl kam die Steuerung über eine mobile App ins Spiel. Dies ermöglicht es, dass die
 eigentlichen Bewegungen auf einem Gerät mit viel Prozessorstärke ausgeführt werden kann und dann nur
-noch an den Roboter übermittelt werden muss. Dies ermöglicht auch, dass der Zweck des Roboters
-durch die Veränderung des Programmcodes auf dem Smartphone anpassbar ist. Die Schwachstelle hier ist,
+noch an den Roboter übermittelt werden muss. Somit ist auch der Zweck des Roboters
+durch die Veränderung des Programmcodes auf dem Smartphone anpassbar. Die Schwachstelle hier ist,
 dass weiterhin ein eingebetteter Prozess in Roboter vorhanden sein muss, der eine stabile
-Kommunikation mit dem Mobilegerät besitzen muss. Während des Bau unseres Prototypen ist aufgefallen,
-dass die Kommunikation per Bluetooth besonders mit iOS Geräten sehr schwer ist. Zwar würde die
-Kommunikation per Wifi funktionieren, müssen sich sowohl das Mobiltelefon als auch der Roboter im 
-selben Netzwerk befinden. Dafür müsste entweder eine weitere Eingabemöglichkeit auf dem Roboter 
-geschaffen werden oder die Zugangsdaten vordefiniert sein. Ersteres geht nicht, da schon alle Pins
-genutzt sind und letzteres schränkt den Einsatz des Roboters stark ein. Daher wurde auch diese
-Lösung wieder verworfen.
+Kommunikation mit dem Mobilegerät besitzen muss. Während des Bau unseres Prototypen ist es den Autoren,
+nicht gelungen eine stabile Kommunikation per Bluetooth mit einem iOS Gerät herzustellen.
+Was die Nutzung des Roboters weiter einschränkt. Kommunikation per Wifi konnte hergestellt werden,
+allerdings müssen sich sowohl das Mobiltelefon als auch der Roboter im 
+selben Netzwerk befinden. Dies setzt eine Eingabemöglichkeit auf dem Roboter voraus oder dass
+die Zugangsdaten vordefiniert sind. Beide Möglichkeiten sind in diesem Projekt nicht realisierbar,
+da die Motorsteuerung schon alle Pins belegt und der während der Entwicklung und dem Einsatz in der
+Hochschule in unterschiedlichen Netzwerken laufen können soll.
 
 Letzlich fiel die Entscheidung darauf allen Code auf dem eingebetteten Chip zu spielen und dort
 das gesamte Spiel zu implementieren. Dies bringt auch den Vorteil, dass der Roboter mit der Verbindung
@@ -296,6 +296,100 @@ drahtlose Kommunikation zustande kommen könnten. Nachteilig ist hier, dass der 
 vergleichsweise umständlich verändert werden kann. Da der Roboter nur für den aktuell singulären
 Zweck des Tik-Tak-Toe spielen geschaffen wurde, wiegt dieser Nachteil allerdings nicht schwer.
 
+\subsection{Tik-Tak-Toe Algorithmus}
+
+Für den Tik-Tak-Toe Algorithmus wurde ein in C implementierter Algorithmus erstellt, der direkt auf
+den ESP32-WROOM eingebettet wurde. Hierbei wurde großer Wert auf eine kompakte und einfache
+Implementierung gelegt, da der gesamte Programmcode einschließlich des während der Laufzeit
+gehaltenen Speichers in die 520KB Speicher des Chips passen mussten.
+
+Um den Code einfach zu halten, wurde die Spielausführung auf einen der beiden CPU Kerne beschränkt.
+Damit ist die Logik des Spiels einfach nachzuvollziehen, da sie von oben nach unten gelesen werden kann.
+Um dieses Ziel zu erfüllen, wurden alle Bewegungen des Roboters als blockierende Calls im Programm
+umgesetzt.
+
+Kompakt wurde der Code gehalten, indem das Spielfeld in zwei einzelne 16Bit Integer integriert wurde.
+Da das Spielfeld nur 9 Felder hat, werden nur 9Bit pro Spieler benötigt, um zu speichern, ob der Spieler
+auf dem jeweiligen Feld aktiv ist. Damit sind 16Bit Integer die kleinst mögliche Speichereinheit, in der
+diese Daten für einen Spieler gespeichert werden kann. Alle möglichen Gewinnstellungen werden entsprechend
+auch von einem einzelnen 16Bit Integer repräsentiert. Um herauszufinden, ob ein Spieler gewonnen hat, kann
+nun die Gewinnposition per bitweisem UND mit dem Spielfeld vergleichen und wenn das Ergebnis der Operation
+der Gewinnposition entspricht, hat der Spieler diese erreicht.
+
+Bei einem Spiel zwischen Mensch und Maschine nutzt der Roboter die enthaltenen Gewinnpositionen als
+Entscheidungsgrundlage für den nächsten Zug. Dabei wird geprüft, welche der Gewinnpositionen noch erreichbar
+sind. Danach wird ermittelt, wie viele Züge dazu noch zu ziehen sind. Die Gewinnposition mit den
+wenigsten Zügen wird versucht zu erreichen. Falls mehrere Gewinnpositionen gleich gut gewichtet wurden
+oder noch kein Zug gespielt wurde, wird zufällig eine Zielposition ausgewählt. Die Berechnung läuft
+dabei nach jedem Zug, wodurch der Roboter auf dem Zug seines Gegners reagieren kann.
+
+\subsection{Abstraktion Hardware & Software}
+
+Um den Autoren die Möglichkeit zu geben, zu unterschiedlichen Zeitpunkten an dem Roboter arbeiten
+zu können, wurde die Software und die Hardwareentwicklung per Abstraktionsstufe getrennt. Hierbei wurde
+ein mindestmaß an Funktionalitäten definiert, die der Roboter bereitstellen können muss, um Tik-Tak-Toe
+ausführen zu können. Diese Funktionalität wurde dann als Schnittstelle zwischen der Hardware und Software
+genutzt. Damit wurde eine unabhängige Entwicklung der Softwarefunktionalität von der Hardware geschaffen.
+
+Die Schnittstelle lässt sich in 4 Teile unterteilen.
+
+\begin{verbatim}
+void waitUntilGameStarts();
+int getFieldSelectedByPlayer();
+\end{verbatim}
+
+Der oben aufgeführten erste Teil beinhaltet Funktionen, deren Aufgabe alle Nutzereingaben abdecken.
+Ihre Aufgabe ist es so lange die weitere Ausführung des Programms zu blockieren,
+bis ein Spiel gestartet werden kann oder bis der Nutzer ein Feld gewählt hat.
+
+In diesen Funktionen wurden später auch die Möglichkeit eingebaut, alle Achsen des Roboters von 
+Hand zu steuern, um ihn richtig ausrichten zu können. Dies ermöglicht es, dass hardware-nahe Funktionen
+nicht im Spielalgorithmus verankert werden müssen und dennoch gut eingebaut werden konnten.
+
+\begin{verbatim}
+void moveRobotArmToOrigin();
+void moveRobotArmToFieldOne();
+void moveRobotArmToFieldTwo();
+void moveRobotArmToFieldThree();
+void moveRobotArmToFieldFour();
+void moveRobotArmToFieldFive();
+void moveRobotArmToFieldSix();
+void moveRobotArmToFieldSeven();
+void moveRobotArmToFieldEight();
+void moveRobotArmToFieldNine();
+\end{verbatim}
+
+Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen, um zu
+einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier, dass die Hardware den aktuellen
+Ort des Stiftes kennen muss, um diesen nach dem entsprechenden Funktionsaufruf wieder zurück zum Ausgangspunkt
+navigieren zu können.
+
+Dies ist der dritte Teil:
+
+\begin{verbatim}
+void drawCross();
+void drawCircle();
+void drawStraightWinningLine();
+void drawTopToBottomWinningLine();
+void drawBottomToTopWinningLine();
+\end{verbatim}
+
+Der dritte Teil der Schnittstelle beschäftigt sich mit den Zeichenanweisungen des Roboters. Hierbei legt der
+Tik-Tak-Toe Algorithmus fest, was gezeichnet werden soll. Die exakten Details der Bewegung und wann der Stift
+auf das Blatt abgesetzt und gehoben werden muss, wurden auch hier als hardware-spezifisch deklariert.
+
+\begin{verbatim}
+void showCannotPlayMove();
+\end{verbatim}
+
+Zu letzt benötigt der Roboter eine Möglichkeit zu kommunizieren, dass ein Spielzug nicht gespielt werden kann,
+weil dieser schon von einem anderen Spieler zuvor gespielt wurde. Dies stellt den vierten und letzten Teil der
+Schnittstelle dar.
+
+Die Aufteilung der Schnittstelle ermöglicht dabei nicht nur die getrennte Entwicklung von Hardware und Software,
+sondern auch, dass die Software extern und automatisiert getestet werden konnte. Damit wurde die Funktionalität des Algorithmus
+sichergestellt und erlaubte eine Test-basierte-Entwicklung auf einem leistungsstarken Computer ohne direkten
+Hardwarezugriff zu benötigen.
 
 \section{Fazit und Ausblick}
 \begin{itemize}
