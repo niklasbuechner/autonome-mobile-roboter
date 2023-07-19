@@ -39,23 +39,17 @@
 
 % Kurze Zusammenfassung des Dokuments
 \begin{abstract}
-An dieser Stelle steht eine kurze Zusammenfassung des Inhaltes des Dokuments. Der Abstrakt ist vollkommen eigenständig und hat weder Querverweise zu anderen Teilen dieser Arbeit noch Referenzen zu Quellen.
 
-Schreiben Sie die Zusammenfassung im sogenannten faktenzentrierten Stil, d.\,h. beschreiben Sie nicht das Dokument, sondern die Fakten und Informationen, die das Dokument liefert. Zum Beispiel schreiben Sie \textit{nicht} \enquote{Dieses Dokument stellt die besondere Bedeutung des Flux-Kompensators für Zeitreisen im Film \enquote{Zurück in die Zukunft} dar.}, sondern schreiben Sie \enquote{Ohne den Flux-Kompensator wären die Zeitreisen im Film \enquote{Zurück in die Zukunft} nicht möglich.}
+Das Spiel Tik-Tak-Toe kann über einen selbstgebauten Plotter mit Hilfe eines ESP32-WROOM als autonomer Roboter umgesetzt werden, welcher selbstständig gegen einen menschlichen Spieler antretten kann. Dies umfasst die vollständige Darstellung des Spielfelds, die Züge und das Zeichen einer Gewinnlinie, welche der Roboter ohne fremde Steuerung ausführen kann. Der Roboter übernimmt sowohl die Aufgabe des Spielführer als auch die des Gegenspielers.
 
-Den Abstract schreibt man als letztes.
+Das Spiel wird auf einem Blatt Papier über den dreiachsigen Roboter gezeichnet. Alle Spielzüge eines menschlichen Spielers werden über eine Tastatur eingegeben und vom Roboter im Spielfeld markiert. Für den Zug des Roboters wird über einen Algorithmus das beste Feld ausgewählt und gezogen. Sobald ein Gewinner feststeht, wird die Gewinnlinie im Spielfeld eingezeichnet und ein neues Spiel ermöglicht.
+
 \end{abstract}
 
 % Inhaltsverzeichnis erzeugen
 {\small\tableofcontents}
 
 \section{Projektziel}
-
-\begin{itemize}
-  \item Tik-Tak-Toe Roboter
-  \item Warum Tik-Tak-Toe
-  \item Roboter, der sich auf 3 Achsen bewegen kann (a.k.a. Plotter)
-\end{itemize}
 
 Ziel dieses Projektes war es einen kleinen Roboter zu entwickeln, der Tik-Tak-Toe
 auf einem Blatt Papier gegen den Nutzer spielen kann. Hierbei wurde Tik-Tak-Toe
@@ -77,27 +71,46 @@ sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
 
 \section{Mechanik}
 
-\begin{itemize}
-  \item Roboter, der sich auf 3 Achsen bewegen kann
-  \item ESP32 vs andere Chips
-  \item Warum Fischertechnik
-  \item Schaltplan
-  \item Zu lösende Probleme:
-    \begin{itemize}
-      \item Koordination Bewegungen
-      \item Drehmoment, Geschwindigkeit
-    \end{itemize}
-\end{itemize}
+\subsection{Allgemeiner Aufbau}
 
-Da zu Beginn des Projekts kein Roboter vorhanden war, musste nicht nur der Code geschrieben, sondern auch die Hardware konstruiert werden. Die grundsätzlichen Anforderungen an die Hardware waren, dass sie eine Bewegung in alle drei Raumrichtungen unabhängig voneinander ermöglichen muss, robust gestaltet und einfach zu realisieren sein sollte. Deswegen wurde entschieden einen Plotter zu bauen anstelle eines komplizierteren Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu realisieren sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
+Da zu Beginn des Projekts kein Roboter vorhanden war, musste nicht nur der Code geschrieben, sondern auch die Hardware
+konstruiert werden. Die grundsätzlichen Anforderungen an die Hardware waren, dass sie eine Bewegung in alle drei Raumrichtungen
+unabhängig voneinander ermöglichen muss, robust gestaltet und einfach zu realisieren sein sollte. Deswegen wurde entschieden einen
+Plotter zu bauen anstelle eines komplizierteren Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu
+realisieren sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
 
-Um den Plotter zu bauen wurde Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lass sich lineare Bewegungen mithilfe von Spindelgetrieben oder Kegelzahnräder einfach realisieren lassen. 
-Die Spindelgetriebe haben den Vorteil, dass sie aus einzelnen Schneckenteilen bestehen, die nacheinander auf eine Achse geschoben werden und dadurch in verschiedenen Längen konstruiert werden können. Damit die Schneckenteile nicht verrutschen befinden sich an den Enden klemmbare Schnecken, die mithilfe von Spannzangen fixiert werden. Letztlich befindet sich an jeder Achse noch ein Zahnrad, das zum Antrieb des Spindelgetriebe genutzt wird.
+Um den Plotter zu bauen wurde Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese
+Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lass sich lineare Bewegungen mithilfe von Spindelgetrieben
+oder Kegelzahnräder einfach realisieren lassen.
 
-Die Bewegungen in x, y und z-Richtung werden separat voneinander gesteuert. Im Prinzip ist der Plotter somit aus drei Schichten aufgebaut. Die unterste Schicht, der Grundrahmen, ist für die Bewegung in x-Richtung, also vor und zurück, zuständig. Darauf sitzen zwei y-Schlitten, die die mittlere Schicht darstellen. Diese sorgt für die Bewegung nach links und rechts, in y-Richtung. Darauf sitzt der Stiftehalter, der in z-Richtung nach oben und unten bewegt werden kann.
+Die Spindelgetriebe haben den Vorteil, dass sie aus einzelnen Schneckenteilen bestehen, die nacheinander auf eine Achse geschoben
+werden und dadurch in verschiedenen Längen konstruiert werden können. Damit die Schneckenteile nicht verrutschen befinden sich an
+den Enden klemmbare Schnecken, die mithilfe von Spannzangen fixiert werden. Letztlich befindet sich an jeder Achse noch ein Zahnrad,
+das zum Antrieb des Spindelgetriebe genutzt wird.
 
-Der Grundrahmen besteht aus jeweils einer Achse und einem Spindelgetriebe, die sich links und rechts am Plotter befinden und an den Enden auf zwei Basisplatten befestigt sind. Auf jedem Paar aus Achse und Spindelgetriebe befindet sich ein y-Schlitten, welcher durch die Drehbewegung des Spindelgetriebes nach vorne und hinten bewegt wird. Die Aufgabe der Achsen ist die Lasten und Momente aufzunehmen. Ein Aufbau aus nur einem Spindelgetriebe und zwei Achsen hätte zur Folge, dass entweder das zu kompensierende Drehmoment sehr groß gewesen wäre, wenn beide Achsen auf derselben Seite des Plotters angebracht worden wären oder die zwei Schlitten, sich nicht gleichmäßig bewegt hätten, sondern verzogen hätten, wären die Achsen auf unterschiedlichen Seiten des Plotters angebracht worden. Eine zweite Achse musste aber unbedingt eingebaut werden, weil sonst das Getriebe das Drehmoment kompensieren müsste, wofür es aber nicht geeignet ist.
-Damit sich die Spindelgetriebe gleich schnell und gleichzeitig drehen, sind diese mithilfe von einer Kette (bestehend aus einzelnen Rastkettengliedern) verbunden. Dadurch wird eine gleichmäßige Bewegung gewährleistet und die Schlitten, die obendrauf sitzen, verziehen sich nicht. Die Bewegung in x-Richtung wird durch einen XM-Motor von Fischertechnik ausgeführt, welcher auf einer Basisplatte sitzt und eine der Getriebe mithilfe von Zahnrädern antreibt. Das Zahnrad an der Antriebswelle wurde so klein wie möglich gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, um mechanische Ungenauigkeiten, die zu einem größeren Widerstand führen, zu kompensieren. Ein Problem mit der Anordnung des Motors und des kleinen Zahnrades ist, dass die Antriebswelle nicht fixiert werden kann und sich erstmal schräg stellt, bevor das große Zahnrad anfängt sich zu drehen. Jegliche Idee die Welle zu fixieren hätte dazu geführt, dass die Konstruktion an der Kette reibt. Um dieses Problem zu lösen hätte es größere Umbauten am gesamten Plotter benötigt, die aufgrund des späten Zeitpunktes, zu dem der Motor angekommen ist, nicht mehr möglich waren. 
+Die Bewegungen in x, y und z-Richtung werden separat voneinander gesteuert. Im Prinzip ist der Plotter somit aus drei Schichten
+aufgebaut. Die unterste Schicht, der Grundrahmen, ist für die Bewegung in x-Richtung, also vor und zurück, zuständig. Darauf
+sitzen zwei y-Schlitten, die die mittlere Schicht darstellen. Diese sorgt für die Bewegung nach links und rechts, in y-Richtung.
+Darauf sitzt der Stiftehalter, der in z-Richtung nach oben und unten bewegt werden kann.
+
+Der Grundrahmen besteht aus jeweils einer Achse und einem Spindelgetriebe, die sich links und rechts am Plotter befinden und an
+den Enden auf zwei Basisplatten befestigt sind. Auf jedem Paar aus Achse und Spindelgetriebe befindet sich ein y-Schlitten, welcher
+durch die Drehbewegung des Spindelgetriebes nach vorne und hinten bewegt wird. Die Aufgabe der Achsen ist die Lasten und Momente
+aufzunehmen. Ein Aufbau aus nur einem Spindelgetriebe und zwei Achsen hätte zur Folge, dass entweder das zu kompensierende Drehmoment
+sehr groß gewesen wäre, wenn beide Achsen auf derselben Seite des Plotters angebracht worden wären oder die zwei Schlitten, sich nicht
+gleichmäßig bewegt hätten, sondern verzogen hätten, wären die Achsen auf unterschiedlichen Seiten des Plotters angebracht worden.
+Eine zweite Achse musste aber unbedingt eingebaut werden, weil sonst das Getriebe das Drehmoment kompensieren müsste, wofür es aber
+nicht geeignet ist.
+
+\subsection{X-Achse}
+
+Damit sich die Spindelgetriebe der X-Achse gleich schnell und gleichzeitig drehen, sind diese mithilfe von einer Kette (bestehend aus einzelnen
+Rastkettengliedern) verbunden. Dadurch wird eine gleichmäßige Bewegung gewährleistet und die Schlitten, die obendrauf sitzen,
+verziehen sich nicht. Die Bewegung in x-Richtung wird durch einen XM-Motor von Fischertechnik ausgeführt, welcher auf einer
+Basisplatte sitzt und eine der Getriebe mithilfe von Zahnrädern antreibt. Das Zahnrad an der Antriebswelle wurde so klein wie möglich
+gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten
+sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, um mechanische Ungenauigkeiten, die zu einem
+größeren Widerstand führen, zu kompensieren. 
 
 \begin{figure}[h]
 \centering
@@ -106,8 +119,16 @@ Damit sich die Spindelgetriebe gleich schnell und gleichzeitig drehen, sind dies
 \label{Mechanik:Aufbau}
 \end{figure}
 
-Die zwei y-Schlitten sind ebenfalls mit zwei Achsen und einem Spindelgetriebe verbunden. Auch hier nehmen die Achsen das Gewicht sowie das resultierende Drehmoment des Stiftehalter auf. Im Gegensatz zum Aufbau in x-Richtung befinden sind diese übereinander angeordnet, damit der Aufbau nicht zu sehr nach vorne ragt, sondern stattdessen in die Höhe. Der Nachteil dabei ist aber, dass sich der Stift nicht zwischen den Achsen befindet, was zu einem exzentrischen Kraftfluss führt und somit ein größeres Drehmoment nach sich zieht. 
-Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas leistungsschwacher als der für die x-Bewegung. Dies hat den Vorteil, dass er sehr viel kleiner und leichter ist. Dadurch kann er direkt auf einem der zwei y-Schlitten angebracht werden, ohne ein Ungleichgewicht zu erzeugen. Auch hier wird die Kraftübertragung zwischen der Antriebswelle des Motors und der Abtriebwelle des Spindelgetriebes mithilfe von Zahnrädern ermöglicht. 
+\subsection{Y-Achse}
+
+Die zwei y-Schlitten sind ebenfalls mit zwei Achsen und einem Spindelgetriebe verbunden. Auch hier nehmen die Achsen das Gewicht
+sowie das resultierende Drehmoment des Stiftehalter auf. Im Gegensatz zum Aufbau in x-Richtung befinden sind diese übereinander angeordnet,
+damit der Aufbau nicht zu sehr nach vorne ragt, sondern stattdessen in die Höhe. Der Nachteil dabei ist aber, dass sich der Stift nicht
+zwischen den Achsen befindet, was zu einem exzentrischen Kraftfluss führt und somit ein größeres Drehmoment nach sich zieht. 
+Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas leistungsschwacher als der für die x-Bewegung. Dies hat
+den Vorteil, dass er sehr viel kleiner und leichter ist. Dadurch kann er direkt auf einem der zwei y-Schlitten angebracht werden, ohne
+ein Ungleichgewicht zu erzeugen. Auch hier wird die Kraftübertragung zwischen der Antriebswelle des Motors und der Abtriebwelle des
+Spindelgetriebes mithilfe von Zahnrädern ermöglicht. 
 
 \begin{figure}[h]
 \centering
@@ -116,10 +137,21 @@ Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas
 \label{Mechanik:Aufbau}
 \end{figure}
 
-Auf der y-Achse befindet sich ein weiterer Schlitten, der im Großen und Ganzen aus zwei Teilen besteht. 
-Der eine Teil ist für das Anheben und Absetzen des Stiftes zuständig. Dieser besteht aus einer Rastachse mit Schnecke, die über Kegelzahnräder bewegt wird. Auf der Schnecke befindet sich eine Schneckenmutter, deren Drehbewegung verhindert wird, indem sie an einem Klotz festgemacht ist, durch den eine parallele Achse geht. Dadurch werden die Mutter und der Klotz gezwungen sich nach oben und unten zu bewegen. An dem Klotz befindet sich der Stiftehalter. Das Ziel bei der Konstruktion des Stiftehalter war, ein einfacher, effizienter und effektiver Aufbau, mit dem der Stift sowohl angehoben als auch mit Druck abgesetzt werden kann. Des Weiteren sollte es möglich sein, viele verschiedenen Arten von Stifte zum Spielen verwenden zu können. Die beste Lösung für dieses Problem war den Stift mithilfe von Tesa-Film an zwei aneinander befestigte Bausteine zu kleben. 
+\subsection{Z-Achse}
+
+Auf der y-Achse befindet sich ein weiterer Schlitten, welcher die Z-Achse darstellt und der im Großen und Ganzen aus zwei Teilen besteht. 
+Der eine Teil ist für das Anheben und Absetzen des Stiftes zuständig. Dieser besteht aus einer Rastachse mit Schnecke, die über
+Kegelzahnräder bewegt wird. Auf der Schnecke befindet sich eine Schneckenmutter, deren Drehbewegung verhindert wird, indem sie an einem
+Klotz festgemacht ist, durch den eine parallele Achse geht. Dadurch werden die Mutter und der Klotz gezwungen sich nach oben und unten zu
+bewegen. An dem Klotz befindet sich der Stiftehalter. Das Ziel bei der Konstruktion des Stiftehalter war, ein einfacher, effizienter und
+effektiver Aufbau, mit dem der Stift sowohl angehoben als auch mit Druck abgesetzt werden kann. Des Weiteren sollte es möglich sein, viele
+verschiedenen Arten von Stifte zum Spielen verwenden zu können. Die beste Lösung für dieses Problem war den Stift mithilfe von Tesa-Film
+an zwei aneinander befestigte Bausteine zu kleben. 
+
 Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik bewegt. Dieser befindet sich ebenfalls auf dem Schlitten.
-Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift sich zu sehr verbiegt. Die L-förmige Konstruktion liegt von allen Seiten press am Stift und ist direkt mit dem Schlitten und den Achsen verbunden. Sie bewegt sich nicht mit dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich nicht verhindern aber dadurch stark einschränken.
+Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift sich zu sehr verbiegt. Die L-förmige
+Konstruktion liegt von allen Seiten press am Stift und ist direkt mit dem Schlitten und den Achsen verbunden. Sie bewegt sich nicht mit
+dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich nicht verhindern aber dadurch stark einschränken.
 
 \begin{figure}[h]
 \centering
@@ -129,7 +161,7 @@ Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern so
 \end{figure}
 
 \section{Elektrik}
-Aufgrund der vorangegangenen Entscheidung, den ESP32-WROVER zu verwenden, basiert der Aufbau der elektrischen Schaltung auf dem Stecksystem des ESP32-WROVER-Boards.
+Der Aufbau der elektrischen Schaltung auf dem Stecksystem des ESP32-WROVER-Boards.
 
 \subsection{Aufbau der Versuchsumgebung}
 \begin{figure}[h]
@@ -188,14 +220,12 @@ Aufgrund der unterschiedlichen Anforderungen werden 2 unterschiedliche Motoren v
 \item Motor XS 9V
 \end{itemize}
 
-Die Leistungsdaten des Motor sind wie folgt definiert.
+Die Leistungsdaten des Motor sind wie folgt definiert.\footnote{Quelle: https://ftcommunity.de/knowhow/bauteildaten/motoren/ft135485_neu.pdf}
 
 XM-Motor
 Spannung: 9VDC. Bei maximaler Leistung, Drehzahl: 337 U/min, Stromaufnahme: 0,863 A, Drehmoment: 0,0587 Nm
 XS-Motor (ToDo)
 Spannung: 9VDC. Bei maximaler Leistung, Drehzahl: - U/min, Stromaufnahme: - A, Drehmoment: - Nm
-
-Quelle: https://ftcommunity.de/knowhow/bauteildaten/motoren/ft135485_neu.pdf
 
 Da beide Motoren mit jeweils 9V Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
 da diese maximal 5V liefert. Obwohl ein Betrieb mit 5V möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
@@ -269,13 +299,6 @@ Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender 
 
 \section{Softwaresteuerung}
 
-\begin{itemize}
-  \item WLAN & Bluetooth & Probleme
-  \item Abstraktion Software Hardware
-  \item Testbarkeit Software
-  \item Wo hört Hardware Abstraktion auf und wo fängt Software an?
-\end{itemize}
-
 \subsection{Steuerung}
 
 Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
@@ -329,7 +352,7 @@ Damit ist die Logik des Spiels einfach nachzuvollziehen, da sie von oben nach un
 Um dieses Ziel zu erfüllen, wurden alle Bewegungen des Roboters als blockierende Calls im Programm
 umgesetzt.
 
-Kompakt wurde der Code gehalten, indem das Spielfeld in zwei einzelne 16Bit Integer integriert wurde.
+Kompakt wurde die Speichernutzung gehalten, indem das Spielfeld in zwei einzelne 16Bit Integer integriert wurde.
 Da das Spielfeld nur 9 Felder hat, werden nur 9Bit pro Spieler benötigt, um zu speichern, ob der Spieler
 auf dem jeweiligen Feld aktiv ist. Damit sind 16Bit Integer die kleinst mögliche Speichereinheit, in der
 diese Daten für einen Spieler gespeichert werden kann. Alle möglichen Gewinnstellungen werden entsprechend
@@ -342,15 +365,20 @@ Entscheidungsgrundlage für den nächsten Zug. Dabei wird geprüft, welche der G
 sind. Danach wird ermittelt, wie viele Züge dazu noch zu ziehen sind. Die Gewinnposition mit den
 wenigsten Zügen wird versucht zu erreichen. Falls mehrere Gewinnpositionen gleich gut gewichtet wurden
 oder noch kein Zug gespielt wurde, wird zufällig eine Zielposition ausgewählt. Die Berechnung läuft
-dabei nach jedem Zug, wodurch der Roboter auf dem Zug seines Gegners reagieren kann.
+dabei nach jedem Zug, wodurch der Roboter auf den Zug seines Gegners reagieren kann.
 
-\subsection{Abstraktion Hardware & Software}
+\subsection{Abstraktion Hardware und Software}
 
 Um den Autoren die Möglichkeit zu geben, zu unterschiedlichen Zeitpunkten an dem Roboter arbeiten
 zu können, wurde die Software und die Hardwareentwicklung per Abstraktionsstufe getrennt. Hierbei wurde
 ein mindestmaß an Funktionalitäten definiert, die der Roboter bereitstellen können muss, um Tik-Tak-Toe
 ausführen zu können. Diese Funktionalität wurde dann als Schnittstelle zwischen der Hardware und Software
 genutzt. Damit wurde eine unabhängige Entwicklung der Softwarefunktionalität von der Hardware geschaffen.
+
+Die Hardware Funktionen haben hierbei keinerlei Wissen und Verantwortung über den aktuellen Spielstand.
+Wählt ein Spieler einen Zug aus, der nicht mehr spielbar ist, so erkennt die Spielelogik das und führt
+entsprechend die entsprechende Bewebungsfunktion aus, um dies zu kommunizieren. Dies sorgt für eine
+optimale Abstraktion und Testbarkeit der Software.
 
 Die Schnittstelle lässt sich in 4 Teile unterteilen.
 
@@ -362,6 +390,12 @@ int getFieldSelectedByPlayer();
 Der oben aufgeführten erste Teil beinhaltet Funktionen, deren Aufgabe alle Nutzereingaben abdecken.
 Ihre Aufgabe ist es so lange die weitere Ausführung des Programms zu blockieren,
 bis ein Spiel gestartet werden kann oder bis der Nutzer ein Feld gewählt hat.
+
+Beide Funktionen bauen dabei auf der Tastatur auf. Ein Spieler zeigt an, dass er ein Spiel starten
+möchte, indem er die Taste \enquote{1} für ein Spiel gegen den Roboter oder die Taste \enquote{2}
+für ein Spiel zwischen zwei Menschen auswählt. Zur Selektion eines Spielzuges stellt die Tastatur
+das Spielfeld dar. Dabei entspricht jede nummerische Taste einem Feld im Spielfeld. So kann
+gewählt werden, welcher Spielzug der Spieler als nächstes spielen möchte.
 
 In diesen Funktionen wurden später auch die Möglichkeit eingebaut, alle Achsen des Roboters von 
 Hand zu steuern, um ihn richtig ausrichten zu können. Dies ermöglicht es, dass hardware-nahe Funktionen
@@ -380,17 +414,23 @@ void moveRobotArmToFieldEight();
 void moveRobotArmToFieldNine();
 \end{verbatim}
 
-Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen, um zu
-einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier, dass die Hardware den aktuellen
-Ort des Stiftes kennen muss, um diesen nach dem entsprechenden Funktionsaufruf wieder zurück zum Ausgangspunkt
-navigieren zu können.
+Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen. Diese haben
+zum einen den Zweck zu einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier,
+dass die Hardware den aktuellen Ort des Stiftes kennen muss, um diesen nach dem entsprechenden Funktionsaufruf
+wieder zurück zum Ausgangspunkt navigieren zu können.
+
+Zur Navigation des Robots wird auf allen Achsen auf Zeitangaben gesetzt, in denen die Motoren aktiviert werden. Die
+aktuelle Position des Roboters wird daher als Zeit der aktivierten Motoren gespeichert. Die zugrundeliegende Annahme
+ist, dass sich ein Motor in beide Richtungen gleich schnell dreht. Die größe des impliziten Koordinatensystems wird
+daher durch die Größe des Spielfelds festgesetzt. Dies beträgt 6 Sekunden, was bei den Motoren ca. 8cm entspricht.
 
 Dies ist der dritte Teil:
 
 \begin{verbatim}
 void drawCross();
 void drawCircle();
-void drawStraightWinningLine();
+void drawHorizontalWinningLine();
+void drawVerticalWinningLine();
 void drawTopToBottomWinningLine();
 void drawBottomToTopWinningLine();
 \end{verbatim}
@@ -398,6 +438,12 @@ void drawBottomToTopWinningLine();
 Der dritte Teil der Schnittstelle beschäftigt sich mit den Zeichenanweisungen des Roboters. Hierbei legt der
 Tik-Tak-Toe Algorithmus fest, was gezeichnet werden soll. Die exakten Details der Bewegung und wann der Stift
 auf das Blatt abgesetzt und gehoben werden muss, wurden auch hier als hardware-spezifisch deklariert.
+
+Der Roboter zeichnet ein Kreuz, wie in Tik-Tak-Toe üblich, ersetzt aber den Kreis durch ein Viereck. Dies ist
+der einfacheren Ansteuerung der Motoren bei geraden Linie geschuldet. Um einen Kreis zu zeichen, muss die
+Geschwindigkeit des Motors sowohl auf X als auch auf Y Achse in kurzen Intervallen angepasst werden. Einen 
+guten Kreis zu erhalten wurde hierbei als zu aufwändig eingestuft und der Fokus eher auf das Spielverhalten
+des Roboters gelegt wurde.
 
 \begin{verbatim}
 void showCannotPlayMove();
@@ -413,28 +459,52 @@ sichergestellt und erlaubte eine Test-basierte-Entwicklung auf einem leistungsst
 Hardwarezugriff zu benötigen.
 
 \section{Fazit und Ausblick}
-\begin{itemize}
-  \item Offene Probleme
-  \item Nutzung als Plotter
-\end{itemize}
-% --------------------------------------------------------------------
-\section*{Abkürzungen}
-\addcontentsline{toc}{section}{Abkürzungen}
 
-% Die längste Abkürzung wird in die eckigen Klammern
-% bei \begin{acronym} geschrieben, um einen hässlichen
-% Umbruch zu verhindern
-% Sie müssen die Abkürzungen selbst alphabetisch sortieren!
-\begin{acronym}[IEEE]
-\acro{A2A}{Application-to-Application}
-\acro{ABK}{Abkürzung}
-\acro{ACL}{Acess Control List}
-\acro{ACM}{Association of Computing Machinery}
-\acro{AES}{Advanced Encryption Standard}
-\acro{IEEE}{Institute of Electrical and Electronics Engineers}
-\acro{ISO}{International Organization for Standardization}
-\acro{PDF}{Portable Document Format}
-\end{acronym}
+\subsection{Offene Probleme}
+
+Auf mechanischer Ebene besitzt der Roboter viel Spiel, was die exakte Steuerung schwierig macht. Ein Problem mit der Anordnung
+des Motors und des kleinen Zahnrades ist, dass die
+Antriebswelle nicht fixiert werden kann und sich erstmal schräg stellt, bevor das große Zahnrad anfängt sich zu drehen. Jegliche
+Idee die Welle zu fixieren hätte dazu geführt, dass die Konstruktion an der Kette reibt. Um dieses Problem zu lösen hätte es größere
+Umbauten am gesamten Plotter benötigt, die aufgrund des späten Zeitpunktes, zu dem der Motor angekommen ist, nicht mehr möglich waren.
+
+Auch die Stabilität anderer Bausteine verursachen Spiel im Roboter. So sorgt das Aufsetzen des Stiftes dafür, dass dessen Halterung
+leicht vom Papier weggedrückt wird. Dies ist nötig, da der Stift mit etwas Druck auf dem Papier aufgesetzt werden muss, um
+Tinte zu hinterlassen. Zwar konnte der benötigte Druck durch Einsatz eines Filsstifts statt eines Kugelschreibers reduziert werden,
+allerdings wird weiterhin etwas Druck benötigt, was die Halterung anhebt.
+
+Ein ähnliches Problem besitzt auch die Y-Achse welche sich leicht zusammenzieht, wenn der Schlitten an das Ende der Achse ankommt.
+
+Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Eine
+mögliche Lösung sind hier Endschalter, die aktiviert werden, sobald der Roboter das Ende der jeweiligen Achse erreicht. Diese wurden
+auf Grund an mangelnder Anzahl an Pins am Chip und späten Auftretens im Projekt nicht genutzt.
+
+\subsection{Positive Aspekte}
+
+Als ein positiver Aspekt stellte sich der verwendete ESP32-WROOM heraus. Der Chip erlaubt dem Roboter nicht nur ohne externe Steuerung
+auszukommen, sondern bietet mehr Leistung als der Roboter benötigt. Ein Großteil des Spiels besteht aus Warten auf die Motoren und die
+Spiellogik ist nicht sehr leistungshungrig, sodass noch mehr Funktionlitäten mit dem Roboter abgebildete werden könnten.
+
+Auch die Nutzung von Fischertechnik brachte sehr viele Vorteile. So konnte sehr schnell über die Mechanik des Roboters iteriert werden,
+was eine hohe Entwicklungsgeschwindigkeit ermöglichte. Zusätzlich dazu erlaubte das Steckkastensystem das Erkunden neuer Lösungsmöglichkeiten
+inklusive einfacher Rückbauten im Falle eines nachteiligen Ergebnis. Auch die Kombination aus Plastik und Metal führt zu einer einfachen 
+Anpassbarkeit mit gleichzeitig robustem Unterbau, um das Gewicht des Roboters optimal zu tragen. Nichtsdestotrotz lässt sich ein Teil des
+Spiels auf die Bauteile zurückführen. Im gesamten Blick haben die Vorteile der schnellen Veränderung im Projekt allerdings überwogen.
+
+Als letzten positiven Aspekt ist die Abstraktion der Software und Hardware zu nennen. Dies ermöglichte einen testbasierten
+Entwicklungsansatz, der keinen ESP32-WROOM voraussetzte, um ausgeführt zu werden. Zwar hatten alle Teammitglieder Zugriff auf entsprechende
+Chips, aber diese hätten immer eine langsames Aufspielen vorausgesetzt, was die Entwicklung verlangsamt hätte. Auch konnten so mehrere
+Teammitglieder parallen und unabhängig von einander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
+Integration der beiden Systeme sehr einfach möglich und kann daher nur empfohlen werden.
+
+\subsection{Ausblick}
+
+Der aktuelle Roboter ist eine gute Grundlage für alle Arten an Aktivitäten, die etwas mit Zeichnen zu tun haben. Wenn die Präzision
+gesteigert werden kann, können auch Spiele implementiert werden, die mit kleineren Feldern auskommen müssen. Die könnte beispielsweise
+4-Gewinnt ermöglichen.
+
+Auch der generellen Verwendung des Roboters als Plotter steht nichts im Weg. Zwar sind aktuell nur gerade Linien implementiert, aber
+auch Kurven können mit der aktuelen Motorensteuerung umgesetzt werden, was dem Roboter ermöglicht beliebige Bilder zu zeichnen.
 
 % Literaturverzeichnis
 \addcontentsline{toc}{section}{Literatur}
