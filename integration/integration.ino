@@ -86,11 +86,11 @@ struct TicTacToe {
 };
 
 int16_t winningPositions[] = {
+    0b100010001,
+    0b001010100,
     0b000000111,
     0b000111000,
     0b111000000,
-    0b100010001,
-    0b001010100,
     0b100100100,
     0b010010010,
     0b001001001,
@@ -195,11 +195,21 @@ enum GameStatus {
     DONE,
 };
 
+enum GameType {
+  PvP,
+  PvE,
+};
+
 void runTicTacToeEngine() {
     int status = WAITING_TO_START;
-    waitUntilGameStarts();
+    int gameType = waitUntilGameStarts();
     struct TicTacToe game = startTicTacToe();
     status = FIRST_PLAYERS_TURN;
+    int robotPlayer = 2;
+
+    if (random(10) > 5) {
+      robotPlayer = 1;
+    }
 
     while (status != DONE) {
         int player = 1;
@@ -208,14 +218,25 @@ void runTicTacToeEngine() {
         }
 
         int move = 0;
-        while (move == 0) {
+        if (gameType == PvE && player == robotPlayer) {
+          if (robotPlayer == 1) {
+            move = calculateNextFieldToPlay(game.secondPlayerField, game.firstPlayerField);
+          } else {
+            move = calculateNextFieldToPlay(game.firstPlayerField, game.secondPlayerField);
+          }
+        } else {
+          while (move == 0) {
             move = getFieldSelectedByPlayer();
 
             if (canPlayMove(&game, move) == 0) {
                 showCannotPlayMove();
                 move = 0;
             }
+          }
         }
+        Serial.println("Next move");
+        Serial.println(move);
+
         playTicTacToe(&game, player, move);
         switch(move) {
             case 1:
@@ -301,6 +322,73 @@ int containsField(int16_t winningPosition, int16_t fieldNumber) {
     int16_t field = getField(fieldNumber);
 
     return (winningPosition & field) == field;
+}
+
+int calculateNextFieldToPlay(int16_t player, int16_t robot) {
+  int winPosition = -1;
+  int movesToWin = 9;
+
+  for (int counter = 0; counter < 8; counter += 1) {
+      bool playerPlayedPosition = false;
+      for (int field = 1; field < 10; field += 1) {
+        if (containsField(winningPositions[counter], field) && containsField(player, field)) {
+          playerPlayedPosition = true;
+        }
+      }
+
+      if (playerPlayedPosition) {
+        continue;
+      }
+
+      int movesToPosition = calculateMovesToPosition(winningPositions[counter], robot);
+      if (movesToPosition < movesToWin) {
+        Serial.println("Win position is suitable");
+        winPosition = winningPositions[counter];
+        movesToWin = movesToPosition;
+      }
+  }
+
+  if (winPosition == -1) {
+    Serial.println("No winning position found");
+    for (int field = 1; field < 10; field += 1) {
+      if (!containsField(player, field)) {
+        return field;
+      }
+    }
+  } else {
+    Serial.println("Winning position found");
+    Serial.println(winPosition);
+    for (int field = 1; field < 10; field += 1) {
+      if (!containsField(player, field)
+        && !containsField(robot, field)
+        && containsField(winPosition, field)
+      ) {
+        return field;
+      }
+    }
+  }
+
+  Serial.println("Return default");
+  return 9;
+}
+
+int calculateMovesToPosition(int16_t position, int16_t robot) {
+  int movesToPosition = 0;
+  for (int field = 1; field < 10; field += 1) {
+    if (!containsField(position, field)) {
+      continue;
+    }
+
+    if (!containsField(robot, field)) {
+      movesToPosition += 1;
+    }
+  }
+
+  return movesToPosition;
+}
+
+bool containsField(int16_t position, int field) {
+  return (position & getField(field)) != 0;
 }
 
 int xMove = 0;
@@ -427,12 +515,14 @@ void moveDownForAndSave(int time) {
 }
 
 
-void waitUntilGameStarts() {
+int waitUntilGameStarts() {
   Serial.println("Waiting to start...");
   char keyPressed = 0;  //Frag Input ab
   KeyState state = myKeypad.getState();
 
-  while(!keyPressed || keyPressed == '#') {
+  GameType gameType = PvP;
+
+  while(!keyPressed || (keyPressed != '1' && keyPressed != '2')) {
     keyPressed = myKeypad.getKey();
 
     if (keyPressed == 'A') {
@@ -455,6 +545,12 @@ void waitUntilGameStarts() {
       Serial.println("#");
       moveZDown();
       keyPressed = 0;
+    } else if (keyPressed == '1') {
+      Serial.println("Play against enemy");
+      gameType = PvE;
+    } else if (keyPressed == '2') {
+      Serial.println("Play against player");
+      gameType = PvP;
     } else {
       if (myKeypad.getState() != PRESSED && myKeypad.getState() != HOLD) {
         stop();
@@ -486,6 +582,8 @@ void waitUntilGameStarts() {
   moveLeftFor(6000);
   
   Serial.println("Game started!");
+
+  return gameType;
 }
 int getFieldSelectedByPlayer() {
   Serial.println("Waiting for field selection");
