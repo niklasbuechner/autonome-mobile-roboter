@@ -207,6 +207,10 @@ void runTicTacToeEngine() {
     status = FIRST_PLAYERS_TURN;
     int robotPlayer = 2;
 
+    if (random(10) > 5) {
+      robotPlayer = 1;
+    }
+
     while (status != DONE) {
         int player = 1;
         if (status == SECOND_PLAYERS_TURN) {
