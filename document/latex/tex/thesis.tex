@@ -169,12 +169,13 @@ Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board.png}
-\caption{Aufbau Entwicklungs-Board}\label{Elektrik:DevBoard}
+\caption{Aufbau Entwicklungs-Board\autocite{freenoveTutorial}}\label{Elektrik:DevBoard}
 \end{figure}
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board2.png}
-\caption{Schaltung Entwicklungs-Board}\label{Elektrik:DevBoardInternal}
+\caption{Schaltung Entwicklungs-Board\autocite{freenoveTutorial}}\label{Elektrik:DevBoardInternal}
 \end{figure}
 
 In den Abbildung \ref{Elektrik:DevBoard} und \ref{Elektrik:DevBoardInternal} sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
@@ -188,7 +189,7 @@ dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf de
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/ext_board.png}
-\caption{Schaltung Entwicklungs-Board}
+\caption{Schaltung Entwicklungs-Board\autocite{freenoveTutorial}}
 \label{Elektrik:DevBoardext}
 \end{figure}
 
@@ -239,19 +240,21 @@ wird eine 9V Stromversorgung angestrebt.  Eine Richtungsänderung der Motoren ka
 \subsection{Motortreiber}
 
 Für die Ansteuerung der Motoren über den Micro-Controller wird ein separater Motortreiber, L293D, verwendet.
-Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip). Der Chip ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
+Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip) und beinhaltet zwei interne H Brücken. Dies ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
 sowie die Geschwindigkeit des Motors per PWM zu steuern.
 
 \begin{figure}[h]
   \centering
 \includegraphics[width=8.5cm]{../images/L293D.png}
-\caption{L293D Schaltplan}\label{Elektrik:L293D}
+\caption{L293D Schaltplan\autocite{freenoveTutorial}}\label{Elektrik:L293D}
 \end{figure}
 
 \subsection{Pulsweitenmodulation}
 PWM (Pulsweitenmodulation) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
 sondern das Signal periodisch zwischen den Zuständen "An" und "Aus" gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
 bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird ein konstante Drehbewegung erreicht. 
+
+\noindent Das PWM Signal wird vom ESP32 erzeugt und kann dort entsprechend modelliert werden. 
 
 \noindent In der aktuellen Konfiguration werden jedoch nur zwei Geschwindigkeiten benötigt: Stillstand (0) und maximale Geschwindigkeit. 
 Dies wird durch die entsprechende Taktfrequenz in der Software gesteuert und durch die Verbindung der 
@@ -298,6 +301,24 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 \end{figure}
 
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung\ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
+\subsection{IO Eingabe}
+
+Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Conntrollers wird über das ESP32-WROVER-Board hergestellt. 
+Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Extension Board gesteckt und somit direkt auf den Pin des Micro-Controllers verbunden.
+
+\begin{figure}[h]
+\includegraphics[width=8.5cm]{../images/keypad.png}
+\caption{Aufbau des Keypad \autocite{freenoveTutorial}}\label{Elektrik:Keypad}
+\end{figure}
+
+Wie in Abbildung \ref{Elektrik:Keypad} zu sehen ist, ist das Keypad mit jeweils 4 Spalten und Zeilen aufgebaut. Diese sind entsprechend mit dem jeweiligen Tasten als Schalter verbunden. 
+Sobald eine Taste betätigt wird, wird ein entsprechender Schaltkreis geschlossen und die jeweilige Taste kann bestimmt werden.
+
+Die Tasten 1 bis 9 repräsentieren entsprechend die Felder des Tik-Tak-Toe Spielfeldes und dienen zur Auswahl des gewünschten Feldes. 
+Die weiteren Tasten werden zur Steuerung der Einzelnen Achse verwendet.
+Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Startpostion für das Spiel Manuel justiert werden.
+
+Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf diese Schnittstelle abgebildet werden.
 
 \section{Softwaresteuerung}
 
