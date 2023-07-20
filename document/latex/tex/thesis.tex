@@ -161,40 +161,40 @@ dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich 
 \end{figure}
 
 \section{Elektrik}
-Der Aufbau der elektrischen Schaltung auf dem Stecksystem des ESP32-WROVER-Boards.
+Der Aufbau der Elektrik sowie die Verbindung mit dem Micro-Controller basieren auf den Roboter Kit von Freenove. 
+Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER-Boards auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
+Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
 
 \subsection{Aufbau der Versuchsumgebung}
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board.png}
-\caption{Aufbau Entwicklungs-Board}
-\label{Elektrik:DevBoard}
+\caption{Aufbau Entwicklungs-Board}\label{Elektrik:DevBoard}
 \end{figure}
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board2.png}
-\caption{Schaltung Entwicklungs-Board}
-\label{Elektrik:DevBoardInternal}
+\caption{Schaltung Entwicklungs-Board}\label{Elektrik:DevBoardInternal}
 \end{figure}
 
-In den Abbildung 1 und 2 sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
+In den Abbildung \ref{Elektrik:DevBoard} und \ref{Elektrik:DevBoardInternal} sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
 Dieser Aufbau ermöglicht bis zu 5 direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 
-Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit 5 V bzw. 3,3 V betrieben.
+\noindent Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit 5 V bzw. 3,3 V betrieben.
 Die Verbindungen zwischen dem Micro-Controller und dem Entwicklungsboard wird mithilfe eines Extension Boards hergestellt. Das Extension Board ist so konzipiert, 
 dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem ESP32-WROVER-Boards verbunden werden.
 
-Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
+\noindent Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/ext_board.png}
 \caption{Schaltung Entwicklungs-Board}
-\label{Elektrik:DevBoardInternal}
+\label{Elektrik:DevBoardext}
 \end{figure}
 
-Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind.
+\noindent Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind.
 
-Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
+\noindent Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
 Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
 
 \subsection{Ansteuerung der Motoren}
@@ -206,81 +206,84 @@ Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegunge
 \end{itemize}
 
 \subsection{Gleichstrom-Elektromotoren}
-
-Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. 
+\noindent Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. 
 Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
+\\
+
 
 \textit{’DC’ steht für direct current, zu Deutsch Gleichstrom und bedeutet, dass sich der Strom nicht über einen Zeitraum ändert. Bei einem DC-Motor oder im deutschen Gleichstrommotor handelt es sich um Elektromotoren, die im Wesentlichen aus
-einer elektrischen eine mechanische Energie erzeugen." } \autocite{metzgerkonzepte}
+einer elektrischen eine mechanische Energie erzeugen.} \autocite{metzgerkonzepte}
+\\
 
-Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen könnne und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
+
+\noindent Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen könnne und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
 Aufgrund der unterschiedlichen Anforderungen werden 2 unterschiedliche Motoren verwendet.
 \begin{itemize}
 \item Motor XM 9V
 \item Motor XS 9V
 \end{itemize}
 
-Die Leistungsdaten des Motor sind wie folgt definiert.\footnote{Quelle: https://ftcommunity.de/knowhow/bauteildaten/motoren/ft135485_neu.pdf}
+\noindent Die Leistungsdaten des Motor sind wie folgt definiert. 
+\newline \textit{Die Angaben sind bei maximaler Leistung erhoben.}
 
-XM-Motor
-Spannung: 9VDC. Bei maximaler Leistung, Drehzahl: 337 U/min, Stromaufnahme: 0,863 A, Drehmoment: 0,0587 Nm
-XS-Motor (ToDo)
-Spannung: 9VDC. Bei maximaler Leistung, Drehzahl: - U/min, Stromaufnahme: - A, Drehmoment: - Nm
+\begin{table}[h]\begin{tabular}{lllll}
+    \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
+  -XM\autocite{motorenXM} & 9VDC & 337 U/min  & 0,863 A & 0,0587 Nm  \\ 
+  -XS\autocite{motorenXS} & 9VDC & 5663 U/min & 0,162 A & 0,0010 Nm  \\
+\end{tabular}\end{table}
 
-Da beide Motoren mit jeweils 9V Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
+\noindent Da beide Motoren mit jeweils 9V Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
 da diese maximal 5V liefert. Obwohl ein Betrieb mit 5V möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
 wird eine 9V Stromversorgung angestrebt.  Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
 
 \subsection{Motortreiber}
 
-Für die Ansteuerung der Motoren über den Micro-Controller wird ein seperater Motortreiber, L293D, verwendet.
+Für die Ansteuerung der Motoren über den Micro-Controller wird ein separater Motortreiber, L293D, verwendet.
 Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip). Der Chip ermöglicht durch die Verwendung von 2 Kanälen die Drehrichtung 
-sowie die Geschwindikeit des Motors per PWM zu steuern.
+sowie die Geschwindigkeit des Motors per PWM zu steuern.
 
 \begin{figure}[h]
   \centering
 \includegraphics[width=8.5cm]{../images/L293D.png}
-\caption{L293D Schaltplan}
-\label{Elektrik:L293D}
+\caption{L293D Schaltplan}\label{Elektrik:L293D}
 \end{figure}
 
 \subsection{Pulsweitenmodulation}
-
 PWM (Pulsweitenmodulation) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
 sondern das Signal periodisch zwischen den Zuständen "An" und "Aus" gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
 bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird ein konstante Drehbewegung erreicht. 
 
-In der aktuellen Konfiguration werden jedoch nur zwei Geschwindigkeiten benötigt: Stillstand (0) und maximale Geschwindigkeit. 
+\noindent In der aktuellen Konfiguration werden jedoch nur zwei Geschwindigkeiten benötigt: Stillstand (0) und maximale Geschwindigkeit. 
 Dies wird durch die entsprechende Taktfrequenz in der Software gesteuert und durch die Verbindung der 
 spezifizierten Pins des Micro-Controllers mit Pin 2 des Treibers realisiert.
 
-Die Ansteuerung des Motors über den Treiber wird mithilfe von Pin 1, Pin 2 und Pin 7 realisiert. 
+\noindent Die Ansteuerung des Motors über den Treiber wird mithilfe von Pin 1, Pin 2 und Pin 7 realisiert. 
 Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
 \begin{itemize}
   \item Pin 1 ist für die generelle Aktivierung des Motors verantwortlich
   \item Pin 2 und Pin 7 steuern die jeweilige Drehrichtung des Motors
 \end{itemize}
 
-Die folgende Tabelle zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
-
+\noindent Die folgende Tabelle zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
 \begin{table}[]
   \begin{tabular}{llll}
-  \hline
   \textbf{Pin1} & \textbf{Pin2} & \textbf{Pin2} & \textbf{Motor Bewegung}         \\ \hline
   H             & H             & L             & Drehung im Uhrzeigersinn        \\
   H             & L             & H             & Drehung gegen den Uhrzeigersinn \\
-  L             & X             & X             & Keine Drehung                   \\ \hline
+  L             & X             & X             & Keine Drehung                   \\ 
   \end{tabular}
 \end{table}
+\\
 
-Hierbei steht "H" für den High-Zustand (1) und "L" für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
+\noindent Hierbei steht "H" für den High-Zustand (1) und "L" für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
 
 \subsection{Achsenansteuerung}
 
-Aufgurnd der höheren Gewichtslast und der Sicherstellung einer konstanten Geschiwndigkeit, werden die x und Y Achsen durch eine XM Motor betrieben.
-Hierbei wird für jede Achse ein seperater Treiber benötigt.
+Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, werden die x und Y Achsen durch eine XM Motor betrieben.
+Hierbei wird für jede Achse ein separatere Treiber benötigt.
+\\
 
-Für die Z-Achse kann eine schwächere Variante des Motors verwendet werden, was wiedereum einen Treibe benötigen würde.
+\noindent Für die Z-Achse kann eine schwächere Variante des Motors verwendet werden, was wiederum einen Treibe benötigen würde.
 
 \subsection{Servo-Motor}
 
@@ -289,18 +292,16 @@ In diesem Fall könnte auf den Treiber verzichtet werden. Allerdings wäre die S
 Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für die Z-Achse verwendet.
 
 \subsection{Schaltplan}
-
-Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
-\begin{center}
+\begin{figure}[h]
 \includegraphics[width=8.5cm]{../images/schaltplan.png}
-\caption{Schaltplan}
-\label{Elektrik:Schaltplan}
-\end{center}
+\caption{Schaltplan der Treiber}\label{Elektrik:Schaltplan}
+\end{figure}
+
+Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung\ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
 
 \section{Softwaresteuerung}
 
 \subsection{Steuerung}
-
 Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
 war es dass die Steuerung in der Lage ist die einzelnen Motoren und weitere Hardware Komponenten
 zu kontrollieren. Hierzu haben wir uns folgende Möglichkeiten überlegt:
