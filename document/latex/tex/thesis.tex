@@ -162,34 +162,39 @@ dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich 
 
 \section{Elektrik}
 Der Aufbau der Elektrik sowie die Verbindung mit dem Micro-Controller basieren auf den Roboter Kit von Freenove. 
-Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER-Boards auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
+Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
 Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
+
+Für die Verbindung zwischen den System, Esp32-Wrover sowie der der Fischertechnik, wurden die Verbinndungskabel beider Systeme aufgetrennt und entsprechen miteinander neu verbunden.
+Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, dies ermöglicht eine sichere Verbindung zwischen den Komponenten.
 
 \subsection{Aufbau der Versuchsumgebung}
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board.png}
-\caption{Aufbau Entwicklungs-Board\autocite{freenoveTutorial}}\label{Elektrik:DevBoard}
+\caption{Aufbau Entwicklungs-Board \autocite{freenoveTutorial}}\label{Elektrik:DevBoard}
 \end{figure}
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/board2.png}
-\caption{Schaltung Entwicklungs-Board\autocite{freenoveTutorial}}\label{Elektrik:DevBoardInternal}
+\caption{Schaltung Entwicklungs-Board \autocite{freenoveTutorial}}\label{Elektrik:DevBoardInternal}
 \end{figure}
 
-In den Abbildung \ref{Elektrik:DevBoard} und \ref{Elektrik:DevBoardInternal} sind die einzelnen Leiterbahnen zu sehen, auf welchen die einzelnen Bauteile platziert werden können (grüne Linien). 
+Für den Aufbau der Schaltung wird ein Breadboard, Abbildung. \ref{Elektrik:DevBoard}; verwendet. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, diese werden in das Board gesteckt und durch Klemmung fixiert.
+
+In den Abbildung \ref{Elektrik:DevBoardInternal} sind die einzelnen Leiterbahnen zu sehen, auf welchen die Verbindungen durch Kabel oder Bauteilen hergestellt werden können (grüne Linien). 
 Dieser Aufbau ermöglicht bis zu 5 direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 
 \noindent Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit 5 V bzw. 3,3 V betrieben.
-Die Verbindungen zwischen dem Micro-Controller und dem Entwicklungsboard wird mithilfe eines Extension Boards hergestellt. Das Extension Board ist so konzipiert, 
-dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem ESP32-WROVER-Boards verbunden werden.
+Die Verbindungen zwischen dem Micro-Controller und dem Breadboard wird mithilfe eines Extension Boards hergestellt. Das Extension-Board ist so konzipiert, 
+dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Breadboard verbunden werden.
 
 \noindent Zu beachten ist hierbei das Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/ext_board.png}
-\caption{Schaltung Entwicklungs-Board\autocite{freenoveTutorial}}
+\caption{Schaltung Entwicklungs-Board \autocite{freenoveTutorial}}
 \label{Elektrik:DevBoardext}
 \end{figure}
 
@@ -246,7 +251,7 @@ sowie die Geschwindigkeit des Motors per PWM zu steuern.
 \begin{figure}[h]
   \centering
 \includegraphics[width=8.5cm]{../images/L293D.png}
-\caption{L293D Schaltplan\autocite{freenoveTutorial}}\label{Elektrik:L293D}
+\caption{L293D Schaltplan \autocite{freenoveTutorial}}\label{Elektrik:L293D}
 \end{figure}
 
 \subsection{Pulsweitenmodulation}
@@ -303,8 +308,8 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung\ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
 \subsection{IO Eingabe}
 
-Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Conntrollers wird über das ESP32-WROVER-Board hergestellt. 
-Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Extension Board gesteckt und somit direkt auf den Pin des Micro-Controllers verbunden.
+Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Conntrollers wird über das Breadboard hergestellt. 
+Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Breadboard gesteckt und werden durch das Extension Board  direkt auf den Pin des Micro-Controllers verbunden.
 
 \begin{figure}[h]
 \includegraphics[width=8.5cm]{../images/keypad.png}
