@@ -12,8 +12,6 @@
 
 \begin{document}
 
-\input{kapitel/abkuerzungen}
-
 % Titel des Dokuments
 \title{\dokumententitel}
 
@@ -167,6 +165,7 @@ dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich 
 Der Aufbau der Elektronik sowie die Verbindung mit dem Micro-Controller basieren auf den Roboter Kit von Freenove. 
 Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
 Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
+\\
 
 Für die Verbindung zwischen den System, Esp32-Wrover sowie der der Fischertechnik, wurden die Verbinndungskabel beider Systeme aufgetrennt und entsprechen miteinander neu verbunden.
 Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, dies ermöglicht eine sichere Verbindung zwischen den Komponenten.
@@ -235,12 +234,14 @@ Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motore
 \noindent Die Leistungsdaten des Motor sind wie folgt definiert. 
 \newline \textit{Die Angaben sind bei maximaler Leistung erhoben.}
 
-\begin{table}[h]\begin{tabular}{lllll}
-    \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
-  -XM\autocite{motorenXM} & $\qty{9}{V}__{DC}$ & \qty{337}{U\per\minute} & \qty{0,863}{A}& \qty{0,0587}{Nm} \\ 
-  -XS\autocite{motorenXS} & $\qty{9}{V}__{DC}$ & \qty{5663}{U\per\minute} & \qty{0,162}{A}& \qty{0,0010}{Nm} \\
-\end{tabular}\end{table}
-
+\begin{table}[h]
+  \begin{tabular}{lllll}
+      \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
+      -XM \autocite{motorenXM} & $\qty{9}{V}_{DC}$ & $\qty{337}{U/min}$ & $\qty{0.863}{A}$ & $\qty{0.0587}{Nm}$ \\ 
+      -XS \autocite{motorenXS} & $\qty{9}{V}_{DC}$ & $\qty{5663}{U/min}$ & $\qty{0.162}{A}$ & $\qty{0.0010}{Nm}$ \\
+  \end{tabular}
+  \end{table}
+  
 \noindent Da beide Motoren mit jeweils \qty{9}{V} Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
 da diese maximal \qty{5}{V} liefert. Obwohl ein Betrieb mit \qty{5}{V} möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
 wird eine \qty{9}{V} Stromversorgung angestrebt. Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
@@ -249,7 +250,7 @@ wird eine \qty{9}{V} Stromversorgung angestrebt. Eine Richtungsänderung der Mot
 
 Für die Ansteuerung der Motoren über den Micro-Controller wird ein separater Motortreiber, L293D, verwendet.
 Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip) und beinhaltet zwei interne H Brücken. Dies ermöglicht durch die Verwendung von zwei Kanälen die Drehrichtung 
-sowie die Geschwindigkeit des Motors per \acs{pwm}  zu steuern.
+sowie die Geschwindigkeit des Motors per PWM  zu steuern.
 
 \begin{figure}[h]
   \centering
@@ -257,16 +258,19 @@ sowie die Geschwindigkeit des Motors per \acs{pwm}  zu steuern.
 \caption{L293D Schaltplan \autocite{freenoveTutorial}}\label{Elektrik:L293D}
 \end{figure}
 
-\subsection{\acl{pwm}}
-\acf{pwm} ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
+\subsection{PWM}
+\emph{PWM} (\emph{Pulsweitenmodulation}) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
 sondern das Signal periodisch zwischen den Zuständen "An" und "Aus" gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
 bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird ein konstante Drehbewegung erreicht. 
+\\
 
-\noindent Das \ac{pwm} Signal wird vom ESP32 erzeugt und kann dort entsprechend modelliert werden. 
+\noindent Das PWM Signal wird vom ESP32 erzeugt und kann dort entsprechend modelliert werden. 
+\\
 
 \noindent In der aktuellen Konfiguration werden jedoch nur zwei Geschwindigkeiten benötigt: Stillstand (0) und maximale Geschwindigkeit. 
 Dies wird durch die entsprechende Taktfrequenz in der Software gesteuert und durch die Verbindung der 
 spezifizierten Pins des Micro-Controllers mit Pin 2 des Treibers realisiert.
+\\
 
 \noindent Die Ansteuerung des Motors über den Treiber wird mithilfe von Pin 1, Pin 2 und Pin 7 realisiert. 
 Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
@@ -282,11 +286,11 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
   H             & L             & H             & Drehung gegen den Uhrzeigersinn \\
   L             & X             & X             & Keine Drehung                   \\ 
   \end{tabular}
-  \caption{L293D Zustände \autocite{l293DataSheet}\label{Elektrik:zustand}
+  \caption{L293D Zustände \autocite{l293DataSheet}}\label{Elektrik:zustand}
 \end{table}
 \noindent Tabelle \ref{Elektrik:zustand} zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
 
-\noindent Hierbei steht \grqq{H} für den High-Zustand (1) und \grqq{L} für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
+\noindent Hierbei steht \grqq{H}\grqq{} für den High-Zustand (1) und \grqq{L}\grqq{} für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
 
 \subsection{Achsenansteuerung}
 
