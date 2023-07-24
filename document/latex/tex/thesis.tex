@@ -219,11 +219,6 @@ Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen
 \\
 
 
-\textit{’DC’ steht für direct current, zu Deutsch Gleichstrom und bedeutet, dass sich der Strom nicht über einen Zeitraum ändert. Bei einem DC-Motor oder im deutschen Gleichstrommotor handelt es sich um Elektromotoren, die im Wesentlichen aus
-einer elektrischen eine mechanische Energie erzeugen.} \autocite{metzgerkonzepte}
-\\
-
-
 \noindent Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen kann und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
 Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motoren verwendet.
 \begin{itemize}
@@ -235,10 +230,16 @@ Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motore
 \newline \textit{Die Angaben sind bei maximaler Leistung erhoben.}
 
 \begin{table}[h]
+  \caption{Leistungsdaten}
+  \label{Leistungsdaten}
+  \centering
   \begin{tabular}{lllll}
-      \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
-      -XM \autocite{motorenXM} & $\qty{9}{V}_{DC}$ & $\qty{337}{U/min}$ & $\qty{0.863}{A}$ & $\qty{0.0587}{Nm}$ \\ 
-      -XS \autocite{motorenXS} & $\qty{9}{V}_{DC}$ & $\qty{5663}{U/min}$ & $\qty{0.162}{A}$ & $\qty{0.0010}{Nm}$ \\
+    \toprule
+    \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
+    \midrule
+      XM \autocite{motorenXM} & $\qty{9}{V}_{DC}$ & $\qty{337}{U/min}$ & $\qty{0.863}{A}$ & $\qty{0.0587}{Nm}$ \\ 
+      XS \autocite{motorenXS} & $\qty{9}{V}_{DC}$ & $\qty{5663}{U/min}$ & $\qty{0.162}{A}$ & $\qty{0.0010}{Nm}$ \\
+    \bottomrule
   \end{tabular}
   \end{table}
   
@@ -279,16 +280,22 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
   \item Pin 2 und Pin 7 steuern die jeweilige Drehrichtung des Motors
 \end{itemize}
 
-\begin{table}[]
+\begin{table}[h]
+  \caption{Ansteuerung des Motortreibers \autocite{l293DataSheet}}
+  \label{AnsteuerungMotor}
+  \centering
   \begin{tabular}{llll}
-  \textbf{Pin1} & \textbf{Pin2} & \textbf{Pin2} & \textbf{Motor Bewegung}         \\ \hline
-  H             & H             & L             & Drehung im Uhrzeigersinn        \\
-  H             & L             & H             & Drehung gegen den Uhrzeigersinn \\
-  L             & X             & X             & Keine Drehung                   \\ 
+    \toprule
+    \textbf{Pin1} & \textbf{Pin2} & \textbf{Pin7} & \textbf{Motor Bewegung}   \\ \hline
+    \midrule
+    H             & H             & L             & Drehung im Uhrzeigersinn        \\
+    H             & L             & H             & Drehung gegen den Uhrzeigersinn \\
+    L             & X             & X             & Keine Drehung                   \\ 
+    \bottomrule
   \end{tabular}
-  \caption{L293D Zustände \autocite{l293DataSheet}}\label{Elektrik:zustand}
-\end{table}
-\noindent Tabelle \ref{Elektrik:zustand} zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
+  \end{table}
+  
+\noindent Tabelle \ref{AnsteuerungMotor} zeigt die Kombinationen der Zustände von Pin 1, Pin 2 und Pin 7 und die resultierende Motorbewegung:
 
 \noindent Hierbei steht \grqq{H}\grqq{} für den High-Zustand (1) und \grqq{L}\grqq{} für den Low-Zustand (0). Wenn Pin 1 auf Low (L) gesetzt wird, wird der Motor nicht gedreht.
 
