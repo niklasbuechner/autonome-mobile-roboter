@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToOrigin}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldOne}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldTwo}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldThree}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldFour}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldFive}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldSix}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldSeven}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldEight}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{moveRobotArmToFieldNine}\PYG{p}{();}
+\end{Verbatim}

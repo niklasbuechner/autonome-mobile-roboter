@@ -1,7 +1,5 @@
 \documentclass[conference,compsoc,final,a4paper]{IEEEtran}
 \usepackage[utf8]{inputenx}
-\usepackage{siunitx}
-\usepackage[cache=false]{minted}
 
 %% Bitte legen Sie hier den Titel und den Autor der Arbeit fest
 \newcommand{\autorA}[0]{Büchner, Jannis}
@@ -179,20 +177,16 @@ Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, dies ermöglich
 \caption{Aufbau Entwicklungs-Board \autocite{freenoveTutorial}}\label{Elektrik:DevBoard}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\includegraphics[width=8.5cm]{../images/board2.png}
-\caption{Schaltung Entwicklungs-Board \autocite{freenoveTutorial}}\label{Elektrik:DevBoardInternal}
-\end{figure}
 
 Für den Aufbau der Schaltung wird ein Breadboard, Abbildung. \ref{Elektrik:DevBoard}, verwendet. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, diese werden in das Board gesteckt und durch Klemmung fixiert.
+\\
 
-Die Klemmung wird durch die Leiterbahnen, Abbildung \ref{Elektrik:DevBoardInternal}, erzeugt und ergibt damit eine durchgehenede Verbindung wie in Abbildung \ref{Elektrik:DevBoard} durch die farbigen Linen angefeutet wird. 
+\noindent Die Klemmung wird durch die internen Leiterbahnen erzeugt und ergibt damit eine durchgehende Verbindung wie in Abbildung \ref{Elektrik:DevBoard} durch die farbigen Linien angedeutet wird. 
 Dieser Aufbau ermöglicht bis zu fünf direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
-
-\noindent Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit \qty{5}{V} bzw. \qty{3,3}{V} betrieben.
+Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit \qty{5}{V} bzw. \qty{3,3}{V} betrieben.
 Die Verbindungen zwischen dem Micro-Controller und dem Breadboard wird mithilfe eines Extension Boards hergestellt. Das Extension-Board ist so konzipiert, 
 dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Breadboard verbunden werden.
+\\
 
 \noindent Zu beachten ist, dass Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
@@ -202,9 +196,7 @@ dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Br
 \label{Elektrik:DevBoardext}
 \end{figure}
 
-\noindent Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind.
-
-\noindent Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
+\noindent Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind. Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
 Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
 
 \subsection{Ansteuerung der Motoren}
@@ -237,7 +229,7 @@ Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motore
   \centering
   \begin{tabular}{lllll}
     \toprule
-    \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\ \hline
+    \textbf{Motor} & \textbf{V} & \textbf{n\textsubscript{max}} & \textbf{I\textsubscript{max}} & \textbf{M\textsubscript{max}} \\
     \midrule
       XM \autocite{motorenXM} & $\qty{9}{V}_{DC}$ & $\qty{337}{U/min}$ & $\qty{0.863}{A}$ & $\qty{0.0587}{Nm}$ \\ 
       XS \autocite{motorenXS} & $\qty{9}{V}_{DC}$ & $\qty{5663}{U/min}$ & $\qty{0.162}{A}$ & $\qty{0.0010}{Nm}$ \\
@@ -288,7 +280,7 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
   \centering
   \begin{tabular}{llll}
     \toprule
-    \textbf{Pin1} & \textbf{Pin2} & \textbf{Pin7} & \textbf{Motor Bewegung}   \\ \hline
+    \textbf{Pin1} & \textbf{Pin2} & \textbf{Pin7} & \textbf{Motor Bewegung}  \\ 
     \midrule
     H             & H             & L             & Drehung im Uhrzeigersinn        \\
     H             & L             & H             & Drehung gegen den Uhrzeigersinn \\

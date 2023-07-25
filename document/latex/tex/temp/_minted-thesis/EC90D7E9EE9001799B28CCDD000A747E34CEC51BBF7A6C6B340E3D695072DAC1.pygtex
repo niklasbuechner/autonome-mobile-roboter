@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawCross}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawCircle}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawHorizontalWinningLine}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawVerticalWinningLine}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawTopToBottomWinningLine}\PYG{p}{();}
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{drawBottomToTopWinningLine}\PYG{p}{();}
+\end{Verbatim}

@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{waitUntilGameStarts}\PYG{p}{();}
+\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n+nf}{getFieldSelectedByPlayer}\PYG{p}{();}
+\end{Verbatim}
