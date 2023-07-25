@@ -1,6 +1,7 @@
 FROM ubuntu:latest
 
 RUN export DEBIAN_FRONTEND=noninteractive && apt update && apt install -y texlive-full
+RUN export DEBIAN_FRONTEND=noninteractive && apt install -y python3-pygments
 RUN mkdir /host-mounted/
 
 COPY latex/create.sh /bin/create.sh

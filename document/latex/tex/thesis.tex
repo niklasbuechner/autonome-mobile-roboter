@@ -1,6 +1,7 @@
 \documentclass[conference,compsoc,final,a4paper]{IEEEtran}
 \usepackage[utf8]{inputenx}
 \usepackage{siunitx}
+\usepackage[cache=false]{minted}
 
 %% Bitte legen Sie hier den Titel und den Autor der Arbeit fest
 \newcommand{\autorA}[0]{Büchner, Jannis}
@@ -340,17 +341,17 @@ Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Star
 
 Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf diese Schnittstelle abgebildet werden.
 
-\section{Softwaresteuerung}
+\section{Software}
 
 \subsection{Steuerung}
 Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
-war es dass die Steuerung in der Lage ist die einzelnen Motoren und weitere Hardware Komponenten
+war es, dass die Steuerung in der Lage ist, die einzelnen Motoren und weitere Hardware Komponenten
 zu kontrollieren. Hierzu haben wir uns folgende Möglichkeiten überlegt:
 
 \begin{itemize}
   \item Steuerung über einen externen Computer
   \item Steuerung über eine mobile App
-  \item Steuerung über einen Prozessor mit eingebautem Code
+  \item Steuerung über einen Prozessor mit integriertem Code
 \end{itemize}
 
 Die Steuerung über einen externen Computer wurde als erste Lösung betrachtet. Der Vorteil
@@ -382,7 +383,7 @@ drahtlose Kommunikation zustande kommen könnten. Nachteilig ist hier, dass der 
 vergleichsweise umständlich verändert werden kann. Da der Roboter nur für den aktuell singulären
 Zweck des Tik-Tak-Toe spielen geschaffen wurde, wiegt dieser Nachteil allerdings nicht schwer.
 
-\subsection{Tik-Tak-Toe Algorithmus}
+\subsection{Tik-Tak-Toe-Algorithmus}
 
 Für den Tik-Tak-Toe Algorithmus wurde ein in C implementierter Algorithmus erstellt, der direkt auf
 den ESP32-WROOM eingebettet wurde. Hierbei wurde großer Wert auf eine kompakte und einfache
@@ -394,11 +395,11 @@ Damit ist die Logik des Spiels einfach nachzuvollziehen, da sie von oben nach un
 Um dieses Ziel zu erfüllen, wurden alle Bewegungen des Roboters als blockierende Calls im Programm
 umgesetzt.
 
-Kompakt wurde die Speichernutzung gehalten, indem das Spielfeld in zwei einzelne 16Bit Integer integriert wurde.
-Da das Spielfeld nur 9 Felder hat, werden nur 9Bit pro Spieler benötigt, um zu speichern, ob der Spieler
-auf dem jeweiligen Feld aktiv ist. Damit sind 16Bit Integer die kleinst mögliche Speichereinheit, in der
+Kompakt wurde die Speichernutzung gehalten, indem das Spielfeld in zwei einzelne 16\,Bit Integer integriert wurde.
+Da das Spielfeld nur 9 Felder hat, werden nur 9\,Bit pro Spieler benötigt, um zu speichern, ob der Spieler
+auf dem jeweiligen Feld aktiv ist. Damit sind 16\,Bit Integer die kleinst mögliche Speichereinheit, in der
 diese Daten für einen Spieler gespeichert werden kann. Alle möglichen Gewinnstellungen werden entsprechend
-auch von einem einzelnen 16Bit Integer repräsentiert. Um herauszufinden, ob ein Spieler gewonnen hat, kann
+auch von einem einzelnen 16\,Bit Integer repräsentiert. Um herauszufinden, ob ein Spieler gewonnen hat, kann
 nun die Gewinnposition per bitweisem UND mit dem Spielfeld vergleichen und wenn das Ergebnis der Operation
 der Gewinnposition entspricht, hat der Spieler diese erreicht.
 
@@ -424,10 +425,10 @@ optimale Abstraktion und Testbarkeit der Software.
 
 Die Schnittstelle lässt sich in 4 Teile unterteilen.
 
-\begin{verbatim}
+\begin{minted}{c}
 void waitUntilGameStarts();
 int getFieldSelectedByPlayer();
-\end{verbatim}
+\end{minted}
 
 Der oben aufgeführten erste Teil beinhaltet Funktionen, deren Aufgabe alle Nutzereingaben abdecken.
 Ihre Aufgabe ist es so lange die weitere Ausführung des Programms zu blockieren,
@@ -443,7 +444,7 @@ In diesen Funktionen wurden später auch die Möglichkeit eingebaut, alle Achsen
 Hand zu steuern, um ihn richtig ausrichten zu können. Dies ermöglicht es, dass hardware-nahe Funktionen
 nicht im Spielalgorithmus verankert werden müssen und dennoch gut eingebaut werden konnten.
 
-\begin{verbatim}
+\begin{minted}{c}
 void moveRobotArmToOrigin();
 void moveRobotArmToFieldOne();
 void moveRobotArmToFieldTwo();
@@ -454,7 +455,7 @@ void moveRobotArmToFieldSix();
 void moveRobotArmToFieldSeven();
 void moveRobotArmToFieldEight();
 void moveRobotArmToFieldNine();
-\end{verbatim}
+\end{minted}
 
 Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen. Diese haben
 zum einen den Zweck zu einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier,
@@ -468,14 +469,14 @@ daher durch die Größe des Spielfelds festgesetzt. Dies beträgt 6 Sekunden, wa
 
 Dies ist der dritte Teil:
 
-\begin{verbatim}
+\begin{minted}{c}
 void drawCross();
 void drawCircle();
 void drawHorizontalWinningLine();
 void drawVerticalWinningLine();
 void drawTopToBottomWinningLine();
 void drawBottomToTopWinningLine();
-\end{verbatim}
+\end{minted}
 
 Der dritte Teil der Schnittstelle beschäftigt sich mit den Zeichenanweisungen des Roboters. Hierbei legt der
 Tik-Tak-Toe Algorithmus fest, was gezeichnet werden soll. Die exakten Details der Bewegung und wann der Stift
@@ -487,9 +488,9 @@ Geschwindigkeit des Motors sowohl auf X als auch auf Y Achse in kurzen Intervall
 guten Kreis zu erhalten wurde hierbei als zu aufwändig eingestuft und der Fokus eher auf das Spielverhalten
 des Roboters gelegt wurde.
 
-\begin{verbatim}
+\begin{minted}{c}
 void showCannotPlayMove();
-\end{verbatim}
+\end{minted}
 
 Zu letzt benötigt der Roboter eine Möglichkeit zu kommunizieren, dass ein Spielzug nicht gespielt werden kann,
 weil dieser schon von einem anderen Spieler zuvor gespielt wurde. Dies stellt den vierten und letzten Teil der
