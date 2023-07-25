@@ -309,17 +309,17 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
 
 \subsection{Achsenansteuerung}
 
-Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, werden die x und Y Achsen durch eine XM Motor betrieben.
+Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, werden die $x$ und $y$-Achsen durch eine XM Motor betrieben.
 Hierbei wird für jede Achse ein separatere Treiber benötigt.
 \\
 
-\noindent Für die Z-Achse kann eine schwächere Variante des Motors verwendet werden, was wiederum einen Treibe benötigen würde.
+\noindent Für die $z$-Achse kann eine schwächere Variante des Motors verwendet werden, was wiederum einen Treibe benötigen würde.
 
 \subsection{Servo-Motor}
 
-Als Alternative könnte ein Servo-Motor verwendet werden, der die Höhe der Z-Achse über einen Arm verändert. 
+Als Alternative könnte ein Servo-Motor verwendet werden, der die Höhe der $z$-Achse über einen Arm verändert. 
 In diesem Fall könnte auf den Treiber verzichtet werden. Allerdings wäre die Systemkompatibilität mit der Mechanik aufgrund der Nicht-Fischertechnik-Teile nicht gegeben. 
-Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für die Z-Achse verwendet.
+Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für die $z$-Achse verwendet.
 
 \subsection{Schaltplan}
 \begin{figure}[h]
@@ -342,7 +342,7 @@ Wie in Abbildung \ref{Elektrik:Keypad} zu sehen ist, ist das Keypad mit jeweils 
 Sobald eine Taste betätigt wird, wird ein entsprechender Schaltkreis geschlossen und die jeweilige Taste kann bestimmt werden.
 
 Die Tasten 1 bis 9 repräsentieren entsprechend die Felder des Tik-Tak-Toe Spielfeldes und dienen zur Auswahl des gewünschten Feldes. 
-Die weiteren Tasten werden zur Steuerung der Einzelnen Achse verwendet.
+Die weiteren Tasten werden zur Steuerung der einzelnen Achse verwendet.
 Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Startpostion für das Spiel Manuel justiert werden.
 
 Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf diese Schnittstelle abgebildet werden.
@@ -469,9 +469,9 @@ dass die Hardware den aktuellen Ort des Stiftes kennen muss, um diesen nach dem 
 wieder zurück zum Ausgangspunkt navigieren zu können.
 
 Zur Navigation des Robots wird auf allen Achsen auf Zeitangaben gesetzt, in denen die Motoren aktiviert werden. Die
-aktuelle Position des Roboters wird daher als Zeit der aktivierten Motoren gespeichert. Die zugrundeliegende Annahme
-ist, dass sich ein Motor in beide Richtungen gleich schnell dreht. Die größe des impliziten Koordinatensystems wird
-daher durch die Größe des Spielfelds festgesetzt. Dies beträgt 6 Sekunden, was bei den Motoren ca. 8cm entspricht.
+aktuelle Position des Roboters wird aus der Zeit der aktivierten Motoren abgeleitet. Die zugrundeliegende Annahme
+ist, dass sich ein Motor in beide Richtungen gleich schnell dreht. Die Größe des impliziten Koordinatensystems wird
+daher durch die Größe des Spielfelds festgesetzt.
 
 Dies ist der dritte Teil:
 
@@ -490,7 +490,7 @@ auf das Blatt abgesetzt und gehoben werden muss, wurden auch hier als hardware-s
 
 Der Roboter zeichnet ein Kreuz, wie in Tik-Tak-Toe üblich, ersetzt aber den Kreis durch ein Viereck. Dies ist
 der einfacheren Ansteuerung der Motoren bei geraden Linie geschuldet. Um einen Kreis zu zeichen, muss die
-Geschwindigkeit des Motors sowohl auf X als auch auf Y Achse in kurzen Intervallen angepasst werden. Einen 
+Geschwindigkeit des Motors sowohl auf $x$ als auch auf $y$-Achse in kurzen Intervallen angepasst werden. Einen 
 guten Kreis zu erhalten wurde hierbei als zu aufwändig eingestuft und der Fokus eher auf das Spielverhalten
 des Roboters gelegt wurde.
 
@@ -522,7 +522,7 @@ leicht vom Papier weggedrückt wird. Dies ist nötig, da der Stift mit etwas Dru
 Tinte zu hinterlassen. Zwar konnte der benötigte Druck durch Einsatz eines Filsstifts statt eines Kugelschreibers reduziert werden,
 allerdings wird weiterhin etwas Druck benötigt, was die Halterung anhebt.
 
-Ein ähnliches Problem besitzt auch die Y-Achse welche sich leicht zusammenzieht, wenn der Schlitten an das Ende der Achse ankommt.
+Ein ähnliches Problem besitzt auch die $y$-Achse welche sich leicht zusammenzieht, wenn der Schlitten an das Ende der Achse ankommt.
 
 Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Eine
 mögliche Lösung sind hier Endschalter, die aktiviert werden, sobald der Roboter das Ende der jeweiligen Achse erreicht. Diese wurden
