@@ -81,66 +81,63 @@ vorgestellt. Hierbei zuerst auf allgemeine Aspekte des Aufbaus eingegangen und a
 \subsection{Allgemeiner Aufbau}
 
 Um den Plotter zu bauen wurde Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese
-Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lass sich lineare Bewegungen mithilfe von Spindelgetrieben
-oder Kegelzahnräder einfach realisieren lassen.
+Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lassen sich lineare Bewegungen mithilfe von Spindelgetrieben
+ einfach realisieren.
 
 Die Spindelgetriebe haben den Vorteil, dass sie aus einzelnen Schneckenteilen bestehen, die nacheinander auf eine Achse geschoben
-werden und dadurch in verschiedenen Längen konstruiert werden können. Damit die Schneckenteile nicht verrutschen befinden sich an
+werden und dadurch in verschiedenen Längen konstruiert werden können. Damit die Schneckenteile nicht verrutschen, befinden sich an
 den Enden klemmbare Schnecken, die mithilfe von Spannzangen fixiert werden. Letztlich befindet sich an jeder Achse noch ein Zahnrad,
-das zum Antrieb des Spindelgetriebe genutzt wird.
+das zum Antrieb des Spindelgetriebes genutzt wird.
 
-Die Bewegungen in x, y und z-Richtung werden separat voneinander gesteuert. Im Prinzip ist der Plotter somit aus drei Schichten
-aufgebaut. Die unterste Schicht, der Grundrahmen, ist für die Bewegung in x-Richtung, also vor und zurück, zuständig. Darauf
-sitzen zwei y-Schlitten, die die mittlere Schicht darstellen. Diese sorgt für die Bewegung nach links und rechts, in y-Richtung.
-Darauf sitzt der Stiftehalter, der in z-Richtung nach oben und unten bewegt werden kann.
+Die Bewegungen in $x$, $y$ und $z$-Richtung werden separat voneinander gesteuert. Im Prinzip ist der Plotter somit aus drei Schichten
+aufgebaut. Die unterste Schicht, der Grundrahmen, ist für die Bewegung in $x$-Richtung, also vor und zurück, zuständig. Darauf
+sitzen zwei $y$-Schlitten, die die mittlere Schicht darstellen. Diese sorgt für die Bewegung nach links und rechts, in $y$-Richtung.
+Darauf sitzt der Stiftehalter, der in $z$-Richtung nach oben und unten bewegt werden kann.
 
 Der Grundrahmen besteht aus jeweils einer Achse und einem Spindelgetriebe, die sich links und rechts am Plotter befinden und an
-den Enden auf zwei Basisplatten befestigt sind. Auf jedem Paar aus Achse und Spindelgetriebe befindet sich ein y-Schlitten, welcher
-durch die Drehbewegung des Spindelgetriebes nach vorne und hinten bewegt wird. Die Aufgabe der Achsen ist die Lasten und Momente
-aufzunehmen. Ein Aufbau aus nur einem Spindelgetriebe und zwei Achsen hätte zur Folge, dass entweder das zu kompensierende Drehmoment
-sehr groß gewesen wäre, wenn beide Achsen auf derselben Seite des Plotters angebracht worden wären oder die zwei Schlitten, sich nicht
-gleichmäßig bewegt hätten, sondern verzogen hätten, wären die Achsen auf unterschiedlichen Seiten des Plotters angebracht worden.
-Eine zweite Achse musste aber unbedingt eingebaut werden, weil sonst das Getriebe das Drehmoment kompensieren müsste, wofür es aber
-nicht geeignet ist.
+den Enden auf zwei Basisplatten befestigt sind. Auf jedem Paar aus Achse und Spindelgetriebe befindet sich ein $y$-Schlitten, welcher
+durch die Drehbewegung des Spindelgetriebes nach vorne und hinten bewegt wird. Die Aufgabe der Achsen ist, die Lasten und Momente
+aufzunehmen. Aus diesem Grund müssen auch zwei Achsen verbaut werden, eine reicht nicht aus.
+Theoretisch wäre es möglich gewesen, nur ein Spindelgetriebe einzubauen. Das hätte aber andere Probleme mit sich gebracht. Wären beide Achsen auf derselben Seite des Plotters angebracht worden, wäre das zu kompensierende Drehmoment sehr groß. Die andere Option, die Achsen auf gegenüberliegende Seiten des Plotters anzubringen, hätte bedeutet, dass sich die beiden Schlitten nicht gleichmäßig bewegen, sondern verzerrt bewegt hätten.
 
-\subsection{X-Achse}
+\subsection{$x$-Achse}
 
-Damit sich die Spindelgetriebe der X-Achse gleich schnell und gleichzeitig drehen, sind diese mithilfe von einer Kette (bestehend aus einzelnen
+Damit sich die Spindelgetriebe der $x$-Achse gleich schnell und gleichzeitig drehen, sind diese mithilfe von einer Kette (bestehend aus einzelnen
 Rastkettengliedern) verbunden. Dadurch wird eine gleichmäßige Bewegung gewährleistet und die Schlitten, die obendrauf sitzen,
 verziehen sich nicht. Die Bewegung in x-Richtung wird durch einen XM-Motor von Fischertechnik ausgeführt, welcher auf einer
-Basisplatte sitzt und eine der Getriebe mithilfe von Zahnrädern antreibt. Das Zahnrad an der Antriebswelle wurde so klein wie möglich
-gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten
-sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, um mechanische Ungenauigkeiten, die zu einem
+Basisplatte sitzt und eines der Getriebe mithilfe von Zahnrädern antreibt. Der Aufbau des Antriebes der $x$-Achse ist in Abbildung \ref{fig:AufbauxAchse} zu sehen.
+
+Das Zahnrad an der Antriebswelle wurde so klein wie möglich gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten
+sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, umIm  mechanische Ungenauigkeiten, die zu einem
 größeren Widerstand führen, zu kompensieren. 
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/xAchse.png}
-\caption{Antriebssystem der x-Achse (Ansicht von hinten)}
-\label{Mechanik:Aufbau}
+\caption{Antriebssystem der $x$-Achse (Ansicht von hinten)}
+\label{fig:AufbauxAchse}
 \end{figure}
 
-\subsection{Y-Achse}
+\subsection{$y$-Achse}
 
 Die zwei y-Schlitten sind ebenfalls mit zwei Achsen und einem Spindelgetriebe verbunden. Auch hier nehmen die Achsen das Gewicht
-sowie das resultierende Drehmoment des Stiftehalter auf. Im Gegensatz zum Aufbau in x-Richtung befinden sind diese übereinander angeordnet,
-damit der Aufbau nicht zu sehr nach vorne ragt, sondern stattdessen in die Höhe. Der Nachteil dabei ist aber, dass sich der Stift nicht
-zwischen den Achsen befindet, was zu einem exzentrischen Kraftfluss führt und somit ein größeres Drehmoment nach sich zieht. 
-Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas leistungsschwacher als der für die x-Bewegung. Dies hat
-den Vorteil, dass er sehr viel kleiner und leichter ist. Dadurch kann er direkt auf einem der zwei y-Schlitten angebracht werden, ohne
-ein Ungleichgewicht zu erzeugen. Auch hier wird die Kraftübertragung zwischen der Antriebswelle des Motors und der Abtriebwelle des
-Spindelgetriebes mithilfe von Zahnrädern ermöglicht. 
+sowie das resultierende Drehmoment des Stiftehalter auf. Im Gegensatz zum Aufbau in $x$-Richtung befinden sind diese übereinander angeordnet,
+damit der Aufbau nicht zu sehr nach vorne ragt, sondern stattdessen in die Höhe. Dadurch, dass die Achsen übereinander liegen, wirkt ein Moment auch auf die Schlitten an sich. Wenn der Stift also zu stark auf das Papier gedrückt wird, wird der Aufbau etwas nach hinten gedrückt. Dieses Problem wäre nicht vorhanden, wenn die Achsen nebeneinander angeordnet wären. Dafür würde der Aufbau in das Sichtfeld des Nutzers ragen und die Bewegung in $x$-Richtung wäre weiter eingeschränkt. 
+Der Motor (Motor XS von Fischertechnik), der die y-Bewegung ausführt, ist etwas leistungsschwacher als der für die $x$-Bewegung. Dies hat
+den Vorteil, dass er sehr viel kleiner und leichter ist. Dadurch kann er direkt auf einem der zwei y-Schlitten angebracht werden (Siehe Abbildung \ref{fig:AufbauyAchse}), ohne
+ein Ungleichgewicht zu erzeugen. Auch hier wird die Kraftübertragung zwischen der Antriebswelle des Motors und der Abtriebswelle des
+Spindelgetriebes mithilfe von Zahnrädern ermöglicht. Das gesamte Antriebssystem der $y$-Achse ist in Abbildung ... dargestellt.
 
 \begin{figure}[h]
 \centering
 \includegraphics[width=8.5cm]{../images/yAchse.png}
-\caption{Antriebssystem der y-Achse (Ansicht von der Seite)}
-\label{Mechanik:Aufbau}
+\caption{Antriebssystem der $y$-Achse (Ansicht von der Seite)}
+\label{fig:AufbauyAchse}
 \end{figure}
 
-\subsection{Z-Achse}
+\subsection{$z$-Achse}
 
-Auf der y-Achse befindet sich ein weiterer Schlitten, welcher die Z-Achse darstellt und der im Großen und Ganzen aus zwei Teilen besteht. 
+Auf der $y$-Achse befindet sich ein weiterer Schlitten, welcher die $z$-Achse darstellt und der im Großen und Ganzen aus zwei Teilen besteht. 
 Der eine Teil ist für das Anheben und Absetzen des Stiftes zuständig. Dieser besteht aus einer Rastachse mit Schnecke, die über
 Kegelzahnräder bewegt wird. Auf der Schnecke befindet sich eine Schneckenmutter, deren Drehbewegung verhindert wird, indem sie an einem
 Klotz festgemacht ist, durch den eine parallele Achse geht. Dadurch werden die Mutter und der Klotz gezwungen sich nach oben und unten zu
@@ -158,7 +155,7 @@ dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich 
 \centering
 \includegraphics[width=8.5cm]{../images/zAchse.png}
 \caption{Stifthalter}
-\label{Mechanik:Aufbau}
+\label{fig:AufbauzAchse}
 \end{figure}
 
 \section{Elektronik}
