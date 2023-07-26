@@ -500,12 +500,15 @@ Hardwarezugriff zu benötigen.
 
 \section{Fazit und Ausblick}
 
+Dieser Abschnitt gibt einen Überblick über die offenen Probleme der Lösung, deren positiven 
+Aspekte sowie einen Ausblick was mit dem Roboter noch alles abgebildet werden kann.
+
 \subsection{Offene Probleme}
 
 Auf mechanischer Ebene besitzt der Roboter viel Spiel, was die exakte Steuerung schwierig macht. Ein Problem mit der Anordnung
 des Motors und des kleinen Zahnrades ist, dass die
-Antriebswelle nicht fixiert werden kann und sich erstmal schräg stellt, bevor das große Zahnrad anfängt sich zu drehen. Jegliche
-Idee die Welle zu fixieren hätte dazu geführt, dass die Konstruktion an der Kette reibt. Um dieses Problem zu lösen hätte es größere
+Antriebswelle nicht fixiert werden kann und sich schräg stellt, bevor das große Zahnrad anfängt, sich zu drehen. Eine Fixireung der Welle hätte zur Reibung der Kette an den Bausteinen geführt.
+Um dieses Problem zu lösen hätte es größere
 Umbauten am gesamten Plotter benötigt, die aufgrund des späten Zeitpunktes, zu dem der Motor angekommen ist, nicht mehr möglich waren.
 
 Auch die Stabilität anderer Bausteine verursachen Spiel im Roboter. So sorgt das Aufsetzen des Stiftes dafür, dass dessen Halterung
@@ -513,11 +516,13 @@ leicht vom Papier weggedrückt wird. Dies ist nötig, da der Stift mit etwas Dru
 Tinte zu hinterlassen. Zwar konnte der benötigte Druck durch Einsatz eines Filsstifts statt eines Kugelschreibers reduziert werden,
 allerdings wird weiterhin etwas Druck benötigt, was die Halterung anhebt.
 
-Ein ähnliches Problem besitzt auch die $y$-Achse welche sich leicht zusammenzieht, wenn der Schlitten an das Ende der Achse ankommt.
+Ein ähnliches Problem besitzt auch die $y$-Achse welche sich leicht zusammenzieht, wenn der Schlitten das Ende der Achse erreicht.
 
-Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Eine
+Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Dieses Problem konnte nicht durch eine Kalibration gelöst werden, da der Geschwindigkeitsunterschied abhängig von der Leistung der Stromversorgung ist. Eine
 mögliche Lösung sind hier Endschalter, die aktiviert werden, sobald der Roboter das Ende der jeweiligen Achse erreicht. Diese wurden
-auf Grund an mangelnder Anzahl an Pins am Chip und späten Auftretens im Projekt nicht genutzt.
+auf Grund an mangelnder Anzahl an Pins am Chip und späten Auftretens im Projekt nicht genutzt. Zusätzlich
+hätte die Software nicht mehr mit blockierenden Code arbeiten können, da man auf die Entschalter im Code
+reagieren muss. Dies hätte einen kompletten Umbau des Codes zur Folge gehabt.
 
 \subsection{Positive Aspekte}
 
