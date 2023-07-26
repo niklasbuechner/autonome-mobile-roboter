@@ -178,10 +178,9 @@ Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik be
 Der Aufbau der Elektronik sowie die Verbindung mit dem Micro-Controller basieren auf den Roboter Kit von Freenove. 
 Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
 Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
-\\
 
-Für die Verbindung zwischen den System, Esp32-Wrover sowie der der Fischertechnik, wurden die Verbinndungskabel beider Systeme aufgetrennt und entsprechen miteinander neu verbunden.
-Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, dies ermöglicht eine sichere Verbindung zwischen den Komponenten.
+Für die Verbindung zwischen dem System, dem ESP32-WROVER sowie der der Fischertechnik, wurden die Verbinndungskabel beider Systeme aufgetrennt und entsprechen miteinander neu verbunden.
+Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, diese ermöglichen eine sichere Verbindung zwischen den Komponenten.
 
 \subsection{Aufbau der Versuchsumgebung}
 \begin{figure}[h]
@@ -191,15 +190,13 @@ Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, dies ermöglich
 \end{figure}
 
 
-Für den Aufbau der Schaltung wird ein Breadboard, Abbildung. \ref{Elektrik:DevBoard}, verwendet. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, diese werden in das Board gesteckt und durch Klemmung fixiert.
-\\
+Für den Aufbau der Schaltung wird ein Breadboard verwendet, welches in Abbildung \ref{Elektrik:DevBoard} dargestellt ist. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, diese werden in das Board gesteckt und durch Klemmung fixiert.
 
-\noindent Die Klemmung wird durch die internen Leiterbahnen erzeugt und ergibt damit eine durchgehende Verbindung wie in Abbildung \ref{Elektrik:DevBoard} durch die farbigen Linien angedeutet wird. 
+\noindent Die Klemmung wird durch die internen Leiterbahnen erzeugt und ergibt damit eine durchgehende Verbindung, wie in Abbildung \ref{Elektrik:DevBoard} durch die farbigen Linien angedeutet wird. 
 Dieser Aufbau ermöglicht bis zu fünf direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit \qty{5}{V} bzw. \qty{3,3}{V} betrieben.
 Die Verbindungen zwischen dem Micro-Controller und dem Breadboard wird mithilfe eines Extension Boards hergestellt. Das Extension-Board ist so konzipiert, 
 dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Breadboard verbunden werden.
-\\
 
 \noindent Zu beachten ist, dass Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
@@ -210,12 +207,12 @@ dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Br
 \end{figure}
 
 \noindent Die durch die Platzierung des Extensions-Boards verwendeten Leiterbahnen sind für die aktuelle Schaltung unerheblich, da die verfügbaren Leiterbahnen ausreichend sind. Der Vorteil dieser Vorgehensweise besteht darin, dass durch das Stecksystem keine permanente Verbindung erzeugt werden muss. 
-Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den Vergleich der potenziell verfügbaren Antriebsarten.
+Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen und den schnellen Vergleich der potenziell verfügbaren Antriebsarten.
 
 \subsection{Ansteuerung der Motoren}
 Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegungen sind zwei verschiedene Motortypen untersucht worden.
 
-\begin{itemize}[h]
+\begin{itemize}
 	\item Servo-Motor
 	\item Gleichstrom-Elektromotor
 \end{itemize}
@@ -223,12 +220,11 @@ Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegunge
 \subsection{Gleichstrom-Elektromotoren}
 \noindent Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. 
 Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
-\\
 
 
 \noindent Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen kann und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
 Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motoren verwendet.
-\begin{itemize}[h]
+\begin{itemize}
 \item Motor XM \qty{9}{V}
 \item Motor XS \qty{9}{V}
 \end{itemize}
@@ -248,7 +244,7 @@ Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motore
       XS \autocite{motorenXS} & $\qty{9}{V}_{DC}$ & $\qty{5663}{U/min}$ & $\qty{0.162}{A}$ & $\qty{0.0010}{Nm}$ \\
     \bottomrule
   \end{tabular}
-  \end{table}
+\end{table}
   
 \noindent Da beide Motoren mit jeweils \qty{9}{V} Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
 da diese maximal \qty{5}{V} liefert. Obwohl ein Betrieb mit \qty{5}{V} möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
@@ -256,9 +252,9 @@ wird eine \qty{9}{V} Stromversorgung angestrebt. Eine Richtungsänderung der Mot
 
 \subsection{Motortreiber}
 
-Für die Ansteuerung der Motoren über den Micro-Controller wird ein separater Motortreiber, L293D, verwendet.
-Dieser gehört zur Familie der IC Chips (Integrated Circuit Chip) und beinhaltet zwei interne H Brücken. Dies ermöglicht durch die Verwendung von zwei Kanälen die Drehrichtung 
-sowie die Geschwindigkeit des Motors per PWM  zu steuern.
+Für die Ansteuerung der Motoren über den Micro-Controller wird der separate Motortreiber L293D verwendet.
+Dieser gehört zur Familie der \emph{IC Chips} (\emph{Integrated Circuit Chip}) und beinhaltet zwei interne H Brücken. Dies ermöglicht durch die Verwendung von zwei Kanälen die Drehrichtung 
+sowie die Geschwindigkeit des Motors per Pulsweitenmodulation (PWM)  zu steuern.
 
 \begin{figure}[h]
   \centering
@@ -267,18 +263,15 @@ sowie die Geschwindigkeit des Motors per PWM  zu steuern.
 \end{figure}
 
 \subsection{PWM}
-\emph{PWM} (\emph{Pulsweitenmodulation}) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
+Die \emph{Pulsweitenmodulation} (\emph{PWM}) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
 sondern das Signal periodisch zwischen den Zuständen "An" und "Aus" gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
 bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird ein konstante Drehbewegung erreicht. 
-\\
 
-\noindent Das PWM Signal wird vom ESP32 erzeugt und kann dort entsprechend modelliert werden. 
-\\
+\noindent Das PWM Signal wird vom ESP32-WROVER erzeugt und kann dort entsprechend modelliert werden. 
 
 \noindent In der aktuellen Konfiguration werden jedoch nur zwei Geschwindigkeiten benötigt: Stillstand (0) und maximale Geschwindigkeit. 
 Dies wird durch die entsprechende Taktfrequenz in der Software gesteuert und durch die Verbindung der 
 spezifizierten Pins des Micro-Controllers mit Pin 2 des Treibers realisiert.
-\\
 
 \noindent Die Ansteuerung des Motors über den Treiber wird mithilfe von Pin 1, Pin 2 und Pin 7 realisiert. 
 Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
@@ -325,10 +318,10 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 \caption{schematische Darstellung der Verbindung zwischen den Treibern und des Micro-Controllers}\label{Elektrik:Schaltplan}
 \end{figure}
 
-Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung\ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
+Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung \ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
 \subsection{IO Eingabe}
 
-Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Conntrollers wird über das Breadboard hergestellt. 
+Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Controllers wird über das Breadboard hergestellt. 
 Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Breadboard gesteckt und werden durch das Extension Board  direkt auf den Pin des Micro-Controllers verbunden.
 
 \begin{figure}[h]
@@ -341,9 +334,9 @@ Sobald eine Taste betätigt wird, wird ein entsprechender Schaltkreis geschlosse
 
 Die Tasten 1 bis 9 repräsentieren entsprechend die Felder des Tik-Tak-Toe Spielfeldes und dienen zur Auswahl des gewünschten Feldes. 
 Die weiteren Tasten werden zur Steuerung der einzelnen Achse verwendet.
-Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Startpostion für das Spiel Manuel justiert werden.
+Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Startpostion für das Spiel manuell justiert werden.
 
-Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf diese Schnittstelle abgebildet werden.
+Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf dieser Schnittstelle abgebildet werden.
 
 \section{Software}
 
