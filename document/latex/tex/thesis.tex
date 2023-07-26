@@ -40,7 +40,7 @@
 % Kurze Zusammenfassung des Dokuments
 \begin{abstract}
 
-Im Rahmen der Veranstaltung autonome mobile Roboter wird das Ziel verfolgt einen Roboter zu konstruieren, der in der Lage ist, auf einem Blatt Papier Tik-Tak-Toe zu spielen. Dieser Bericht beschreibt, wie die Mechanik, Elektronik und die Software erstellt wurden. 
+Im Rahmen der Veranstaltung autonome mobile Roboter wird das Ziel verfolgt einen Roboter zu konstruieren, der in der Lage ist, auf einem Blatt Papier Tik-Tak-Toe zu spielen. Dieser Bericht beschreibt die entwickelte Mechanik, Elektronik und Software. 
 Die Herausforderung besteht vor allem darin, die Schnittstellen zwischen den einzelnen Komponenten zu realisieren. Die Mechanik basiert auf Fischertechnik und ermöglicht den Bau eines Plotters, der Bewegungen in alle drei Raumrichtungen unabhängig voneinander erlaubt. Währenddessen besteht die Elektronik aus den Bauteilen des Roboter Kits von Freenove mit dem ESP32-WROVER. Damit die Motoren an das Breadboard von Freenove angeschlossen werden können, müssen bestehende Kabel von beiden Systemen mithilfe von Stoßverbinder fest verbunden werden. Dabei trat zum einen das Problem auf, dass das Board nur maximal \qty{5}{V} Versorgungsspannung liefern kann, während die Motoren \qty{9}{V} benötigen. Zum anderen muss eine Lösung gefunden werden, die Motoren in beide Richtungen drehen zu lassen. Beide Probleme können gelöst werden indem drei Motortreiber, vom Typ L293D,  genutzt werden. Diese erlauben zum einen die Bestimmung der Drehrichtung und zum anderen kann so ein separater Stromkreis aufgebaut werden, der die geforderten \qty{9}{V} an die Motoren liefert. Als nächstes muss die Kommunikation mit dem Nutzer realisiert werden. Dies gelingt über ein Keypad. Jedem der neun möglichen Feldern beim Tik-Tak-Toe ist eine Zahl zwischen eins und neun zugeordnet. Durch das Drücken der entsprechenden Taste fährt der Roboter in die gewünschte Position. Der Algorithmus selbst ist in C implementiert und auf den ESP32-WROOM eingebettet. 
 Das Endergebnis des Projekts ist ein ein Plotter, der gegen einen Nutzer Tik-Tak-Toe spielen kann. Der Roboter mahlt zu Beginn des Spiels das Feld, wählt selbst das beste Feld aus um sein Zeichen zu setzen und erkennt am Ende ob ein Spieler gewonnen hat.
 
@@ -51,24 +51,14 @@ Das Endergebnis des Projekts ist ein ein Plotter, der gegen einen Nutzer Tik-Tak
 
 \section{Projektziel}
 
-Ziel dieses Projektes war es einen kleinen Roboter zu entwickeln, der Tik-Tak-Toe
-auf einem Blatt Papier gegen den Nutzer spielen kann. Hierbei wurde Tik-Tak-Toe
-gewählt, da es ein simples aber sehr bekanntes Spiel ist.
+Im Laufe des Projektes sollte ein kleiner Roboter entwickelt werden, der Tik-Tak-Toe auf einem Blatt Papier gegen den Nutzer spielen kann. Die Wahl viel auf Tik-Tak-Toe, weil es ein simples aber sehr bekanntes Spiel ist.
 
 Das Team hat sich gegen die Nutzung eines schon existierenden Roboters oder Roboter-Kit
 entschieden, um mit allen Bereichen der Robotik in Kontakt zu kommen. Ziel war es hier
 eine Fachschafts übergreifende Kooperation zu nutzen, um einen optimalen Wissenstransfer
 zu erreichen.
 
-Um das Spiel Tik-Tak-Toe spielen zu können soll der Roboter in der Lage sein das Spielfeld
-sowie die Züge aller Spieler zu zeichnen. 
-
-Daraus ergab sich die grundsätzlichen Anforderung
-an die Hardware, dass sie eine Bewegung in alle drei Raumrichtungen unabhängig voneinander
-ermöglichen muss. Zudem sollte diese robust gestaltet und einfach zu realisieren sein.
-Deswegen wurde entschieden einen Plotter zu bauen anstelle eines komplizierteren
-Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu realisieren
-sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
+Der Roboter  soll in der Lage sein das Spielfeld sowie die Züge aller Spieler zu zeichnen. Es soll die Möglichkeit geben, dass mehrere Nutzer gegeneinander spielen oder ein einzelner Nutzer gegen den Roboter spielt. Der Roboter soll selbst erkennen wenn jemand gewonnen hat und er soll die Gewinnerkombination markieren. 
 
 
 \section{Mechanik}
