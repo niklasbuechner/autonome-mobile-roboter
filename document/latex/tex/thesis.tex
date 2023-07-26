@@ -41,7 +41,7 @@
 \begin{abstract}
 
 Autonome mobile Roboter ermöglichen die Automatisierung von Aufgaben und Verhalten, die sich nicht nur
-in Software abbilden lassen, die sich auch in die physikalische Welt durchschlagen. Für das Spiel
+in Software abbilden lassen, sondern auch in die physikalische Welt durchschlagen. Für das Spiel
 Tik-Tak-Toe zwischen Mensch und Roboter gibt es hierbei noch keine allgemeingültige Lösung.
 
 In diesem Research Paper wird eine Lösung durch einen zweidimensionalen Plotter beleuchtet, basierend
@@ -51,7 +51,7 @@ aufgebaut, die drei Motoren mit Hilfe von Motortreibern vom Typ L293D ansteuern.
 eine Positionierung eines Stiftes auf einem Blatt Papier inklusive Anheben und Absenken. Gesteuert wird
 alles über den ESP32-WROVER, der eine Mensch-Maschinen-Interaktion über
 ein Keypad zur Verfügung stellt. Abgerundet wird die vorgestellte Lösung durch ein in C implementierter
-Algorithmus, der sowohl das Spielgeschehen steuert, das Spiel durch den Stift zeichnet und als Spielgegner
+Algorithmus, der das Spielgeschehen steuert, das Spiel durch den Stift zeichnet und als Spielgegner
 auftreten kann.
 
 \end{abstract}
@@ -61,20 +61,20 @@ auftreten kann.
 
 \section{Projektziel}
 
-Im Laufe des Projektes sollte ein kleiner Roboter entwickelt werden, der Tik-Tak-Toe auf einem Blatt Papier gegen den Nutzer spielen kann. Die Wahl viel auf Tik-Tak-Toe, weil es ein simples aber sehr bekanntes Spiel ist.
+Im Laufe des Projektes sollte ein kleiner Roboter entwickelt werden, der Tik-Tak-Toe auf einem Blatt Papier gegen den Nutzer spielen kann. Die Wahl fiel auf Tik-Tak-Toe, weil es ein simples aber sehr bekanntes Spiel ist.
 
-Das Team hat sich gegen die Nutzung eines schon existierenden Roboters oder Roboter-Kit
+Das Team hat sich gegen die Nutzung eines schon existierenden Roboters oder Roboter-Kits
 entschieden, um mit allen Bereichen der Robotik in Kontakt zu kommen. Ziel war es hier
-eine Fachschafts übergreifende Kooperation zu nutzen, um einen optimalen Wissenstransfer
+eine fachschaftsübergreifende Kooperation zu nutzen, um einen optimalen Wissenstransfer
 zu erreichen.
 
-Der Roboter  soll in der Lage sein das Spielfeld sowie die Züge aller Spieler zu zeichnen. Es soll die Möglichkeit geben, dass mehrere Nutzer gegeneinander spielen oder ein einzelner Nutzer gegen den Roboter spielt. Der Roboter soll selbst erkennen wenn jemand gewonnen hat und er soll die Gewinnerkombination markieren. 
+Der Roboter  soll in der Lage sein, das Spielfeld sowie die Züge aller Spieler zu zeichnen. Es soll die Möglichkeit geben, dass mehrere Nutzer gegeneinander spielen oder ein einzelner Nutzer gegen den Roboter spielt. Der Roboter soll selbst erkennen wenn jemand gewonnen hat und er soll die Gewinnerkombination markieren. 
 
 
 \section{Mechanik}
 
 Da zu Beginn des Projekts kein Roboter vorhanden war, wurde nicht nur der Code geschrieben, sondern auch die Hardware
-konstruiert. Die grundsätzlichen Anforderungen an die Hardware war, dass sie eine Bewegung in alle drei Raumrichtungen
+konstruiert. Die grundsätzlichen Anforderungen an die Hardware waren, dass sie eine Bewegung in alle drei Raumrichtungen
 unabhängig voneinander ermöglichen, robust gestaltet und einfach zu realisieren sein sollte. Deswegen wurde ein
 Plotter gebaut, anstelle eines komplizierteren Roboterarms. Dies hat vor allem den Vorteil, dass die Bewegungen einfach zu
 realisieren sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen. In diesem Kapitel wird die mechanische Konstruktion
@@ -167,19 +167,19 @@ sich unten im Kasten befinden, hoch und runter. Der restliche Teil der Konstrukt
 \label{fig:AufbauzAchse1}
 \end{figure}
 
-Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift und der Mechanismus an dem er sich befindet, zu sehr verbiegt. Die L-förmige
+Der zweite Teil des Schlittens besteht aus einer Konstruktion, die verhindern soll, dass der Stift und der Mechanismus an dem er sich befindet, zu sehr verbiegen. Die L-förmige
 Konstruktion (Siehe Abbildung \ref{fig:AufbauzAchse2}) liegt von allen Seiten press am Stift und ist direkt mit dem Schlitten und den Achsen verbunden. Sie bewegt sich nicht mit
 dem Stift nach oben und unten. Dass der Stift sich leicht verbiegt, lässt sich nicht verhindern aber dadurch stark einschränken.
 
-Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik bewegt. Dieser befindet sich ebenfalls auf dem Schlitten. Das besondere an der Anordnung dieses Motors ist, dass er sich im rechten Winkel zur Bewegungsrichtung befindet. Das Momentübertragung kann in diesem Fall über Kegelzahnräder erfolgen, da diese eine konische Form besitzen.
+Das Kegelzahnrad an der Schnecke wird durch einen XS Motor von Fischertechnik bewegt. Dieser befindet sich ebenfalls auf dem Schlitten. Das besondere an der Anordnung dieses Motors ist, dass er sich im rechten Winkel zur Bewegungsrichtung befindet. Die Momentübertragung kann in diesem Fall über Kegelzahnräder erfolgen, da diese eine konische Form besitzen.
 
 
 \section{Elektronik}
 Der Aufbau der Elektronik sowie die Verbindung mit dem Micro-Controller basieren auf den Roboter Kit von Freenove. 
-Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER auch die nötigen Bauteile um die Schaltung aufzubauen zu können. 
-Dies war ein Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
+Das hierbei verwendete Starter Kit beinhaltet neben dem ESP32-WROVER auch die nötigen Bauteile um die Schaltung aufbauen zu können. 
+Dies war eine Entscheidungsgrundlage für die Verwendung des Robot-Kit\footnote{\url{https://github.com/Freenove/Freenove\_Ultimate\_Starter\_Kit}}.
 
-Für die Verbindung zwischen dem System, dem ESP32-WROVER sowie der der Fischertechnik, wurden die Verbinndungskabel beider Systeme aufgetrennt und entsprechen miteinander neu verbunden.
+Für die Verbindung zwischen dem System, dem ESP32-WROVER sowie der Fischertechnik, wurden die Verbindungskabel beider Systeme aufgetrennt und miteinander verbunden.
 Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, diese ermöglichen eine sichere Verbindung zwischen den Komponenten.
 
 \subsection{Aufbau der Versuchsumgebung}
@@ -190,15 +190,15 @@ Beide Kabelenden wurde durch eine Stoßverbinder fest verbunden, diese ermöglic
 \end{figure}
 
 
-Für den Aufbau der Schaltung wird ein Breadboard verwendet, welches in Abbildung \ref{Elektrik:DevBoard} dargestellt ist. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, diese werden in das Board gesteckt und durch Klemmung fixiert.
+Für den Aufbau der Schaltung wird ein Breadboard verwendet, welches in Abbildung \ref{Elektrik:DevBoard} dargestellt ist. Die Verbindungen zwischen den darauf platzierten Bauteilen werden durch Steckbrückenkabel hergestellt, welche in das Board gesteckt und durch Klemmung fixiert werden.
 
 \noindent Die Klemmung wird durch die internen Leiterbahnen erzeugt und ergibt damit eine durchgehende Verbindung, wie in Abbildung \ref{Elektrik:DevBoard} durch die farbigen Linien angedeutet wird. 
 Dieser Aufbau ermöglicht bis zu fünf direkte Verbindungen innerhalb einer Leiterbahn und insgesamt 60 elektrisch voneinander getrennte Leitungen.
 Die äußeren Leiterbahnen sind für die Spannungsversorgung vorgesehen und erstrecken sich über das gesamte Board. Diese Leiterbahnen werden mit \qty{5}{V} bzw. \qty{3,3}{V} betrieben.
 Die Verbindungen zwischen dem Micro-Controller und dem Breadboard wird mithilfe eines Extension Boards hergestellt. Das Extension-Board ist so konzipiert, 
-dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Breadboard verbunden werden.
+dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf dem Breadboard verbunden werden.
 
-\noindent Zu beachten ist, dass Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
+\noindent Zu beachten ist, dass insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
 \centering
 \includegraphics[width=8cm]{../images/ext_board.png}
@@ -218,8 +218,8 @@ Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegunge
 \end{itemize}
 
 \subsection{Gleichstrom-Elektromotoren}
-\noindent Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischer Technik Sortiment verwendet. 
-Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
+\noindent Für die Gleichstrom-Elektromotoren werden Motoren aus dem Fischertechnik Sortiment verwendet. 
+Diese Motoren sind aufgrund der Produktzugehörigkeit mit den passenden Aufnahmen versehen, um Kompatibilitätsprobleme mit der Mechanik auszuschließen.
 
 
 \noindent Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen kann und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
@@ -246,9 +246,9 @@ Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motore
   \end{tabular}
 \end{table}
   
-\noindent Da beide Motoren mit jeweils \qty{9}{V} Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers angesteuert werden, 
+\noindent Da beide Motoren mit jeweils \qty{9}{V} Gleichstrom (DC) betrieben werden, können sie nicht direkt über die Spannungsschiene des Micro-Controllers gespeist werden, 
 da diese maximal \qty{5}{V} liefert. Obwohl ein Betrieb mit \qty{5}{V} möglich wäre, würde dies zu einer Verringerung des Drehmoments führen. Um eine optimale Bewegung zu gewährleisten, 
-wird eine \qty{9}{V} Stromversorgung angestrebt. Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
+wird eine \qty{9}{V} Spannungsversorgung angestrebt. Eine Richtungsänderung der Motoren kann durch das Tauschen der anliegenden Spannung erreicht werden.  
 
 \subsection{Motortreiber}
 
@@ -264,8 +264,8 @@ sowie die Geschwindigkeit des Motors per Pulsweitenmodulation (PWM)  zu steuern.
 
 \subsection{PWM}
 Die \emph{Pulsweitenmodulation} (\emph{PWM}) ermöglicht die präzise Steuerung der Drehgeschwindigkeit eines Motors. Dabei wird kein konstantes Signal an den Motor angelegt,
-sondern das Signal periodisch zwischen den Zuständen "An" und "Aus" gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
-bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird ein konstante Drehbewegung erreicht. 
+sondern das Signal periodisch zwischen den Zuständen \glqq An\grqq{} und \glqq Aus\grqq{} gewechselt. Die Drehgeschwindigkeit wird durch die Anpassung der Pulsweiten innerhalb der Perioden 
+bestimmt \autocite{611797}. Aufgrund der hohen Frequenz wird eine konstante Drehbewegung erreicht. 
 
 \noindent Das PWM Signal wird vom ESP32-WROVER erzeugt und kann dort entsprechend modelliert werden. 
 
@@ -304,11 +304,11 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
 Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, wird die $x$-Achse durch eine XM Motor betrieben.
 Für die $y$ und $z$-Achsen kann die schwächere XS Variante des Motors verwendet werden.
 
-Alle Motoren benötigen unabhängig deren Leistungsdaten einen eigenen Treiber, damit jeder Motor in beide Richtungen angesteuert werden können.
+Alle Motoren benötigen unabhängig deren Leistungsdaten einen eigenen Treiber, damit jeder Motor in beide Richtungen angesteuert werden kann.
 
 \subsection{Servo-Motor}
 
-Als Alternative könnte ein Servo-Motor verwendet werden, der die Höhe der $z$-Achse über einen Arm verändert. 
+Alternative könnte ein Servo-Motor für die $z$-Achse verwendet werden, der die Höhe des Stiftes über einen Arm verändert. 
 In diesem Fall könnte auf den Treiber verzichtet werden. Allerdings wäre die Systemkompatibilität mit der Mechanik aufgrund der Nicht-Fischertechnik-Teile nicht gegeben. 
 Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für die $z$-Achse verwendet.
 
@@ -321,22 +321,22 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung \ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
 \subsection{IO Eingabe}
 
-Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Controllers wird über das Breadboard hergestellt. 
-Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Breadboard gesteckt und werden durch das Extension Board  direkt auf den Pin des Micro-Controllers verbunden.
+Für die Kommunikation mit dem Benutzer wird ein 4x4 Martrix Keypad verwendet. Die Verbindung zwischen Keypad und Micro-Controllers wird über das Breadboard hergestellt. 
+Die nötigen 8 Pins werden in die entsprechenden Leiterbahnen des Breadboard gesteckt und werden durch das Extension Board  direkt auf den Pin des Micro-Controllers verbunden.
 
 \begin{figure}[h]
 \includegraphics[width=8cm]{../images/keypad.png}
 \caption{Aufbau des Keypad \autocite{freenoveTutorial}}\label{Elektrik:Keypad}
 \end{figure}
 
-Wie in Abbildung \ref{Elektrik:Keypad} zu sehen ist, ist das Keypad mit jeweils 4 Spalten und Zeilen aufgebaut. Diese sind entsprechend mit dem jeweiligen Tasten als Schalter verbunden. 
+Wie in Abbildung \ref{Elektrik:Keypad} zu sehen ist, ist das Keypad mit jeweils 4 Spalten und Zeilen aufgebaut. Diese sind entsprechend mit den jeweiligen Tasten als Schalter verbunden. 
 Sobald eine Taste betätigt wird, wird ein entsprechender Schaltkreis geschlossen und die jeweilige Taste kann bestimmt werden.
 
 Die Tasten 1 bis 9 repräsentieren entsprechend die Felder des Tik-Tak-Toe Spielfeldes und dienen zur Auswahl des gewünschten Feldes. 
 Die weiteren Tasten werden zur Steuerung der einzelnen Achse verwendet.
 Dies ermöglicht zum einen einen Test der Achse, zum anderen kann somit die Startpostion für das Spiel manuell justiert werden.
 
-Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienung des Roboter auf dieser Schnittstelle abgebildet werden.
+Durch die Verwendung des Keypads konnte die gesamte Interaktion für die Bedienung des Roboter auf dieser Schnittstelle abgebildet werden.
 
 \section{Software}
 
@@ -345,7 +345,7 @@ der Steuerung, der Abstraktion von Hardware und Software sowie des ESP32-WROVER 
 
 \subsection{Steuerung}
 Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
-war es, dass die Steuerung in der Lage ist, die einzelnen Motoren und weitere Hardware Komponenten
+war, dass die Steuerung in der Lage ist, die einzelnen Motoren und weitere Hardware Komponenten
 zu kontrollieren. Hierzu wurden die folgenden Möglichkeiten in Betracht gezogen:
 
 \begin{itemize}
@@ -355,11 +355,11 @@ zu kontrollieren. Hierzu wurden die folgenden Möglichkeiten in Betracht gezogen
 \end{itemize}
 
 Die Steuerung über einen externen Computer wurde als erste Lösung betrachtet. Der Vorteil
-ist hier, dass man auch eine vollfunktionsfähigens Betriebssystem mitsamt allen dafür existierenden
+ist hier, dass man auch ein vollfunktionsfähiges Betriebssystem mitsamt allen dafür existierenden
 Paketen und Programmiersprachen zurückgreifen kann. Da aber das vollständige Betriebssystem auch
 dazuführt, dass Services gestartet werden, die mit der eigentlichen Aufgabe des Roboters nichts zu
 tun haben, wurde sich gegen diesen Ansatz entschieden. Zusätzlich erzwingt eine solche Steuerung
-eine dauerhafte Verbindung zu dem Computer. Dies ist nicht erwünschens wert, da der Roboter autonom
+eine dauerhafte Verbindung zu dem Computer. Dies ist nicht wünschenswert, da der Roboter autonom
 handlungsfähig sein soll.
 
 Als zweite Wahl kam die Steuerung über eine mobile App ins Spiel. Dies ermöglicht es, dass die
@@ -367,8 +367,8 @@ eigentlichen Bewegungen auf einem Gerät mit viel Prozessorstärke ausgeführt w
 noch an den Roboter übermittelt werden muss. Somit ist auch der Zweck des Roboters
 durch die Veränderung des Programmcodes auf dem Smartphone anpassbar. Die Schwachstelle hier ist,
 dass weiterhin ein eingebetteter Prozess im Roboter vorhanden sein muss, der eine stabile
-Kommunikation mit dem Mobilegerät besitzen muss. Während des Bau unseres Prototypen ist es den Autoren,
-nicht gelungen eine stabile Kommunikation per Bluetooth mit einem iOS Gerät herzustellen,
+Kommunikation mit dem Mobilegerät besitzen muss. Während des Baus des Prototyps ist es
+nicht gelungen, eine stabile Kommunikation per Bluetooth mit einem iOS Gerät herzustellen,
 was die Nutzung des Roboters weiter einschränkt. Kommunikation per Wifi konnte hergestellt werden,
 allerdings müssen sich sowohl das Mobiltelefon als auch der Roboter im 
 selben Netzwerk befinden. Dies setzt eine Eingabemöglichkeit auf dem Roboter voraus oder dass
@@ -387,8 +387,8 @@ Zweck des Tik-Tak-Toe spielen geschaffen wurde, wiegt dieser Nachteil allerdings
 
 Für den ESP32-WROVER wurde ein in C implementierter Algorithmus erstellt, der direkt auf
 den ESP32-WROVER eingebettet wurde. Hierbei wurde großer Wert auf eine kompakte und einfache
-Implementierung gelegt, da der gesamte Programmcode einschließlich des während der Laufzeit
-gehaltenen Speichers in die 520KB Speicher des Chips passen mussten.
+Implementierung gelegt, da der gesamte Programmcode, einschließlich des während der Laufzeit
+gehaltenen Speichers, in die 520KB Speicher des Chips passen mussten.
 
 Um den Code einfach zu halten, wurde die Spielausführung auf einen der beiden CPU Kerne beschränkt.
 Damit ist die Logik des Spiels einfach nachzuvollziehen, da sie von oben nach unten gelesen werden kann.
@@ -397,7 +397,7 @@ umgesetzt.
 
 Kompakt wurde die Speichernutzung gehalten, indem das Spielfeld in zwei einzelne 16\,Bit Integer integriert wurde.
 Da das Spielfeld nur 9 Felder hat, werden nur 9\,Bit pro Spieler benötigt, um zu speichern, ob der Spieler
-auf dem jeweiligen Feld aktiv ist. Damit sind 16\,Bit Integer die kleinst mögliche Speichereinheit, in der
+auf dem jeweiligen Feld aktiv ist. Damit sind 16\,Bit Integer die kleinstmögliche Speichereinheit, in der
 diese Daten für einen Spieler gespeichert werden kann. Alle möglichen Gewinnstellungen werden entsprechend
 auch von einem einzelnen 16\,Bit Integer repräsentiert. Um herauszufinden, ob ein Spieler gewonnen hat, kann
 nun die Gewinnposition per bitweisem UND mit dem Spielfeld verglichen werden und wenn das Ergebnis der
@@ -412,15 +412,14 @@ dabei nach jedem Zug, wodurch der Roboter auf den Zug seines Gegners reagieren k
 
 \subsection{Abstraktion Hardware und Software}
 
-Um den Autoren die Möglichkeit zu geben, zu unterschiedlichen Zeitpunkten an dem Roboter arbeiten
+Um die Möglichkeit zu gewährleisten, zu unterschiedlichen Zeitpunkten an dem Roboter arbeiten
 zu können, wurde die Software und die Hardwareentwicklung per Abstraktionsstufe getrennt. Hierbei wurde
 ein mindestmaß an Funktionalitäten definiert, die der Roboter bereitstellen können muss, um Tik-Tak-Toe
 ausführen zu können. Diese Funktionalität wurde dann als Schnittstelle zwischen der Hardware und Software
 genutzt. Damit wurde eine unabhängige Entwicklung der Softwarefunktionalität von der Hardware geschaffen.
 
 Die Hardware Funktionen haben hierbei keinerlei Wissen und Verantwortung über den aktuellen Spielstand.
-Wählt ein Spieler einen Zug aus, der nicht mehr spielbar ist, so erkennt die Spielelogik das und führt
-entsprechend die entsprechende Bewegungsfunktion aus, um dies zu kommunizieren. Dies sorgt für eine
+Wählt ein Spieler einen Zug aus, der nicht mehr spielbar ist, so erkennt die Spielelogik das und führt die entsprechende Bewegungsfunktion aus, um dies zu kommunizieren. Dies sorgt für eine
 optimale Abstraktion und Testbarkeit der Software.
 
 Die Schnittstelle lässt sich in 4 Teile unterteilen.
@@ -430,8 +429,8 @@ int waitUntilGameStarts();
 int getFieldSelectedByPlayer();
 \end{minted}
 
-Der oben aufgeführten erste Teil beinhaltet Funktionen, deren Aufgabe alle Nutzereingaben abdecken.
-Ihre Aufgabe ist es so lange die weitere Ausführung des Programms zu blockieren,
+Der oben aufgeführte erste Teil beinhaltet Funktionen, deren Aufgabe alle Nutzereingaben abdecken.
+Ihre Aufgabe ist es, so lange die weitere Ausführung des Programms zu blockieren,
 bis ein Spiel gestartet werden kann oder bis der Nutzer ein Feld gewählt hat.
 
 Beide Funktionen bauen dabei auf der Tastatur auf. Ein Spieler zeigt an, dass er ein Spiel starten
@@ -457,12 +456,11 @@ void moveRobotArmToFieldEight();
 void moveRobotArmToFieldNine();
 \end{minted}
 
-Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen. Diese haben
-zum einen den Zweck zu einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier,
+Im aufgeführten zweiten Teil, sind alle Funktionen beinhaltet, die Bewegungen des Roboter darstellen. Diese haben den Zweck, zu einem bestimmten Spielfeld und wieder zurück zu kommen. Zu beachten ist hier,
 dass die Hardware den aktuellen Ort des Stiftes kennen muss, um diesen nach dem entsprechenden Funktionsaufruf
 wieder zurück zum Ausgangspunkt navigieren zu können.
 
-Zur Navigation des Robots wird auf allen Achsen auf Zeitangaben gesetzt, in denen die Motoren aktiviert werden. Die
+Zur Navigation des Roboters wird auf allen Achsen auf Zeitangaben gesetzt, in denen die Motoren aktiviert werden. Die
 aktuelle Position des Roboters wird aus der Zeit der aktivierten Motoren abgeleitet. Die zugrundeliegende Annahme
 ist, dass sich ein Motor in beide Richtungen gleich schnell dreht. Die Größe des impliziten Koordinatensystems wird
 daher durch die Größe des Spielfelds festgesetzt.
@@ -492,46 +490,46 @@ des Roboters gelegt wurde.
 void showCannotPlayMove();
 \end{minted}
 
-Zu letzt benötigt der Roboter eine Möglichkeit zu kommunizieren, dass ein Spielzug nicht gespielt werden kann,
+Zuletzt benötigt der Roboter eine Möglichkeit zu kommunizieren, dass ein Spielzug nicht gespielt werden kann,
 weil dieser schon von einem anderen Spieler zuvor gespielt wurde. Dies stellt den vierten und letzten Teil der
 Schnittstelle dar.
 
 Die Aufteilung der Schnittstelle ermöglicht dabei nicht nur die getrennte Entwicklung von Hardware und Software,
 sondern auch, dass die Software extern und automatisiert getestet werden konnte. Damit wurde die Funktionalität des Algorithmus
-sichergestellt und erlaubte eine Test-basierte-Entwicklung auf einem leistungsstarken Computer ohne direkten
+sichergestellt und erlaubte eine testbasierte Entwicklung auf einem leistungsstarken Computer ohne direkten
 Hardwarezugriff zu benötigen.
 
 \section{Fazit und Ausblick}
 
-Dieser Abschnitt gibt einen Überblick über die offenen Probleme der Lösung, deren positiven 
+Dieser Abschnitt gibt einen Überblick über die offenen Probleme der Lösung, deren positiver 
 Aspekte sowie einen Ausblick was mit dem Roboter noch alles abgebildet werden kann.
 
 \subsection{Offene Probleme}
 
 Auf mechanischer Ebene besitzt der Roboter viel Spiel, was die exakte Steuerung schwierig macht. Ein Problem mit der Anordnung
-des Motors und des kleinen Zahnrades ist, dass die
-Antriebswelle nicht fixiert werden kann und sich schräg stellt, bevor das große Zahnrad anfängt, sich zu drehen. Eine Fixireung der Welle hätte zur Reibung der Kette an den Bausteinen geführt.
+des $x$-Motors ist, dass die
+Antriebswelle nicht fixiert werden kann und sich schräg stellt, bevor das Abtriebsrad anfängt, sich zu drehen. Eine Fixierung der Welle hätte zur Reibung der Kette an den Bausteinen geführt.
 Um dieses Problem zu lösen hätte es größere
 Umbauten am gesamten Plotter benötigt, die aufgrund des späten Zeitpunktes, zu dem der Motor angekommen ist, nicht mehr möglich waren.
 
 Auch die Stabilität anderer Bausteine verursachen Spiel im Roboter. So sorgt das Aufsetzen des Stiftes dafür, dass dessen Halterung
 leicht vom Papier weggedrückt wird. Dies ist nötig, da der Stift mit etwas Druck auf dem Papier aufgesetzt werden muss, um
-Tinte zu hinterlassen. Zwar konnte der benötigte Druck durch Einsatz eines Filsstifts statt eines Kugelschreibers reduziert werden,
+Tinte zu hinterlassen. Zwar konnte der benötigte Druck durch Einsatz eines Filzstifts statt eines Kugelschreibers reduziert werden,
 allerdings wird weiterhin etwas Druck benötigt, was die Halterung anhebt.
 
 Ein ähnliches Problem besitzt auch die $y$-Achse welche sich leicht zusammenzieht, wenn der Schlitten das Ende der Achse erreicht.
 
-Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Dieses Problem konnte nicht durch eine Kalibration gelöst werden, da der Geschwindigkeitsunterschied abhängig von der Leistung der Stromversorgung ist. Eine
+Einen zusätzlichen Verbesserungspunkt stellen die Motoren dar, da sie nicht in beide Richtungen exakt gleich schnell drehen. Dieses Problem konnte nicht durch eine Kalibrierung gelöst werden, da der Geschwindigkeitsunterschied abhängig von der Leistung der Stromversorgung ist. Eine
 mögliche Lösung sind hier Endschalter, die aktiviert werden, sobald der Roboter das Ende der jeweiligen Achse erreicht. Diese wurden
-auf Grund an mangelnder Anzahl an Pins am Chip und späten Auftretens im Projekt nicht genutzt. Zusätzlich
-hätte die Software nicht mehr mit blockierenden Code arbeiten können, da man auf die Entschalter im Code
+auf Grund mangelnder Anzahl an Pins am Chip und späten Auftretens im Projekt nicht genutzt. Zusätzlich
+hätte die Software nicht mehr mit blockierenden Code arbeiten können, da man auf die Endschalter im Code
 reagieren muss. Dies hätte einen kompletten Umbau des Codes zur Folge gehabt.
 
 \subsection{Positive Aspekte}
 
 Als ein positiver Aspekt stellte sich der verwendete ESP32-WROVER heraus. Der Chip erlaubt dem Roboter nicht nur ohne externe Steuerung
 auszukommen, sondern bietet mehr Leistung als der Roboter benötigt. Ein Großteil des Spiels besteht aus Warten auf die Motoren und die
-Spiellogik ist nicht sehr leistungshungrig, sodass noch mehr Funktionlitäten mit dem Roboter abgebildete werden könnten.
+Spiellogik ist nicht sehr leistungshungrig, sodass noch mehr Funktionalitäten mit dem Roboter abgebildet werden könnten.
 
 Auch die Nutzung von Fischertechnik brachte sehr viele Vorteile. So konnte sehr schnell über die Mechanik des Roboters iteriert werden,
 was eine hohe Entwicklungsgeschwindigkeit ermöglichte. Zusätzlich dazu erlaubte das Steckkastensystem das Erkunden neuer Lösungsmöglichkeiten
@@ -541,14 +539,14 @@ Spiels auf die Bauteile zurückführen. Im gesamten Blick haben die Vorteile der
 
 Als letzten positiven Aspekt ist die Abstraktion der Software und Hardware zu nennen. Dies ermöglichte einen testbasierten
 Entwicklungsansatz, der keinen ESP32-WROVER voraussetzte, um ausgeführt zu werden. Zwar hatten alle Teammitglieder Zugriff auf entsprechende
-Chips, aber diese hätten immer eine langsames Aufspielen vorausgesetzt, was die Entwicklung verlangsamt hätte. Auch konnten so mehrere
-Teammitglieder parallel und unabhängig von einander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
+Chips, aber diese hätten immer ein langsames Aufspielen vorausgesetzt, was die Entwicklung verlangsamt hätte. Auch konnten so mehrere
+Teammitglieder parallel und unabhängig voneinander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
 Integration der beiden Systeme sehr einfach möglich und kann daher nur empfohlen werden.
 
 \subsection{Ausblick}
 
 Der aktuelle Roboter ist eine gute Grundlage für alle Arten an Aktivitäten, die etwas mit Zeichnen zu tun haben. Wenn die Präzision
-gesteigert werden kann, können auch Spiele implementiert werden, die mit kleineren Feldern auskommen müssen. Die könnte beispielsweise
+gesteigert werden kann, können auch Spiele implementiert werden, die mit kleineren Feldern auskommen müssen. Dies könnte beispielsweise
 4-Gewinnt ermöglichen.
 
 Auch der generellen Verwendung des Roboters als Plotter steht nichts im Weg. Zwar sind aktuell nur gerade Linien implementiert, aber
