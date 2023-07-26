@@ -213,7 +213,7 @@ Die daraus resultierende Flexibilität ermöglicht ein experimentelles Vorgehen 
 \subsection{Ansteuerung der Motoren}
 Für die Umwandlung der elektrischen Signalen des Micro-Controllers in Bewegungen sind zwei verschiedene Motortypen untersucht worden.
 
-\begin{itemize}
+\begin{itemize}[h]
 	\item Servo-Motor
 	\item Gleichstrom-Elektromotor
 \end{itemize}
@@ -226,7 +226,7 @@ Diese Motoren sind aufgrund der Produkzugehörigkeit mit den passenden Aufnahmen
 
 \noindent Für die Verwendung innerhalb der Mechanik ist es erforderlich, dass der Motor in beide Richtungen drehen kann und über ausreichendes Drehmoment bei der gegebenen Übersetzung verfügt.
 Aufgrund der unterschiedlichen Anforderungen werden zwei unterschiedliche Motoren verwendet.
-\begin{itemize}
+\begin{itemize}[h]
 \item Motor XM \qty{9}{V}
 \item Motor XS \qty{9}{V}
 \end{itemize}
@@ -261,7 +261,7 @@ sowie die Geschwindigkeit des Motors per PWM  zu steuern.
 \begin{figure}[h]
   \centering
 \includegraphics[width=8cm]{../images/L293D.png}
-\caption{L293D Schaltplan \autocite{freenoveTutorial}}\label{Elektrik:L293D}
+\caption{L293D interner Schaltplan \autocite{freenoveTutorial}}\label{Elektrik:L293D}
 \end{figure}
 
 \subsection{PWM}
@@ -306,11 +306,10 @@ Diese Pins werden mit Digitalsignalen vom Micro-Controller gesteuert.
 
 \subsection{Achsenansteuerung}
 
-Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, werden die $x$ und $y$-Achsen durch eine XM Motor betrieben.
-Hierbei wird für jede Achse ein separatere Treiber benötigt.
-\\
+Aufgrund der höheren Gewichtslast und der Sicherstellung einer konstanten Geschwindigkeit, wird die $x$-Achse durch eine XM Motor betrieben.
+Für die $y$ und $z$-Achsen kann die schwächere XS Variante des Motors verwendet werden.
 
-\noindent Für die $z$-Achse kann eine schwächere Variante des Motors verwendet werden, was wiederum einen Treibe benötigen würde.
+Alle Motoren benötigen unabhängig deren Leistungsdaten einen eigenen Treiber, damit jeder Motor in beide Richtungen angesteuert werden können.
 
 \subsection{Servo-Motor}
 
@@ -321,7 +320,7 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 \subsection{Schaltplan}
 \begin{figure}[h]
 \includegraphics[width=8cm]{../images/schaltplan.png}
-\caption{Schaltplan der Treiber}\label{Elektrik:Schaltplan}
+\caption{schematische Darstellung der Verbindung zwischen den Treibern und des Micro-Controllers}\label{Elektrik:Schaltplan}
 \end{figure}
 
 Aufgrund der aufgeführten Anforderungen und Eigenschaft, ergibt sich, wie in Abbildung\ref{Elektrik:Schaltplan}, folgender elektrischer Aufbau auf Basis des ESP32-WROVER-Boards.
