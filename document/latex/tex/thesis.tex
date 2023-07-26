@@ -340,10 +340,13 @@ Durch die Verwendung des Keypad konnte die gesamte Interaktion für die Bedienun
 
 \section{Software}
 
+Die Software für den Roboter wurde komplett neu entworfen. In diesem Kapitel werden die Hauptpunkte
+der Steuerung, der Abstraktion von Hardware und Software sowie des ESP32-WROVER behandelt.
+
 \subsection{Steuerung}
 Für die Steuerung des Roboter standen verschiedene Methoden zur Verfügung. Die einzige Anforderung dabei
 war es, dass die Steuerung in der Lage ist, die einzelnen Motoren und weitere Hardware Komponenten
-zu kontrollieren. Hierzu haben wir uns folgende Möglichkeiten überlegt:
+zu kontrollieren. Hierzu wurden die folgenden Möglichkeiten in Betracht gezogen:
 
 \begin{itemize}
   \item Steuerung über einen externen Computer
@@ -363,15 +366,15 @@ Als zweite Wahl kam die Steuerung über eine mobile App ins Spiel. Dies ermögli
 eigentlichen Bewegungen auf einem Gerät mit viel Prozessorstärke ausgeführt werden kann und dann nur
 noch an den Roboter übermittelt werden muss. Somit ist auch der Zweck des Roboters
 durch die Veränderung des Programmcodes auf dem Smartphone anpassbar. Die Schwachstelle hier ist,
-dass weiterhin ein eingebetteter Prozess in Roboter vorhanden sein muss, der eine stabile
+dass weiterhin ein eingebetteter Prozess im Roboter vorhanden sein muss, der eine stabile
 Kommunikation mit dem Mobilegerät besitzen muss. Während des Bau unseres Prototypen ist es den Autoren,
-nicht gelungen eine stabile Kommunikation per Bluetooth mit einem iOS Gerät herzustellen.
-Was die Nutzung des Roboters weiter einschränkt. Kommunikation per Wifi konnte hergestellt werden,
+nicht gelungen eine stabile Kommunikation per Bluetooth mit einem iOS Gerät herzustellen,
+was die Nutzung des Roboters weiter einschränkt. Kommunikation per Wifi konnte hergestellt werden,
 allerdings müssen sich sowohl das Mobiltelefon als auch der Roboter im 
 selben Netzwerk befinden. Dies setzt eine Eingabemöglichkeit auf dem Roboter voraus oder dass
 die Zugangsdaten vordefiniert sind. Beide Möglichkeiten sind in diesem Projekt nicht realisierbar,
-da die Motorsteuerung schon alle Pins belegt und der während der Entwicklung und dem Einsatz in der
-Hochschule in unterschiedlichen Netzwerken laufen können soll.
+da die Motorsteuerung schon alle Pins belegt. Während der Entwicklung und dem Einsatz wird der Roboter
+in unterschiedlichen Netzwerken betrieben, weshalb auch diese Möglichkeit wegfällt.
 
 Letzlich fiel die Entscheidung darauf allen Code auf dem eingebetteten Chip zu spielen und dort
 das gesamte Spiel zu implementieren. Dies bringt auch den Vorteil, dass der Roboter mit der Verbindung
@@ -382,8 +385,8 @@ Zweck des Tik-Tak-Toe spielen geschaffen wurde, wiegt dieser Nachteil allerdings
 
 \subsection{Tik-Tak-Toe-Algorithmus}
 
-Für den Tik-Tak-Toe Algorithmus wurde ein in C implementierter Algorithmus erstellt, der direkt auf
-den ESP32-WROOM eingebettet wurde. Hierbei wurde großer Wert auf eine kompakte und einfache
+Für den ESP32-WROVER wurde ein in C implementierter Algorithmus erstellt, der direkt auf
+den ESP32-WROVER eingebettet wurde. Hierbei wurde großer Wert auf eine kompakte und einfache
 Implementierung gelegt, da der gesamte Programmcode einschließlich des während der Laufzeit
 gehaltenen Speichers in die 520KB Speicher des Chips passen mussten.
 
@@ -397,8 +400,8 @@ Da das Spielfeld nur 9 Felder hat, werden nur 9\,Bit pro Spieler benötigt, um z
 auf dem jeweiligen Feld aktiv ist. Damit sind 16\,Bit Integer die kleinst mögliche Speichereinheit, in der
 diese Daten für einen Spieler gespeichert werden kann. Alle möglichen Gewinnstellungen werden entsprechend
 auch von einem einzelnen 16\,Bit Integer repräsentiert. Um herauszufinden, ob ein Spieler gewonnen hat, kann
-nun die Gewinnposition per bitweisem UND mit dem Spielfeld vergleichen und wenn das Ergebnis der Operation
-der Gewinnposition entspricht, hat der Spieler diese erreicht.
+nun die Gewinnposition per bitweisem UND mit dem Spielfeld verglichen werden und wenn das Ergebnis der
+Operation der Gewinnposition entspricht, hat der Spieler diese erreicht.
 
 Bei einem Spiel zwischen Mensch und Maschine nutzt der Roboter die enthaltenen Gewinnpositionen als
 Entscheidungsgrundlage für den nächsten Zug. Dabei wird geprüft, welche der Gewinnpositionen noch erreichbar
@@ -417,13 +420,13 @@ genutzt. Damit wurde eine unabhängige Entwicklung der Softwarefunktionalität v
 
 Die Hardware Funktionen haben hierbei keinerlei Wissen und Verantwortung über den aktuellen Spielstand.
 Wählt ein Spieler einen Zug aus, der nicht mehr spielbar ist, so erkennt die Spielelogik das und führt
-entsprechend die entsprechende Bewebungsfunktion aus, um dies zu kommunizieren. Dies sorgt für eine
+entsprechend die entsprechende Bewegungsfunktion aus, um dies zu kommunizieren. Dies sorgt für eine
 optimale Abstraktion und Testbarkeit der Software.
 
 Die Schnittstelle lässt sich in 4 Teile unterteilen.
 
 \begin{minted}{c}
-void waitUntilGameStarts();
+int waitUntilGameStarts();
 int getFieldSelectedByPlayer();
 \end{minted}
 
@@ -476,7 +479,7 @@ void drawBottomToTopWinningLine();
 \end{minted}
 
 Der dritte Teil der Schnittstelle beschäftigt sich mit den Zeichenanweisungen des Roboters. Hierbei legt der
-Tik-Tak-Toe Algorithmus fest, was gezeichnet werden soll. Die exakten Details der Bewegung und wann der Stift
+ESP32-WROVER fest, was gezeichnet werden soll. Die exakten Details der Bewegung und wann der Stift
 auf das Blatt abgesetzt und gehoben werden muss, wurden auch hier als hardware-spezifisch deklariert.
 
 Der Roboter zeichnet ein Kreuz, wie in Tik-Tak-Toe üblich, ersetzt aber den Kreis durch ein Viereck. Dies ist
@@ -526,7 +529,7 @@ reagieren muss. Dies hätte einen kompletten Umbau des Codes zur Folge gehabt.
 
 \subsection{Positive Aspekte}
 
-Als ein positiver Aspekt stellte sich der verwendete ESP32-WROOM heraus. Der Chip erlaubt dem Roboter nicht nur ohne externe Steuerung
+Als ein positiver Aspekt stellte sich der verwendete ESP32-WROVER heraus. Der Chip erlaubt dem Roboter nicht nur ohne externe Steuerung
 auszukommen, sondern bietet mehr Leistung als der Roboter benötigt. Ein Großteil des Spiels besteht aus Warten auf die Motoren und die
 Spiellogik ist nicht sehr leistungshungrig, sodass noch mehr Funktionlitäten mit dem Roboter abgebildete werden könnten.
 
@@ -537,7 +540,7 @@ Anpassbarkeit mit gleichzeitig robustem Unterbau, um das Gewicht des Roboters op
 Spiels auf die Bauteile zurückführen. Im gesamten Blick haben die Vorteile der schnellen Veränderung im Projekt allerdings überwogen.
 
 Als letzten positiven Aspekt ist die Abstraktion der Software und Hardware zu nennen. Dies ermöglichte einen testbasierten
-Entwicklungsansatz, der keinen ESP32-WROOM voraussetzte, um ausgeführt zu werden. Zwar hatten alle Teammitglieder Zugriff auf entsprechende
+Entwicklungsansatz, der keinen ESP32-WROVER voraussetzte, um ausgeführt zu werden. Zwar hatten alle Teammitglieder Zugriff auf entsprechende
 Chips, aber diese hätten immer eine langsames Aufspielen vorausgesetzt, was die Entwicklung verlangsamt hätte. Auch konnten so mehrere
 Teammitglieder parallel und unabhängig von einander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
 Integration der beiden Systeme sehr einfach möglich und kann daher nur empfohlen werden.
