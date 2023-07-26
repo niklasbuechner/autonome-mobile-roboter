@@ -107,9 +107,6 @@ Rastkettengliedern) verbunden. Dadurch wird eine gleichmäßige Bewegung gewähr
 verziehen sich nicht. Die Bewegung in x-Richtung wird durch einen XM-Motor von Fischertechnik ausgeführt, welcher auf einer
 Basisplatte sitzt und eines der Getriebe mithilfe von Zahnrädern antreibt. Der Aufbau des Antriebes der $x$-Achse ist in Abbildung \ref{fig:AufbauxAchse} zu sehen.
 
-Das Zahnrad an der Antriebswelle wurde so klein wie möglich gewählt, im Vergleich zum Zahnrad an der Getriebewelle. Der Grund dafür ist, dass dadurch die Drehzahl reduziert wird, und die Schlitten
-sich nicht zu schnell bewegen und dass das Drehmoment nochmal zusätzlich erhöht wird, umIm  mechanische Ungenauigkeiten, die zu einem
-größeren Widerstand führen, zu kompensieren. 
 
 \begin{figure}[h]
 \centering
@@ -205,7 +202,7 @@ dass die einzelnen Pins des Micro-Controllers mit bestimmten Leiterbahnen auf Br
 \noindent Zu beachten ist, dass Insgesamt 40 Leiterbahnen somit nicht frei benutzt werden können, da diese eine direkte Verbindung mit Micro-Controller darstellen.
 \begin{figure}[h]
 \centering
-\includegraphics[width=8.5cm]{../images/ext_board.png}
+\includegraphics[width=8cm]{../images/ext_board.png}
 \caption{Schaltung Entwicklungs-Board \autocite{freenoveTutorial}}
 \label{Elektrik:DevBoardext}
 \end{figure}
@@ -263,7 +260,7 @@ sowie die Geschwindigkeit des Motors per PWM  zu steuern.
 
 \begin{figure}[h]
   \centering
-\includegraphics[width=8.5cm]{../images/L293D.png}
+\includegraphics[width=8cm]{../images/L293D.png}
 \caption{L293D Schaltplan \autocite{freenoveTutorial}}\label{Elektrik:L293D}
 \end{figure}
 
@@ -323,7 +320,7 @@ Daher wurde trotz des zusätzlichen Treibers ein Fischertechnik DC Motor für di
 
 \subsection{Schaltplan}
 \begin{figure}[h]
-\includegraphics[width=8.5cm]{../images/schaltplan.png}
+\includegraphics[width=8cm]{../images/schaltplan.png}
 \caption{Schaltplan der Treiber}\label{Elektrik:Schaltplan}
 \end{figure}
 
@@ -334,7 +331,7 @@ Für die Kommunikation mit dem Benutzer wird ein 4x4 Martix Keypad verwendet. Di
 Die nötigen 8 Pins werden in den entsprechenden Leiterbahn des Breadboard gesteckt und werden durch das Extension Board  direkt auf den Pin des Micro-Controllers verbunden.
 
 \begin{figure}[h]
-\includegraphics[width=8.5cm]{../images/keypad.png}
+\includegraphics[width=8cm]{../images/keypad.png}
 \caption{Aufbau des Keypad \autocite{freenoveTutorial}}\label{Elektrik:Keypad}
 \end{figure}
 
@@ -543,7 +540,7 @@ Spiels auf die Bauteile zurückführen. Im gesamten Blick haben die Vorteile der
 Als letzten positiven Aspekt ist die Abstraktion der Software und Hardware zu nennen. Dies ermöglichte einen testbasierten
 Entwicklungsansatz, der keinen ESP32-WROOM voraussetzte, um ausgeführt zu werden. Zwar hatten alle Teammitglieder Zugriff auf entsprechende
 Chips, aber diese hätten immer eine langsames Aufspielen vorausgesetzt, was die Entwicklung verlangsamt hätte. Auch konnten so mehrere
-Teammitglieder parallen und unabhängig von einander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
+Teammitglieder parallel und unabhängig von einander sowohl an der Software als auch an der Hardware iterieren. Gleichzeitig war die
 Integration der beiden Systeme sehr einfach möglich und kann daher nur empfohlen werden.
 
 \subsection{Ausblick}
@@ -553,7 +550,7 @@ gesteigert werden kann, können auch Spiele implementiert werden, die mit kleine
 4-Gewinnt ermöglichen.
 
 Auch der generellen Verwendung des Roboters als Plotter steht nichts im Weg. Zwar sind aktuell nur gerade Linien implementiert, aber
-auch Kurven können mit der aktuelen Motorensteuerung umgesetzt werden, was dem Roboter ermöglicht beliebige Bilder zu zeichnen.
+auch Kurven können mit der aktuellen Motorensteuerung umgesetzt werden, was dem Roboter ermöglicht beliebige Bilder zu zeichnen.
 
 % Literaturverzeichnis
 \addcontentsline{toc}{section}{Literatur}
