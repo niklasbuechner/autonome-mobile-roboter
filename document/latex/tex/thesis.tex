@@ -40,9 +40,9 @@
 % Kurze Zusammenfassung des Dokuments
 \begin{abstract}
 
-Das Spiel Tik-Tak-Toe kann über einen selbstgebauten Plotter mit Hilfe eines ESP32-WROOM als autonomer Roboter umgesetzt werden, welcher selbstständig gegen einen menschlichen Spieler antretten kann. Dies umfasst die vollständige Darstellung des Spielfelds, die Züge und das Zeichen einer Gewinnlinie, welche der Roboter ohne fremde Steuerung ausführen kann. Der Roboter übernimmt sowohl die Aufgabe des Spielführer als auch die des Gegenspielers.
-
-Das Spiel wird auf einem Blatt Papier über den dreiachsigen Roboter gezeichnet. Alle Spielzüge eines menschlichen Spielers werden über eine Tastatur eingegeben und vom Roboter im Spielfeld markiert. Für den Zug des Roboters wird über einen Algorithmus das beste Feld ausgewählt und gezogen. Sobald ein Gewinner feststeht, wird die Gewinnlinie im Spielfeld eingezeichnet und ein neues Spiel ermöglicht.
+Im Rahmen der Veranstaltung autonome mobile Roboter war das Ziel einen Roboter zu konstruieren, der in der Lage ist Tik-Tak-Toe zu spielen. Dieser Bericht beschreibt, wie die Mechanik, Elektronik und die Software erstellt wurden. 
+Die Herausforderung bestand vor allem darin, die Schnittstellen zwischen den einzelnen Komponenten zu realisieren. Die Mechanik besteht aus Fischertechnik. Daraus wurde ein Plotter gebaut, der Bewegungen in alle drei Raumrichtungen unabhängig voneinander erlaubt. Währenddessen besteht die Elektronik aus den Bauteilen des Roboter Kits von Freenove mit dem ESP32-WROVER. Damit die Motoren an das Breadboard von Freenove angeschlossen werden konnten, mussten bestehende Kabel von beiden Systemen mithilfe von Stoßverbinder fest verbunden werden. Dabei kam zum einen das Problem auf, dass das Board nur maximal \qty{5}{V} Versorgungsspannung liefern kann, während die Motoren \qty{9}{V} benötigen. Zum anderen musste eine Lösung gefunden werden die Motoren in beide Richtungen drehen zu lassen. Beide Probleme konnten gelöst werden indem drei Motortreiber, L293D,  in die Schaltung eingebaut wurden. Diese erlauben zum einen die Bestimmung der Drehrichtung und zum anderen konnte so ein separater Stromkreis aufgebaut werden, der die geforderten \qty{9}{V} an die Motoren liefert. Als nächstes musste die Kommunikation mit dem Nutzer realisiert werden. Dies gelingt über ein Keypad. Jedem der neun möglichen Feldern beim Tik-Tak-Toe wurde eine Zahl zwischen eins und neun zugeordnet. Durch das Drücken der entsprechenden Taste fährt der Roboter in die gewünschte Position. Der Algorithmus selbst wurde in C implementiert und auf den ESP32-WROOM eingebettet. 
+Das Endergebnis des Projekts ist ein ein Plotter, der gegen einen Nutzer Tik-Tak-Toe spielen kann. Der Roboter mahlt zu Beginn des Spiels das Feld, wählt selbst das beste Feld aus um sein Zeichen zu setzen und erkennt am Ende ob ein Spieler gewonnen hat.
 
 \end{abstract}
 
@@ -74,13 +74,13 @@ sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen.
 Da zu Beginn des Projekts kein Roboter vorhanden war, musste nicht nur der Code geschrieben, sondern auch die Hardware
 konstruiert werden. Die grundsätzlichen Anforderungen an die Hardware waren, dass sie eine Bewegung in alle drei Raumrichtungen
 unabhängig voneinander ermöglichen muss, robust gestaltet und einfach zu realisieren sein sollte. Deswegen wurde entschieden einen
-Plotter zu bauen anstelle eines komplizierteren Roboterarms. Dies hatte vor allem den Vorteil, dass die Bewegungen einfach zu
+Plotter zu bauen anstelle eines komplizierteren Roboterarms. Dies hat vor allem den Vorteil, dass die Bewegungen einfach zu
 realisieren sind, ohne komplizierte Koordinatentransformationen durchführen zu müssen. In diesem Kapitel wird die mechanische Konstruktion
-vorgestellt. Hierbei zuerst auf allgemeine Aspekte des Aufbaus eingegangen und anschließend die Bewegung in die einzelnen Achsen erläutert.
+vorgestellt. Hierbei wird zuerst auf allgemeine Aspekte des Aufbaus eingegangen und anschließend die Bewegung in die einzelnen Achsen erläutert.
 
 \subsection{Allgemeiner Aufbau}
 
-Um den Plotter zu bauen wurde Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese
+Um den Plotter zu bauen wird Fischertechnik eingesetzt. Zum einen waren davon schon Teile vorhanden, zum anderen erfüllen diese
 Materialien die Anforderungen an Robustheit ausreichend. Des Weiteren lassen sich lineare Bewegungen mithilfe von Spindelgetrieben
  einfach realisieren.
 
