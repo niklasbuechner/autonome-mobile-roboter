@@ -40,9 +40,19 @@
 % Kurze Zusammenfassung des Dokuments
 \begin{abstract}
 
-Im Rahmen der Veranstaltung autonome mobile Roboter wurde das Ziel verfolgt einen Roboter zu konstruieren, der in der Lage ist, auf einem Blatt Papier Tik-Tak-Toe zu spielen. Dieser Bericht beschreibt die entwickelte Mechanik, Elektronik und Software. 
-Die Herausforderung bestand vor allem darin, die Schnittstellen zwischen den einzelnen Komponenten zu realisieren. Die Mechanik basiert auf Fischertechnik und ermöglicht den Bau eines Plotters, der Bewegungen in alle drei Raumrichtungen unabhängig voneinander erlaubt. Währenddessen besteht die Elektronik aus den Bauteilen des Roboter Kits von Freenove mit dem ESP32-WROVER. Damit die Motoren an das Breadboard von Freenove angeschlossen werden konnten, mussten bestehende Kabel von beiden Systemen mithilfe von Stoßverbinder fest verbunden werden. Dabei trat zum einen das Problem auf, dass das Board nur maximal \qty{5}{V} Versorgungsspannung liefern kann, während die Motoren \qty{9}{V} benötigen. Zum anderen musste eine Lösung gefunden werden, die Motoren in beide Richtungen drehen zu lassen. Beide Probleme konnten durch die Nutzung von drei Motortreiber, vom Typ L293D,  gelöst werden. Diese erlauben zum einen die Bestimmung der Drehrichtung und zum anderen kann so ein separater Stromkreis aufgebaut werden, der die geforderten \qty{9}{V} an die Motoren liefert. Als nächstes musste die Kommunikation mit dem Nutzer realisiert werden. Dies gelingt über ein Keypad. Jedem der neun möglichen Feldern beim Tik-Tak-Toe ist eine Zahl zwischen eins und neun zugeordnet. Durch das Drücken der entsprechenden Taste fährt der Roboter in die gewünschte Position. Der Algorithmus selbst ist in C implementiert und auf den ESP32-WROOM eingebettet. 
-Das Endergebnis des Projekts ist ein ein Plotter, der gegen einen Nutzer Tik-Tak-Toe spielen kann. Der Roboter mahlt zu Beginn des Spiels das Feld, wählt selbst das beste Feld aus um sein Zeichen zu setzen und erkennt am Ende ob ein Spieler gewonnen hat.
+Autonome mobile Roboter ermöglichen die Automatisierung von Aufgaben und Verhalten, die sich nicht nur
+in Software abbilden lassen, die sich auch in die physikalische Welt durchschlagen. Für das Spiel
+Tik-Tak-Toe zwischen Mensch und Roboter gibt es hierbei noch keine allgemeingültige Lösung.
+
+In diesem Research Paper wird eine Lösung durch einen zweidimensionalen Plotter beleuchtet, basierend
+auf der Kombination von Fischertechnik, Elektronik aus den Bauteilen des Roboter Kits von
+Freenove und einem ESP32-WROVER. Hierzu werden zwei Stromkreise mit \qty{5}{V} und \qty{9}{V}
+aufgebaut, die drei Motoren mit Hilfe von Motortreibern vom Typ L293D ansteuern. Diese ermöglichen somit
+eine Positionierung eines Stiftes auf einem Blatt Papier inklusive Anheben und Absenken. Gesteuert wird
+alles über den ESP32-WROVER, der eine Mensch-Maschinen-Interaktion über
+ein Keypad zur Verfügung stellt. Abgerundet wird die vorgestellte Lösung durch ein in C implementierter
+Algorithmus, der sowohl das Spielgeschehen steuert, das Spiel durch den Stift zeichnet und als Spielgegner
+auftreten kann.
 
 \end{abstract}
 
